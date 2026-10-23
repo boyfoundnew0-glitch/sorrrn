@@ -1,0 +1,278 @@
+@charset "utf-8";
+
+/* ============================================================
+   sorrrn — -splash
+   Figma: 시각디자인스튜디오2 / frame design-splash&shop
+   프레임 원본 크기 1440 x 810 (데스크탑 전용)
+   콘텐츠 1440 x 666 + 하단 메뉴 144 (y = 666)
+   ============================================================ */
+
+:root {
+  --bg-base: #FFFCF6;
+  --bg-surface: #F0EBE1;
+  --bg-dark: #33251A;
+
+  --text-primary: #33251A;
+  --text-secondary: #6F6258;
+  --text-muted: #8E8278;
+  --text-inverse: #FFFCF6;
+  --text-valid: #52D34D;
+  --text-invalid: #FF3800;
+
+  --border-default: #CEC3B9;
+  --border-strong: #B6ABA3;
+  --border-focus: #6F6258;
+
+  --accent-mint: #A1DFB2;
+  --accent-lavender: #A285C2;
+  --accent-tangerine: #FF5424;
+
+  --icon-default: #33251A;
+  --icon-selected: #8E8278;
+  --icon-complete: #52D34D;
+  --icon-error: #FF3800;
+
+  --frame-w: 1440px;
+  --frame-h: 810px;
+
+  --spring: cubic-bezier(0.34, 1.42, 0.48, 1);
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --stitch: cubic-bezier(0.42, 0.02, 0.4, 1);
+
+  /* 레퍼런스의 아날로그·저프레임 질감 — scroll it! 등장부를 뺀 모든 모션에 적용 */
+  --step-fast: steps(4, end);    /* ~0.3s  · 약 15fps */
+  --step-mid:  steps(7, end);    /* ~0.5s  · 약 15fps */
+  --step-slow: steps(11, end);   /* ~0.75s · 약 15fps */
+  /* pattern 1 등장은 면적이 커서 15fps 로는 오류처럼 보인다 — 약 26fps 로 완화 */
+  --step-pat-op: steps(11, end); /* 0.42s */
+  --step-pat-tf: steps(19, end); /* 0.72s */
+  /* -splash4 도트가 물러날 때 — 1.2s 를 약 13fps 로 끊는다 */
+  --step-out:  steps(16, end);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: "Outfit", "Noto Sans KR", system-ui, sans-serif;
+  overflow: hidden;
+}
+
+/* ---------- 뷰포트 / 스테이지 ---------- */
+
+.viewport {
+  position: relative; width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: none;
+}
+.viewport.no-needle { cursor: default; }
+
+.frame {
+  flex: none;
+  position: relative;
+  width: var(--frame-w); height: var(--frame-h);
+  background: var(--bg-base);
+  overflow: hidden;
+  transform-origin: center center;
+  transform: scale(var(--fit, 1));
+}
+.frame > * { position: absolute; }
+
+.layer { inset: 0; width: var(--frame-w); height: var(--frame-h); pointer-events: none; }
+.layer > * { position: absolute; }
+
+#restback { z-index: 1; }
+#pattern  { z-index: 2; }
+#arcs     { z-index: 4; }
+#morph    { z-index: 4; }
+.logo     { z-index: 5; }
+#rrr      { z-index: 5; }
+.scrollit { z-index: 6; }
+.menu     { z-index: 7; }
+
+/* ---------- 트랙 드로잉 ---------- */
+
+.trk { fill: none; stroke-linecap: butt; }
+
+/* ---------- pattern 1 ---------- */
+
+#pattern { opacity: 0; }
+.is-pattern #pattern { opacity: 1; }
+
+.pat {
+  display: block; overflow: visible;
+  opacity: 0;
+  transform: rotate(var(--rot, 0deg)) translateY(30px) scale(0.94);
+  transition: opacity 0.42s var(--step-pat-op), transform 0.72s var(--step-pat-tf);
+}
+.is-pattern .pat { opacity: 1; transform: rotate(var(--rot, 0deg)) translateY(0) scale(1); }
+
+/* ---------- arc 1-8 ---------- */
+
+.arc {
+  display: block; overflow: visible;
+  transform: rotate(var(--rot, 0deg));
+  transition: opacity 0.5s var(--ease-out);
+}
+.arc .trk { transition: stroke 1.6s var(--step-slow); }
+
+/* 팔레트: Ash Ore(1,3,6,7) / Wood Gray(2,4,8) / Sepia Gray(5) */
+#arc1 .trk, #arc3 .trk, #arc6 .trk, #arc7 .trk { stroke: var(--border-default); }
+#arc2 .trk, #arc4 .trk, #arc8 .trk             { stroke: var(--text-muted); }
+#arc5 .trk                                     { stroke: var(--text-secondary); }
+
+/* -splash3-1 : arc 3,4,5 가 서서히 Brown Black 으로 */
+.is-arcdark #arc3 .trk,
+.is-arcdark #arc4 .trk,
+.is-arcdark #arc5 .trk { stroke: var(--text-primary); }
+
+/* -splash3-2 : rrr 로 인계되며 arc 가 물러난다 */
+.is-rrr .arc {
+  opacity: 0;
+  transition: opacity var(--arc-fade-dur, 620ms) var(--step-mid) var(--arc-fade-delay, 340ms);
+}
+.is-rrr #arc3, .is-rrr #arc4, .is-rrr #arc5 {
+  transition: opacity var(--core-fade-dur, 720ms) var(--step-slow) var(--core-fade-delay, 500ms);
+}
+
+/* ---------- arc → rrr 모프 ----------
+   기존 arc 의 아웃라인이 rrr 의 형태로 옮겨간 뒤, rrr 이 겹쳐지고 arc 가 사라진다. */
+
+#morph { opacity: 0; pointer-events: none; }
+#morph.is-on { opacity: 1; }
+.mp { fill: var(--text-primary); }
+
+/* 모프가 도는 동안 arc 3,4,5 는 모프 패스가 대신하므로 즉시 감춘다 */
+.is-morph #arc3, .is-morph #arc4, .is-morph #arc5 { opacity: 0; transition: none; }
+
+/* ---------- rrr ----------
+   arc 형태는 원본 그대로 두고 막대기 길이만 바뀐다.
+   컨테이너를 잘라서(overflow hidden) 높이를 조절하므로 arc 가 눌리지 않는다. */
+
+#rrr { opacity: 0; transition: opacity 0.42s var(--step-mid); }
+.is-rrr #rrr { opacity: 1; }
+
+.rr {
+  position: absolute;
+  left: var(--x); width: var(--w);
+  top: var(--tall-top); height: var(--tall-h);
+  overflow: hidden;
+  will-change: top, height;
+}
+.rr svg {
+  position: absolute; left: 0; top: 0;
+  width: var(--w); height: var(--tall-h);
+  display: block;
+}
+.rr path { fill: var(--text-primary); }
+
+/* ---------- logo s o n ---------- */
+
+.logo {
+  left: 222.687px; top: 251.713px;
+  width: 994.58px; height: 174.09px;
+  overflow: visible; pointer-events: none;
+}
+.ltr { fill: var(--text-primary); }
+/* s, o, n : -splash3-9 에서 좌측부터 트랙을 따라 그려진다 (splash.js 가 구동) */
+.ltr.son { opacity: 1; }
+.ltr.son .trk { stroke: var(--text-primary); stroke-linecap: round; }
+
+/* ---------- rest-back 도트 (-splash4) ---------- */
+
+#restback { opacity: 0; }
+.is-dots #restback { opacity: 1; }
+
+.rbdot {
+  display: block; border-radius: 50%;
+  opacity: 0; transform: scale(0);
+  transition: opacity 0.18s var(--step-fast), transform 0.52s var(--step-mid);
+}
+.rbdot.is-live { opacity: 1; transform: scale(1); }
+/* 물러날 때도 등장과 마찬가지로 크기가 변한다 —
+   계단식으로 작은 원까지 줄어든 뒤 마지막에 opacity 가 빠진다. */
+.rbdot.is-out {
+  opacity: 0; transform: scale(0);
+  transition: transform 1.2s var(--step-out),
+              opacity 0.36s var(--step-fast) 0.84s;
+}
+
+/* ---------- scroll 안내문구 (-splash0) ---------- */
+
+.scrollit {
+  left: 720px; top: 347.5px;
+  transform: translate(-50%, -50%);
+  display: flex; align-items: center; justify-content: center;
+  gap: 24px; padding: 28px 36px;
+  white-space: nowrap; pointer-events: none; margin: 0;
+}
+.scrollit .tri { display: block; width: 32px; height: 26.791px; flex: none; opacity: 0; }
+.scrollit .tri svg { display: block; width: 100%; height: 100%; }
+.scrollit .tri path { fill: var(--accent-mint); }
+.scrollit .ch {
+  display: inline-block;
+  font-size: 56px; font-weight: 700; line-height: 1.05;
+  letter-spacing: -1.12px; color: var(--text-secondary);
+  opacity: 0;
+}
+.scrollit .sp { width: 0.26em; }
+.scrollit .tri, .scrollit .ch {
+  transform: translateY(18px) scale(0.86);
+  transition: opacity 0.3s var(--ease-out), transform 0.56s var(--spring);
+}
+.scrollit.is-in .tri, .scrollit.is-in .ch { opacity: 1; transform: translateY(0) scale(1); }
+.scrollit.is-out .tri, .scrollit.is-out .ch { opacity: 0; transform: translateY(-14px) scale(0.9); }
+
+/* ---------- menu ---------- */
+
+.menu { left: 0; top: 666px; width: var(--frame-w); height: 144px; }
+.menu-bar {
+  position: absolute; left: 0;
+  width: var(--frame-w); height: 48px;
+  display: block; text-decoration: none;
+}
+.menu-bar span {
+  position: absolute; right: 52.97px; top: 7px;
+  font-size: 28px; font-weight: 700; line-height: 1.2;
+  color: var(--text-inverse); white-space: nowrap;
+}
+#menu-shop   { top: 0;    background: var(--text-primary); }
+#menu-stitch { top: 48px; background: var(--text-secondary); }
+#menu-about  { top: 96px; background: var(--border-strong); }
+.menu-bar:focus-visible { outline: 3px solid var(--text-inverse); outline-offset: -6px; }
+
+/* ---------- 바늘 커서 ---------- */
+
+.needle {
+  position: fixed; left: 0; top: 0;
+  width: 24.7px; height: 43.37px;
+  pointer-events: none; z-index: 50;
+  opacity: 0; transition: opacity 0.2s linear;
+  will-change: transform;
+}
+.needle.is-on { opacity: 1; }
+.needle svg { display: block; width: 100%; height: 100%; }
+.needle .nd-default, .needle .nd-selected {
+  position: absolute; inset: 0; transition: opacity 0.12s linear;
+}
+.needle .nd-selected { opacity: 0; }
+.needle.is-selected .nd-default { opacity: 0; }
+.needle.is-selected .nd-selected { opacity: 1; }
+
+/* ---------- 접근성 ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .pat, .arc, .arc .trk, .ltr, .rbdot, .rr,
+  .scrollit .tri, .scrollit .ch {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}

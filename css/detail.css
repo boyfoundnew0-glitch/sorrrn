@@ -1,0 +1,455 @@
+@charset "utf-8";
+
+/* ============================================================
+   sorrrn — frame design-shop-detail
+   -shop-detail-kitbasic-default        1440 x 2336
+   -shop-detail-pincushion/hanger/tea   1440 x 3661
+   캔버스 폭 1440 기준, 뷰포트 폭에 맞춰 scale (CLAUDE.md 레이아웃 원칙 4)
+   MENU 는 position: fixed (원칙 5)
+   ============================================================ */
+
+:root {
+  --bg-base: #FFFCF6;
+  --bg-surface: #F0EBE1;
+  --bg-dark: #33251A;
+  --bg-white: #FFFFFF;
+
+  --text-primary: #33251A;
+  --text-secondary: #6F6258;
+  --text-muted: #8E8278;
+  --text-inverse: #FFFCF6;
+  --text-valid: #52D34D;
+  --text-invalid: #FF3800;
+
+  --border-default: #6F6258;
+  --border-strong: #B6ABA3;
+  --border-focus: #CEC3B9;
+
+  --accent-mint: #A1DFB2;
+  --accent-lavender: #A285C2;
+  --accent-tangerine: #FF5424;
+
+  --icon-default: #33251A;
+  --icon-selected: #8E8278;
+  --input-dot: var(--text-muted);
+
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --spring: cubic-bezier(0.34, 1.42, 0.48, 1);
+  /* -splash 에 쓴 아날로그·저프레임 모션 (약 15fps) */
+  --step-grow: steps(11, end);   /* 0.72s */
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg-base); }
+body {
+  margin: 0; background: var(--bg-base); color: var(--text-primary);
+  font-family: "Outfit", "Noto Sans KR", system-ui, sans-serif;
+  overflow-x: hidden; cursor: none;
+}
+body.no-needle { cursor: auto; }
+
+/* ---------- 1440 스테이지 ---------- */
+
+.doc { position: relative; width: 100%; overflow: hidden; }
+.stage {
+  position: absolute; left: 0; top: 0;
+  width: 1440px;
+  transform-origin: top left;
+  transform: scale(var(--fit, 1));
+}
+.stage > * { position: absolute; }
+.sq, .cir { position: absolute; display: block; }
+.cir { border-radius: 50%; }
+/* round-deco 그룹 — 불투명도 25% */
+.deco-round { position: absolute; opacity: 0.25; pointer-events: none; }
+
+/* ---------- 상단 바 + nav ---------- */
+
+.topbar { left: 0; top: 0; width: 1440px; height: 28px; background: var(--bg-dark); }
+
+.nav { left: 0; top: 28px; width: 1440px; height: 85px; background: var(--bg-base); }
+.nav-left {
+  position: absolute; left: 48px; top: 50%; transform: translateY(-50%);
+  display: flex; gap: 36px; align-items: center;
+}
+.nav-left a { position: relative;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1.2; letter-spacing: 0.42px; color: var(--text-primary);
+  text-decoration: none; white-space: nowrap;
+}
+.nav-right {
+  position: absolute; right: 48px; top: 50%; transform: translateY(-50%);
+  display: flex; gap: 32px; align-items: center;
+}
+.nav-ico { display: block; }
+.nav-ico svg { display: block; width: 100%; height: 100%; }
+.nav-logo {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 179.078px; height: 31.823px;
+}
+.nav-logo svg { display: block; width: 100%; height: 100%; }
+.nav a:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 3px; }
+
+/* ---------- h1 : 글자 박스 ---------- */
+
+.h1grp { position: absolute; display: block; text-decoration: none; z-index: 3; }
+.h1grp > * { position: absolute; }
+.h1box {
+  position: absolute; top: 170.78px; width: 50px; height: 50px;
+  background: var(--bg-dark); border: 0.5px solid var(--border-strong);
+}
+.h1ltr {
+  position: absolute; margin: 0;
+  font-family: "Outfit", sans-serif; font-weight: 700; font-size: 40px;
+  line-height: 1.15; letter-spacing: -0.4px; color: var(--text-inverse);
+  white-space: nowrap;
+}
+/* 글자는 사각형 안에서만 보인다 — 좌측부터 차례로 슬라이딩해 제자리에 선다
+   (-shop-default → -shop-scroll 과 같은 스프링 모션) */
+.h1box.is-slide { overflow: hidden; }
+.h1box.is-slide .h1ltr { transform: translateY(56px); transition: transform 0.72s var(--spring); }
+.h1box.is-slide.is-in .h1ltr { transform: translateY(0); }
+
+/* ---------- Primary text 버튼 ----------
+   hover: 텍스트 --text-secondary + 텍스트 아래 4px 에 mint 1px 바
+   (-shop-detail-kitbasic-hover&selected 측정값: 텍스트 93 → 바 113) */
+
+.textbtn {
+  position: absolute; margin: 0; padding: 0; border: 0; background: none;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 12px;
+  line-height: 1.5; letter-spacing: -0.24px; color: var(--text-primary);
+  text-decoration: none; white-space: nowrap; cursor: none;
+}
+/* 클릭 영역만 넓힌다 — 배치에는 영향이 없다 */
+.textbtn::before { content: ""; position: absolute; inset: -12px -16px; }
+.textbtn .ico { position: absolute; display: block; width: 20px; height: 30px; color: var(--accent-mint); }
+.textbtn.mid .ico { color: var(--accent-lavender); }
+.textbtn .ico svg { display: block; width: 100%; height: 100%; }
+.textbtn .lb { position: relative; display: inline-block; }
+/* hover: 텍스트 아래 4px 에 mint 사각형 (W = 텍스트 폭 x 1.4, H 1px) */
+.textbtn .lb::after {
+  content: ""; position: absolute; left: 0; top: calc(100% + 4px);
+  width: 140%; height: 1px; background: var(--accent-mint);
+  opacity: 0; transition: opacity 200ms var(--ease-out);
+}
+.textbtn:hover, .textbtn:focus-visible { color: var(--text-secondary); }
+.textbtn:hover .lb::after, .textbtn:focus-visible .lb::after { opacity: 1; }
+.textbtn:active { opacity: 0.75; }
+
+/* ---------- 상품 카드 (카테고리 목록) ---------- */
+
+/* ---------- 상품 카드 ----------
+   default / hover&selected 두 프레임의 차이만 구현한다
+   · 사진 뒤에 라벤더 199x199 사각형이 나타남
+   · 글자 --text-primary → --text-secondary
+   · 물결·구분점 --text-primary → --text-muted */
+.card {
+  position: absolute; display: block; text-decoration: none; color: inherit;
+}
+.card .plate {
+  position: absolute; display: block;
+  transform: rotate(var(--rot, 0deg)) scale(0); transform-origin: center center;
+  transition: transform 0.72s var(--step-grow);
+}
+.card .plate.circle { border-radius: 50%; background: var(--accent-lavender); }
+.card .plate.tri { color: var(--accent-tangerine); }
+.card .plate.tri svg { display: block; width: 100%; height: 100%; }
+.card .shot { position: absolute; transform-origin: 0 0; }
+.card .shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.card .deco { position: absolute; display: block; color: var(--text-primary); }
+.card .deco svg { display: block; width: 100%; height: 100%; }
+.card p { position: absolute; margin: 0; white-space: nowrap; color: var(--text-primary); }
+.card .kr {
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 16px;
+  line-height: 1.8; letter-spacing: -0.32px;
+}
+.card .en { font-family: "Outfit", sans-serif; font-weight: 500; font-size: 17px; line-height: 1.6; }
+.card .price {
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1.2; letter-spacing: 0.42px;
+}
+.card .gk {
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 12px;
+  line-height: 1.5; letter-spacing: -0.24px;
+}
+.card .ge {
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1.2; letter-spacing: 0.42px;
+}
+.card .gdot { position: absolute; width: 8px; height: 8px; border-radius: 50%; }
+.card .gdot.basic { background: var(--accent-mint); }
+.card .gdot.mid   { background: var(--accent-lavender); }
+.card .gdot.high  { background: var(--accent-tangerine); }
+.card .shot { overflow: visible; }
+.card .shot .crop { position: absolute; inset: 0; display: block; overflow: hidden; }
+.card .shot .crop img { position: absolute; left: 0; top: 0; }
+.pol-deco { position: absolute; display: block; pointer-events: none; }
+.tri-deco { position: absolute; display: block; pointer-events: none; transform-origin: center center; }
+.tri-deco svg { display: block; width: 100%; height: 100%; }
+.pol-deco svg { display: block; width: 100%; height: 100%; }
+.poly { position: absolute; display: block; width: 28px; height: 28px; transform-origin: center center; }
+.poly svg { position: absolute; left: 8%; top: 1.79%; width: 84%; height: 73.21%; display: block; }
+.foot-bg { position: absolute; left: 0; width: 1440px; background: var(--bg-dark); }
+.card .gsep { position: absolute; width: 2.45px; height: 2.45px; border-radius: 50%; background: var(--text-primary); }
+
+.card:hover .plate, .card:focus-visible .plate { transform: rotate(var(--rot, 0deg)) scale(1); }
+.card:hover p, .card:focus-visible p { color: var(--text-secondary); }
+.card:hover .deco, .card:focus-visible .deco { color: var(--text-muted); }
+.card:hover .gsep, .card:focus-visible .gsep { background: var(--text-muted); }
+
+/* ---------- 상품 상세 ---------- */
+
+.pd-hero { position: absolute; transform-origin: 0 0; }
+.pd-hero img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.pd-title {
+  position: absolute; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 20px;
+  line-height: 1.5; color: var(--text-primary); white-space: nowrap;
+}
+.pd-en {
+  position: absolute; margin: 0;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 17px;
+  line-height: 1.6; color: var(--text-primary); white-space: nowrap;
+}
+/* 가격은 영문/Body 20px 그대로 */
+.pd-price20 {
+  position: absolute; margin: 0;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 20px;
+  line-height: 1.3; color: var(--text-primary); white-space: nowrap;
+}
+.pd-desc, .pd-meta-kr {
+  position: absolute; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 16px;
+  line-height: 1.8; letter-spacing: -0.32px; color: var(--text-primary); white-space: nowrap;
+}
+.pd-desc { font-weight: 400; }
+.pd-desc.m { font-weight: 500; }
+.pd-meta-en {
+  position: absolute; margin: 0;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 17px;
+  line-height: 1.6; color: var(--text-primary); white-space: nowrap;
+}
+.pd-price {
+  position: absolute; margin: 0;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 17px;
+  line-height: 1.6; color: var(--text-primary); white-space: nowrap;
+}
+.pd-dot { position: absolute; width: 8px; height: 8px; border-radius: 50%; }
+.pd-sep { position: absolute; width: 2.45px; height: 2.45px; border-radius: 50%; background: var(--text-primary); }
+
+.pd-spec-h {
+  position: absolute; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 16px;
+  line-height: 1.8; letter-spacing: -0.32px; color: var(--text-secondary); white-space: nowrap;
+}
+.pd-spec {
+  position: absolute; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 400; font-size: 16px;
+  line-height: 1.8; letter-spacing: -0.32px; color: var(--text-secondary); white-space: nowrap;
+}
+.pd-vline { position: absolute; width: 1px; height: 19.527px; background: var(--accent-mint); }
+.pd-vline.lav { background: var(--accent-lavender); }
+/* 스토리 리드 — 새 레이아웃에서 16px Regular */
+.pd-lead16 {
+  position: absolute; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 400; font-size: 16px;
+  line-height: 1.8; letter-spacing: -0.32px; color: var(--text-secondary); white-space: nowrap;
+}
+.pd-lead16.mid { font-weight: 500; color: var(--text-primary); text-align: right; }
+/* 구성품 정보 표 */
+.pd-spec12 {
+  position: absolute; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 12px;
+  line-height: 1.5; letter-spacing: -0.24px; color: var(--text-primary); white-space: nowrap;
+}
+
+/* Primary border 버튼 */
+.btn-border {
+  position: absolute; height: 40px; z-index: 2;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0 24px; border: 1.5px solid var(--border-default); border-radius: 50px;
+  background: var(--bg-base); color: var(--text-primary);
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1.2; letter-spacing: 0.42px; white-space: nowrap;
+  cursor: none; text-decoration: none;
+  transition: border-color 200ms var(--ease-out), color 200ms var(--ease-out), transform 200ms var(--ease-out);
+}
+.btn-border:hover { border-color: var(--border-focus); color: var(--text-secondary); }
+.btn-border:active { transform: scale(0.98); }
+
+.pd-supply { position: absolute; }
+.pd-supply img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.pd-h2 {
+  position: absolute; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 700; font-size: 24px;
+  line-height: 1.2; color: var(--text-primary); white-space: nowrap;
+}
+.pd-h2sub {
+  position: absolute; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 20px;
+  line-height: 1.5; letter-spacing: -0.4px; color: var(--text-secondary); white-space: nowrap;
+}
+.grow-wrap { position: absolute; pointer-events: none; }
+.grow-wrap > i {
+  position: absolute; inset: 0; display: block; border-radius: 50%;
+  transform: scale(0.12); transform-origin: center center;
+  transition: transform 0.72s var(--step-grow);
+}
+.grow-wrap.is-in > i { transform: scale(1); }
+
+.pd-deco { position: absolute; display: block; color: var(--accent-mint); }
+.pd-deco.lav { color: var(--accent-lavender); }
+.pd-deco svg { display: block; width: 100%; height: 100%; }
+.pd-info-h2 {
+  position: absolute; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 20px;
+  line-height: 1.5; letter-spacing: -0.4px; color: var(--text-primary); white-space: nowrap;
+}
+.pd-lead {
+  position: absolute; margin: 0; text-align: left;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 20px;
+  line-height: 1.5; letter-spacing: -0.4px; color: var(--text-secondary); white-space: nowrap;
+}
+.pd-lead.dark { color: var(--text-primary); text-align: right; }
+.pd-storytitle {
+  position: absolute; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 700; font-size: 24px;
+  line-height: 1.2; color: var(--text-primary); white-space: nowrap;
+}
+.pd-body {
+  position: absolute; margin: 0; text-align: right;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 400; font-size: 16px;
+  line-height: 1.8; letter-spacing: -0.32px; color: var(--text-primary); white-space: pre;
+}
+.pd-photo { position: absolute; overflow: hidden; }
+.pd-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.pd-step { position: absolute; background: var(--bg-dark); }
+.pd-stepno {
+  position: absolute; margin: 0;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 20px;
+  line-height: 1.3; color: var(--text-inverse);
+}
+.pd-sec-h {
+  position: absolute; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 20px;
+  line-height: 1.5; letter-spacing: -0.4px; color: var(--text-secondary); white-space: nowrap;
+}
+.pd-sec-h.dark { color: var(--text-primary); }
+.pd-sec-t {
+  position: absolute; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 700; font-size: 24px;
+  line-height: 1.2; color: var(--text-primary); white-space: nowrap;
+}
+.pd-li-n {
+  position: absolute; margin: 0;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 17px;
+  line-height: 1.6; color: var(--text-primary);
+}
+.pd-li {
+  position: absolute; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 400; font-size: 16px;
+  line-height: 1.8; letter-spacing: -0.32px; color: var(--text-primary); white-space: nowrap;
+}
+.pd-note {
+  position: absolute; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 16px;
+  line-height: 1.8; letter-spacing: -0.32px; color: var(--text-primary); white-space: nowrap;
+}
+.pd-info-h {
+  position: absolute; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 16px;
+  line-height: 1.8; letter-spacing: -0.32px; color: var(--text-primary); white-space: nowrap;
+}
+.pd-info {
+  position: absolute; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 12px;
+  line-height: 1.5; letter-spacing: -0.24px; color: var(--text-primary); white-space: pre;
+}
+
+/* ---------- 푸터 ---------- */
+
+.foot { left: 0; width: 1440px; height: 429.354px; background: var(--bg-dark); color: var(--text-inverse); }
+.foot > * { position: absolute; }
+.foot-logo { left: 55.8px; top: 61.33px; width: 179.078px; height: 31.823px; }
+.foot-logo svg { display: block; width: 100%; height: 100%; }
+.foot p { margin: 0; white-space: pre-line; }
+.f-kr {
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 16px;
+  line-height: 1.8; letter-spacing: -0.32px;
+}
+.f-en  { font-family: "Outfit", sans-serif; font-weight: 500; font-size: 17px; line-height: 1.6; }
+.f-h   { font-family: "Outfit", sans-serif; font-weight: 500; font-size: 20px; line-height: 1.3; }
+.f-s   { font-family: "Outfit", sans-serif; font-weight: 500; font-size: 14px; line-height: 1.2; letter-spacing: 0.42px; }
+.foot a { color: inherit; text-decoration: none; }
+.foot a:hover { opacity: 0.75; }
+.f-dot { width: 8px; height: 8px; border-radius: 50%; }
+.f-mail {
+  display: flex; align-items: center; gap: 10px;
+  height: 44px; padding: 13px 152px 14px 20px;
+  background: var(--bg-white); border: 1px solid var(--border-default);
+  border-radius: 5px 50px 5px 5px; overflow: hidden;
+}
+.f-mail .d { width: 8px; height: 8px; border-radius: 50%; background: var(--border-focus); flex: none; }
+.f-mail .en {
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1.2; letter-spacing: 0.42px; color: var(--text-muted); white-space: nowrap;
+}
+.f-mail .kr {
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 12px;
+  line-height: 1.5; letter-spacing: -0.24px; color: var(--text-muted); white-space: nowrap;
+}
+
+/* ---------- MENU (화면 하단 고정) ---------- */
+
+.menu {
+  position: fixed; left: 0; bottom: 0; z-index: 40;
+  width: 1440px; height: 144px;
+  transform-origin: bottom left; transform: scale(var(--fit, 1));
+  pointer-events: none;
+}
+.menu > * { pointer-events: auto; }
+.menu-bar {
+  position: absolute; left: 0; width: 1440px; height: 48px;
+  display: block; text-decoration: none;
+}
+.menu-bar span {
+  position: absolute; right: 52.97px; top: 7px;
+  font-family: "Outfit", sans-serif; font-size: 28px; font-weight: 700; line-height: 1.2;
+  color: var(--text-inverse); opacity: 0.5; white-space: nowrap;
+  transition: opacity 0.24s var(--ease-out);
+}
+.menu-bar:hover span, .menu-bar:focus-visible span { opacity: 1; }
+#menu-stitch { top: 48px; background: var(--text-secondary); }
+#menu-about  { top: 96px; background: var(--border-strong); }
+.menu-bar:focus-visible { outline: 3px solid var(--text-inverse); outline-offset: -6px; }
+
+
+/* ---------- 바늘 커서 ---------- */
+
+.needle {
+  position: fixed; left: 0; top: 0;
+  width: 24.7px; height: 43.37px;
+  pointer-events: none; z-index: 60;
+  opacity: 0; transition: opacity 0.2s linear;
+  will-change: transform;
+}
+.needle.is-on { opacity: 1; }
+.needle svg { display: block; width: 100%; height: 100%; }
+.needle .nd-default, .needle .nd-selected { position: absolute; inset: 0; transition: opacity 0.12s linear; }
+.needle .nd-selected { opacity: 0; }
+.needle.is-selected .nd-default { opacity: 0; }
+.needle.is-selected .nd-selected { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .card .plate, .grow-wrap > i, .btn-border, .menu-bar span {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}

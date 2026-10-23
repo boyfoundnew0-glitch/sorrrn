@@ -1,0 +1,265 @@
+@charset "utf-8";
+
+/* ============================================================
+   sorrrn — -shop
+   Figma: -shop-scroll 446:9155 / -shop-hover 446:14025 /
+          -shop-click-one1~5 451:22259 …
+   프레임 원본 크기 1440 x 810 (16:9 · 데스크탑 전용)
+   상단 바 28 / nav 85 / 콘텐츠(stage) 602 (top 112.51) / 하단 메뉴 144 (top 666)
+   ============================================================ */
+
+:root {
+  --bg-base: #FFFCF6;
+  --bg-surface: #F0EBE1;
+  --bg-dark: #33251A;
+
+  --text-primary: #33251A;
+  --text-secondary: #6F6258;
+  --text-muted: #8E8278;
+  --text-inverse: #FFFCF6;
+  --text-valid: #52D34D;
+  --text-invalid: #FF3800;
+
+  --border-default: #CEC3B9;
+  --border-strong: #B6ABA3;
+  --border-focus: #6F6258;
+
+  --accent-mint: #A1DFB2;
+  --accent-lavender: #A285C2;
+  --accent-tangerine: #FF5424;
+
+  --icon-default: #33251A;
+  --icon-selected: #8E8278;
+
+  --frame-w: 1440px;
+  --frame-h: 810px;
+  --stage-h: 602px;
+
+  /* shop 고유의 모션감 — splash 의 아날로그 steps() 는 쓰지 않는다 */
+  --spring: cubic-bezier(0.34, 1.42, 0.48, 1);
+  --spring-soft: cubic-bezier(0.32, 1.24, 0.5, 1);
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: "Outfit", "Noto Sans KR", system-ui, sans-serif;
+  overflow: hidden;
+}
+
+.viewport {
+  position: relative; width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: none;
+}
+.viewport.no-needle { cursor: default; }
+
+.frame {
+  position: relative;
+  flex: none;
+  width: var(--frame-w); height: var(--frame-h);
+  background: var(--bg-base);
+  overflow: hidden;
+  transform-origin: center center;
+  transform: scale(var(--fit, 1));
+}
+.frame > * { position: absolute; }
+
+/* ---------- 상단 바 ---------- */
+
+.topbar { left: 0; top: 0; width: var(--frame-w); height: 28px; background: var(--text-primary); }
+
+/* ---------- nav ---------- */
+
+.nav {
+  left: 0; top: 28px; width: var(--frame-w); height: 85px;
+  background: var(--bg-base);
+}
+.nav-left {
+  position: absolute; left: 48px; top: 50%; transform: translateY(-50%);
+  display: flex; gap: 36px; align-items: center;
+}
+.nav-left a {
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1; letter-spacing: 0.42px; color: var(--text-primary);
+  text-decoration: none; white-space: nowrap;
+}
+.nav-right {
+  position: absolute; right: 48px; top: 50%; transform: translateY(-50%);
+  display: flex; gap: 32px; align-items: center;
+}
+.nav-ico { display: block; }
+.nav-ico svg { display: block; width: 100%; height: 100%; }
+.nav-logo {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 179.078px; height: 31.823px;
+}
+.nav-logo svg { display: block; width: 100%; height: 100%; }
+.nav a:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 3px; }
+
+/* ---------- 콘텐츠 영역 ---------- */
+
+.stage {
+  left: 0; top: 112.51px; width: var(--frame-w); height: var(--stage-h);
+  overflow: hidden;
+}
+.stage > * { position: absolute; }
+
+.sq { display: block; }
+
+/* 카테고리 블럭 — 호버 시 위치·크기·색상 변화 없음 */
+.blk {
+  position: absolute; inset: 0; width: var(--frame-w); height: var(--stage-h);
+  pointer-events: none;                 /* 레이어 자체는 클릭을 가로채지 않는다 */
+  transform-origin: center center;
+  transition: opacity 0.36s var(--ease-out);
+}
+.blk-sq {
+  position: absolute; display: block; width: 56.426px; height: 56.426px;
+  pointer-events: auto;
+  transition: opacity 0.4s var(--ease-out);
+  will-change: left, top;
+}
+/* 카드가 열릴 때 갈라져 나오는 작은 사각형 */
+.sq-s { width: 18.809px; height: 18.809px; opacity: 0; transition: opacity 0.24s var(--ease-out); }
+.blk.is-moving .sq-s, .blk.is-active .sq-s { opacity: 1; }
+/* 클릭 시 나머지 블럭은 오퍼시티 60프로 */
+.is-open .blk:not(.is-active) .blk-sq { opacity: 0.6; }
+
+/* ---------- click it! 팝업 ---------- */
+
+.popup {
+  position: absolute;
+  width: 75px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 8px; border: 0; border-radius: 50px;
+  background: var(--text-primary); color: var(--text-inverse);
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1; letter-spacing: 0.42px; white-space: nowrap;
+  cursor: none;
+  /* 크기·위치 변화 없이 나타나기만 한다 */
+  opacity: 0; transition: opacity 0.2s var(--ease-out);
+  pointer-events: none;
+}
+.popup.is-on { opacity: 1; pointer-events: auto; }
+.popup:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 3px; }
+
+/* ---------- 카테고리명 카드 ---------- */
+
+.card {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.26s var(--ease-out);
+  pointer-events: none;
+}
+.card.is-on { opacity: 1; pointer-events: auto; }
+.card-art {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  display: block; overflow: visible;
+}
+.card-selected { opacity: 0; transition: opacity 0.2s var(--ease-out); }
+.card.is-selected .card-default { opacity: 0; }
+.card.is-selected .card-selected { opacity: 1; }
+
+/* × 버튼 — 카드 좌표는 인라인 style 로 지정된다 */
+.card-close {
+  position: absolute;
+  width: 22px; height: 22px;
+  border: 0; background: transparent; cursor: none; padding: 0;
+}
+.card-close:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 2px; }
+
+/* ---------- h1 products ---------- */
+
+.pbox {
+  position: absolute; top: 37.62px;
+  width: 37.618px; height: 37.618px;
+  background: var(--text-primary);
+  border: 0.5px solid var(--border-strong);
+  overflow: hidden;                      /* 글자는 사각형 안에서만 clip 되어 보인다 */
+}
+.pltr {
+  position: absolute; left: -0.19px; top: -0.19px;
+  width: 37.99px; height: 37.99px; display: block;
+  transform: translateY(42px);
+  transition: transform 0.72s var(--spring);
+}
+.is-scrolled .pltr { transform: translateY(0); }
+
+/* ---------- 텍스트 ---------- */
+
+.explore {
+  right: 586.97px;                       /* 우측 끝 853.03 → 1440 - 853.03 */
+  top: 86.24px; margin: 0;
+  text-align: right;
+  font-family: "Outfit", sans-serif; font-weight: 700;
+  font-size: 28px; line-height: 1.2; color: var(--text-primary);
+  white-space: nowrap;
+  opacity: 0; transition: opacity 0.5s var(--ease-out);
+}
+.is-scrolled .explore { opacity: 1; transition-delay: 0.5s; }
+
+.lead {
+  right: 611.47px; top: 124.04px; margin: 0;  /* 우측 끝 828.53 */
+  text-align: right;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500;
+  font-size: 12px; line-height: 1.5; letter-spacing: -0.24px;
+  color: var(--text-secondary); white-space: nowrap;
+  opacity: 0; transition: opacity 0.5s var(--ease-out);
+}
+.lead.is-in { opacity: 1; }
+
+
+/* ---------- 하단 메뉴 ---------- */
+
+.menu { left: 0; top: 666px; width: var(--frame-w); height: 144px; }
+.menu-bar {
+  position: absolute; left: 0; width: var(--frame-w); height: 48px;
+  display: block; text-decoration: none;
+}
+.menu-bar span {
+  position: absolute; right: 52.97px; top: 7px;
+  font-size: 28px; font-weight: 700; line-height: 1.2;
+  color: var(--text-inverse); opacity: 0.5; white-space: nowrap;
+}
+#menu-stitch { top: 48px; background: var(--text-secondary); }
+#menu-about  { top: 96px; background: var(--border-strong); }
+.menu-bar:focus-visible { outline: 3px solid var(--text-inverse); outline-offset: -6px; }
+
+
+/* ---------- 바늘 커서 ---------- */
+
+.needle {
+  position: fixed; left: 0; top: 0;
+  width: 24.7px; height: 43.37px;   /* 35.28 x 61.96 의 0.7배 */
+  pointer-events: none; z-index: 50;
+  opacity: 0; transition: opacity 0.2s linear;
+  will-change: transform;
+}
+.needle.is-on { opacity: 1; }
+.needle svg { display: block; width: 100%; height: 100%; }
+.needle .nd-default, .needle .nd-selected {
+  position: absolute; inset: 0; transition: opacity 0.12s linear;
+}
+.needle .nd-selected { opacity: 0; }
+.needle.is-selected .nd-default { opacity: 0; }
+.needle.is-selected .nd-selected { opacity: 1; }
+
+/* ---------- 접근성 ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .pltr, .popup, .card, .blk, .blk-sq, .explore, .lead {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
