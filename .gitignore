@@ -1,2 +1,11 @@
 .DS_Store
 **/.DS_Store
+
+# 작업 파일 — 로컬에만 둔다 (웹 서빙에는 쓰이지 않음)
+exports/
+build_combined/
+build_detail/
+build_shop/
+build_shop810/
+build_splash/
+*.pdf
