@@ -453,3 +453,22 @@ body.no-needle { cursor: auto; }
   position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
+
+/* ---------- popup-disable-seeyousoon (피그마 1066:3358) ----------
+   상세 페이지를 아직 열지 않은 카드. 호버/클릭하면 바늘 커서 꼬리쪽에 뜬다.
+   커서와 같은 축척(뷰포트 고정)이라 stage scale 의 영향을 받지 않는다. */
+
+.card.is-blocked { cursor: none; }
+
+.soonpop {
+  position: fixed; left: 0; top: 0; z-index: 60;
+  display: flex; align-items: center; justify-content: center;
+  padding: 8px 12px; border-radius: 50px;
+  background: var(--bg-dark);
+  pointer-events: none; opacity: 0;
+  transition: opacity 200ms var(--ease-out);
+  will-change: transform;
+}
+.soonpop.is-on { opacity: 1; }
+.soonpop-in { display: block; width: 85.683px; height: 12.879px; }
+.soonpop-in svg { display: block; width: 100%; height: 100%; }

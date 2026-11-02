@@ -15,13 +15,18 @@
     --text-inverse: #FFFCF6;
     --bg-base: #FFFCF6;
     --accent-mint: #A1DFB2;
+    --accent-lavender: #A285C2;
     --spring: cubic-bezier(0.28, 1.18, 0.42, 1);
+    --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
   }
   * { box-sizing: border-box; }
   html, body { height: 100%; margin: 0; }
-  body { background: #000; overflow: hidden; }
+  body { background: var(--bg-base); overflow: hidden; }
 
-  .shell { position: fixed; inset: 0; overflow: hidden; background: #000; }
+  .shell { position: fixed; inset: 0; overflow: hidden; background: var(--bg-base); }
+  /* 프레임 비율(1440:810)과 화면 비율이 다를 때 남는 영역.
+     콘텐츠 좌표는 그대로 두고, 가장자리에 닿는 MENU 바만 이만큼 번지게 한다. */
+  .shell { --bleed-x: 0px; }
 
   /* 두 페이지 모두 동일한 1440x810 박스 — 셸이 배율과 중앙 정렬을 책임진다 */
   /* 레이어 자체 크기는 프레임 원본 그대로 두고 scale 만 적용한다.
@@ -45,7 +50,9 @@
   .is-snapping { transition: top 0.62s var(--spring); }
 
   .handle {
-    position: absolute; left: 0; width: 1440px; height: 48px;
+    position: absolute;
+    left: calc(-1 * var(--bleed-x)); width: calc(1440px + 2 * var(--bleed-x));
+    height: 48px;
     margin: 0; padding: 0; border: 0;
     cursor: grab; touch-action: none; display: block; text-align: right;
     will-change: transform;
@@ -87,7 +94,8 @@
 
   /* 열린 섹션을 다시 내리는 손잡이 — 프레임 최상단 28px 띠 */
   .closer {
-    position: absolute; left: 0; top: 0; width: 1440px; height: 28px;
+    position: absolute; top: 0; height: 28px;
+    left: calc(-1 * var(--bleed-x)); width: calc(1440px + 2 * var(--bleed-x));
     border: 0; padding: 0; margin: 0; background: transparent;
     cursor: grab; touch-action: none; display: none;
   }
@@ -103,6 +111,54 @@
   .closer:hover::after, .closer.is-dragging::after { opacity: 0.8; transform: translateY(0); }
 
 
+
+  /* ---------- -shop-scorll : shop 진입 직전 안내 ----------
+     프레임 1066:2341. 하단 MENU 바 2개는 그대로 보이고, 그 위를 배경색이 덮는다.
+     텍스트 등장/퇴장 모션은 -splash0(221:709)과 동일. */
+
+  .intro-veil {
+    position: absolute; left: 0; top: 0; width: 1440px; height: 810px;
+    /* .page 가 will-change 로 합성 레이어가 되므로 명시적으로 위에 올린다 */
+    z-index: 2; will-change: opacity;
+    background: var(--bg-base); pointer-events: none;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.9s var(--ease-out), visibility 0s linear 0.9s;
+  }
+  #layer-intro { z-index: 6; pointer-events: none; }
+  .intro-tri {
+    position: absolute; left: 91.03px; top: 697.04px; width: 52px; height: 52px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.9s var(--ease-out), visibility 0s linear 0.9s;
+  }
+  .intro-tri svg { display: block; transform: rotate(180deg); }
+  .shell.is-intro .intro-veil,
+  .shell.is-intro .intro-tri { opacity: 1; visibility: visible; transition: none; }
+
+  .scrollit {
+    position: absolute; left: 719.83px; top: 347.63px;
+    transform: translate(-50%, -50%);
+    display: flex; align-items: center; justify-content: center;
+    gap: 24px; padding: 28px 36px;
+    white-space: nowrap; pointer-events: none; margin: 0;
+  }
+  .scrollit .tri { display: block; width: 32px; height: 26.791px; flex: none; opacity: 0; }
+  .scrollit .tri svg { display: block; width: 100%; height: 100%; }
+  .scrollit .tri path { fill: var(--accent-lavender); }
+  .scrollit .ch {
+    display: inline-block;
+    font-family: "Outfit", system-ui, sans-serif;
+    font-size: 56px; font-weight: 700; line-height: 1.05;
+    letter-spacing: -1.12px; color: var(--text-secondary);
+    opacity: 0;
+  }
+  .scrollit .sp { width: 0.26em; }
+  .scrollit .tri, .scrollit .ch {
+    transform: translateY(18px) scale(0.86);
+    transition: opacity 0.3s var(--ease-out), transform 0.56s var(--spring);
+  }
+  .scrollit.is-in .tri, .scrollit.is-in .ch { opacity: 1; transform: translateY(0) scale(1); }
+  .scrollit.is-out .tri, .scrollit.is-out .ch { opacity: 0; transform: translateY(-14px) scale(0.9); }
 
   .tip {
     position: fixed; left: 50%; transform: translateX(-50%);
@@ -121,6 +177,13 @@
     <div class="page" id="p-shop"><iframe id="shop-pane" title="sorrrn shop"></iframe></div>
     <div class="page" id="p-stitch"></div>
     <div class="page" id="p-about"></div>
+    <div class="intro-veil" id="intro-veil" aria-hidden="true">
+      <p class="scrollit" id="intro-scrollit"><span class="tri"><svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="32" height="26.7907" viewBox="0 0 32 26.7907" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.1418 1.02663L31.6921 23.5721C32.5437 24.9859 31.5278 26.7907 29.8844 26.7907H16.379H2.11158C0.453276 26.7907 -0.562624 24.9407 0.333755 23.5269L14.5713 0.981508C15.4079 -0.342041 17.3351 -0.327 18.1568 1.02663H18.1418Z" fill="var(--accent-lavender)"/></svg></span><span><span class="ch">s</span><span class="ch">c</span><span class="ch">r</span><span class="ch">o</span><span class="ch">l</span><span class="ch">l</span><span class="ch sp"> </span><span class="ch">i</span><span class="ch">t</span><span class="ch">!</span></span><span class="tri"><svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="32" height="26.7907" viewBox="0 0 32 26.7907" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.1418 1.02663L31.6921 23.5721C32.5437 24.9859 31.5278 26.7907 29.8844 26.7907H16.379H2.11158C0.453276 26.7907 -0.562624 24.9407 0.333755 23.5269L14.5713 0.981508C15.4079 -0.342041 17.3351 -0.327 18.1568 1.02663H18.1418Z" fill="var(--accent-lavender)"/></svg></span></p>
+    </div>
+  </div>
+
+  <div class="stack" id="layer-intro" aria-hidden="true">
+    <span class="intro-tri" id="intro-tri"><svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="40.65" height="36" viewBox="0 0 40.65 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.7269 1.5C18.8816 -0.5 21.7684 -0.499999 22.9231 1.5L40.2436 31.5C41.3983 33.5 39.9549 36 37.6455 36H3.00447C0.695074 36 -0.748301 33.5 0.406399 31.5L17.7269 1.5Z" fill="var(--accent-mint)"/></svg></span>
   </div>
 
   <div class="stack" id="layer-handles">
@@ -1891,6 +1954,7 @@ body {
   var shell      = document.getElementById("shell");
   var pagesLayer = document.getElementById("layer-pages");
   var handLayer  = document.getElementById("layer-handles");
+  var introLayer = document.getElementById("layer-intro");
   var splashPane = document.getElementById("splash-pane");
   var shopPane   = document.getElementById("shop-pane");
   var closer     = document.getElementById("closer");
@@ -1924,7 +1988,9 @@ body {
     fit = Math.min(vw / 1440, vh / 810);
     var left = Math.round((vw - 1440 * fit) / 2);
     var top  = Math.round((vh - 810 * fit) / 2);
-    [pagesLayer, handLayer].forEach(function (el) {
+    /* 비율이 안 맞아 좌우에 남는 폭 (프레임 좌표계 기준) — MENU 바만 이만큼 번진다 */
+    shell.style.setProperty("--bleed-x", Math.max(0, left / fit) + "px");
+    [pagesLayer, handLayer, introLayer].forEach(function (el) {
       el.style.left = left + "px";
       el.style.top = top + "px";
       el.style.transform = "scale(" + fit + ")";
@@ -1986,9 +2052,51 @@ body {
       d.page.classList.remove("is-snapping");
       DRAWERS.forEach(function (o) { o.handle.classList.remove("is-snapping"); });
     }, 640);
+    var was = opened;
     opened = p > 0.5 ? d : null;
     refreshChrome();
-    if (!opened) toSplash4();
+    if (!opened) { endIntro(); toSplash4(); }
+    else if (opened.key === "shop" && was !== opened) playIntro();
+  }
+
+  /* ---------- -shop-scorll : shop 을 열면 먼저 보여주는 안내 ----------
+     등장/퇴장 스태거는 -splash0 과 동일(70ms), 0.5초 머문 뒤
+     글자와 배경이 함께 opacity 로 빠지며 -shop-default 가 드러난다. */
+
+  var introVeil = document.getElementById("intro-veil");
+  var introText = document.getElementById("intro-scrollit");
+  var introParts = [].slice.call(introText.querySelectorAll(".tri, .ch"));
+  var introTimers = [];
+  var reducedMotion = window.matchMedia
+    && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function endIntro() {
+    introTimers.forEach(clearTimeout); introTimers = [];
+    shell.classList.remove("is-intro");
+    introText.classList.remove("is-in", "is-out");
+  }
+
+  function playIntro() {
+    introTimers.forEach(clearTimeout); introTimers = [];
+    introText.classList.remove("is-in", "is-out");
+    shell.classList.add("is-intro");
+    if (reducedMotion) {
+      introTimers.push(setTimeout(endIntro, 900));
+      return;
+    }
+    var n = introParts.length, step = 70;
+    introParts.forEach(function (el, i) { el.style.transitionDelay = (i * step) + "ms"; });
+    void introText.offsetWidth;
+    introText.classList.add("is-in");
+    var hold = (n - 1) * step + 560 + 500;          /* 등장 완료 + 0.5초 */
+    introTimers.push(setTimeout(function () {
+      introParts.forEach(function (el, i) { el.style.transitionDelay = ((n - 1 - i) * step) + "ms"; });
+      introText.classList.add("is-out");
+      shell.classList.remove("is-intro");           /* 배경이 0.9s 에 걸쳐 사라진다 */
+    }, hold));
+    introTimers.push(setTimeout(function () {
+      introText.classList.remove("is-in", "is-out");
+    }, hold + 900 + (n - 1) * step));
   }
 
   /* 섹션을 닫고 돌아온 splash 는 -splash4 상태여야 한다 */
@@ -2081,6 +2189,7 @@ body {
     place(d, 1);
     opened = d;
     refreshChrome();
+    endIntro();            /* 이미 shop 을 거쳐온 사용자 — 안내를 다시 띄우지 않는다 */
     var t0 = Date.now();
     var iv = setInterval(function () {
       try {

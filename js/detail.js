@@ -93,6 +93,35 @@
     window.addEventListener("pageshow", function (e) { if (e.persisted) playH1(); });
   }
 
+  /* ---------- see you soon! 팝업 ----------
+     상세 페이지를 아직 열지 않은 카드(.is-blocked). 호버/클릭하는 동안
+     바늘 커서 꼬리(바늘귀 = 커서 기준 오른쪽 위)에 붙어 따라다닌다. */
+
+  var soonpop = document.getElementById("soonpop");
+  var blocked = [].slice.call(document.querySelectorAll(".card.is-blocked"));
+
+  if (soonpop && blocked.length) {
+    var NEEDLE_W = 24.7;          /* 바늘 커서 폭 — 꼬리는 이 오른쪽 끝에 있다 */
+    var GAP = 12;
+
+    function moveSoon(e) {
+      var w = soonpop.offsetWidth, h = soonpop.offsetHeight;
+      var x = e.clientX + NEEDLE_W + GAP;
+      var y = e.clientY - h / 2;
+      /* 화면 밖으로 나가면 커서 반대쪽으로 넘긴다 */
+      if (x + w > window.innerWidth - 8) x = e.clientX - GAP - w;
+      y = Math.max(8, Math.min(window.innerHeight - h - 8, y));
+      soonpop.style.transform = "translate(" + x + "px," + y + "px)";
+    }
+
+    blocked.forEach(function (el) {
+      el.addEventListener("pointerenter", function (e) { moveSoon(e); soonpop.classList.add("is-on"); });
+      el.addEventListener("pointermove", moveSoon);
+      el.addEventListener("pointerleave", function () { soonpop.classList.remove("is-on"); });
+      el.addEventListener("click", function (e) { e.preventDefault(); moveSoon(e); soonpop.classList.add("is-on"); });
+    });
+  }
+
   /* ---------- 바늘 커서 ---------- */
 
   if (needle) {
