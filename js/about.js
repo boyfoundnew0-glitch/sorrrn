@@ -10,7 +10,7 @@
   var doc    = document.getElementById("doc");
   var menu   = document.getElementById("menu");
   var needle = document.getElementById("needle");
-  var H = parseFloat(doc.getAttribute("data-h")) || 17711.13;
+  var H = parseFloat(doc.getAttribute("data-h")) || 17831.13;
 
   /* ---------- 배율 ---------- */
 
