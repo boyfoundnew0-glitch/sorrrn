@@ -84,8 +84,8 @@ body {
   display: flex; gap: 36px; align-items: center;
 }
 .nav-left a {
-  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 14px;
-  line-height: 1; letter-spacing: 0.42px; color: var(--text-primary);
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 12px;
+  line-height: 1; letter-spacing: 0.36px; color: var(--text-primary);
   text-decoration: none; white-space: nowrap;
 }
 .nav-right {
@@ -138,8 +138,8 @@ body {
   display: flex; align-items: center; justify-content: center;
   padding: 8px; border: 0; border-radius: 50px;
   background: var(--text-primary); color: var(--text-inverse);
-  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 14px;
-  line-height: 1; letter-spacing: 0.42px; white-space: nowrap;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 12px;
+  line-height: 1; letter-spacing: 0.36px; white-space: nowrap;
   cursor: none;
   /* 크기·위치 변화 없이 나타나기만 한다 */
   opacity: 0; transition: opacity 0.2s var(--ease-out);
@@ -197,7 +197,7 @@ body {
   top: 86.24px; margin: 0;
   text-align: right;
   font-family: "Outfit", sans-serif; font-weight: 700;
-  font-size: 28px; line-height: 1.2; color: var(--text-primary);
+  font-size: 26px; line-height: 1.2; color: var(--text-primary);
   white-space: nowrap;
   opacity: 0; transition: opacity 0.5s var(--ease-out);
 }
@@ -207,7 +207,7 @@ body {
   right: 611.47px; top: 124.04px; margin: 0;  /* 우측 끝 828.53 */
   text-align: right;
   font-family: "Noto Sans KR", sans-serif; font-weight: 500;
-  font-size: 12px; line-height: 1.5; letter-spacing: -0.24px;
+  font-size: 10px; line-height: 1.5; letter-spacing: -0.2px;
   color: var(--text-secondary); white-space: nowrap;
   opacity: 0; transition: opacity 0.5s var(--ease-out);
 }
@@ -223,7 +223,7 @@ body {
 }
 .menu-bar span {
   position: absolute; right: 52.97px; top: 7px;
-  font-size: 28px; font-weight: 700; line-height: 1.2;
+  font-size: 26px; font-weight: 700; line-height: 1.2;
   color: var(--text-inverse); opacity: 0.5; white-space: nowrap;
 }
 #menu-stitch { top: 48px; background: var(--text-secondary); }

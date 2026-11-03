@@ -213,8 +213,8 @@ body {
 .scrollit .tri path { fill: var(--accent-mint); }
 .scrollit .ch {
   display: inline-block;
-  font-size: 56px; font-weight: 700; line-height: 1.05;
-  letter-spacing: -1.12px; color: var(--text-secondary);
+  font-size: 54px; font-weight: 700; line-height: 1.05;
+  letter-spacing: -1.08px; color: var(--text-secondary);
   opacity: 0;
 }
 .scrollit .sp { width: 0.26em; }
@@ -235,7 +235,7 @@ body {
 }
 .menu-bar span {
   position: absolute; right: 52.97px; top: 7px;
-  font-size: 28px; font-weight: 700; line-height: 1.2;
+  font-size: 26px; font-weight: 700; line-height: 1.2;
   color: var(--text-inverse); white-space: nowrap;
 }
 #menu-shop   { top: 0;    background: var(--text-primary); }

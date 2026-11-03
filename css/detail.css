@@ -73,8 +73,8 @@ body.no-needle { cursor: auto; }
   display: flex; gap: 36px; align-items: center;
 }
 .nav-left a { position: relative;
-  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 14px;
-  line-height: 1.2; letter-spacing: 0.42px; color: var(--text-primary);
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 12px;
+  line-height: 1.2; letter-spacing: 0.36px; color: var(--text-primary);
   text-decoration: none; white-space: nowrap;
 }
 .nav-right {
@@ -100,8 +100,8 @@ body.no-needle { cursor: auto; }
 }
 .h1ltr {
   position: absolute; margin: 0;
-  font-family: "Outfit", sans-serif; font-weight: 700; font-size: 40px;
-  line-height: 1.15; letter-spacing: -0.4px; color: var(--text-inverse);
+  font-family: "Outfit", sans-serif; font-weight: 700; font-size: 38px;
+  line-height: 1.15; letter-spacing: -0.38px; color: var(--text-inverse);
   white-space: nowrap;
 }
 /* 글자는 사각형 안에서만 보인다 — 좌측부터 차례로 슬라이딩해 제자리에 선다
@@ -116,8 +116,8 @@ body.no-needle { cursor: auto; }
 
 .textbtn {
   position: absolute; margin: 0; padding: 0; border: 0; background: none;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 12px;
-  line-height: 1.5; letter-spacing: -0.24px; color: var(--text-primary);
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 10px;
+  line-height: 1.5; letter-spacing: -0.2px; color: var(--text-primary);
   text-decoration: none; white-space: nowrap; cursor: none;
 }
 /* 클릭 영역만 넓힌다 — 배치에는 영향이 없다 */
@@ -160,21 +160,21 @@ body.no-needle { cursor: auto; }
 .card .deco svg { display: block; width: 100%; height: 100%; }
 .card p { position: absolute; margin: 0; white-space: nowrap; color: var(--text-primary); }
 .card .kr {
-  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 16px;
-  line-height: 1.8; letter-spacing: -0.32px;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1.8; letter-spacing: -0.28px;
 }
-.card .en { font-family: "Outfit", sans-serif; font-weight: 500; font-size: 17px; line-height: 1.6; }
+.card .en { font-family: "Outfit", sans-serif; font-weight: 500; font-size: 15px; line-height: 1.6; }
 .card .price {
-  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 14px;
-  line-height: 1.2; letter-spacing: 0.42px;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 12px;
+  line-height: 1.2; letter-spacing: 0.36px;
 }
 .card .gk {
-  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 12px;
-  line-height: 1.5; letter-spacing: -0.24px;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 10px;
+  line-height: 1.5; letter-spacing: -0.2px;
 }
 .card .ge {
-  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 14px;
-  line-height: 1.2; letter-spacing: 0.42px;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 12px;
+  line-height: 1.2; letter-spacing: 0.36px;
 }
 .card .gdot { position: absolute; width: 8px; height: 8px; border-radius: 50%; }
 .card .gdot.basic { background: var(--accent-mint); }
@@ -204,35 +204,35 @@ body.no-needle { cursor: auto; }
 
 .pd-title {
   position: absolute; margin: 0;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 20px;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 18px;
   line-height: 1.5; color: var(--text-primary); white-space: nowrap;
 }
 .pd-en {
   position: absolute; margin: 0;
-  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 17px;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 15px;
   line-height: 1.6; color: var(--text-primary); white-space: nowrap;
 }
 /* 가격은 영문/Body 20px 그대로 */
 .pd-price20 {
   position: absolute; margin: 0;
-  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 20px;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 18px;
   line-height: 1.3; color: var(--text-primary); white-space: nowrap;
 }
 .pd-desc, .pd-meta-kr {
   position: absolute; margin: 0;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 16px;
-  line-height: 1.8; letter-spacing: -0.32px; color: var(--text-primary); white-space: nowrap;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1.8; letter-spacing: -0.28px; color: var(--text-primary); white-space: nowrap;
 }
 .pd-desc { font-weight: 400; }
 .pd-desc.m { font-weight: 500; }
 .pd-meta-en {
   position: absolute; margin: 0;
-  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 17px;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 15px;
   line-height: 1.6; color: var(--text-primary); white-space: nowrap;
 }
 .pd-price {
   position: absolute; margin: 0;
-  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 17px;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 15px;
   line-height: 1.6; color: var(--text-primary); white-space: nowrap;
 }
 .pd-dot { position: absolute; width: 8px; height: 8px; border-radius: 50%; }
@@ -240,28 +240,28 @@ body.no-needle { cursor: auto; }
 
 .pd-spec-h {
   position: absolute; margin: 0;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 16px;
-  line-height: 1.8; letter-spacing: -0.32px; color: var(--text-secondary); white-space: nowrap;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1.8; letter-spacing: -0.28px; color: var(--text-secondary); white-space: nowrap;
 }
 .pd-spec {
   position: absolute; margin: 0;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 400; font-size: 16px;
-  line-height: 1.8; letter-spacing: -0.32px; color: var(--text-secondary); white-space: nowrap;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 400; font-size: 14px;
+  line-height: 1.8; letter-spacing: -0.28px; color: var(--text-secondary); white-space: nowrap;
 }
 .pd-vline { position: absolute; width: 1px; height: 19.527px; background: var(--accent-mint); }
 .pd-vline.lav { background: var(--accent-lavender); }
 /* 스토리 리드 — 새 레이아웃에서 16px Regular */
 .pd-lead16 {
   position: absolute; margin: 0;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 400; font-size: 16px;
-  line-height: 1.8; letter-spacing: -0.32px; color: var(--text-secondary); white-space: nowrap;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 400; font-size: 14px;
+  line-height: 1.8; letter-spacing: -0.28px; color: var(--text-secondary); white-space: nowrap;
 }
 .pd-lead16.mid { font-weight: 500; color: var(--text-primary); text-align: right; }
 /* 구성품 정보 표 */
 .pd-spec12 {
   position: absolute; margin: 0;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 12px;
-  line-height: 1.5; letter-spacing: -0.24px; color: var(--text-primary); white-space: nowrap;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 10px;
+  line-height: 1.5; letter-spacing: -0.2px; color: var(--text-primary); white-space: nowrap;
 }
 
 /* Primary border 버튼 */
@@ -270,8 +270,8 @@ body.no-needle { cursor: auto; }
   display: inline-flex; align-items: center; justify-content: center;
   padding: 0 24px; border: 1.5px solid var(--border-default); border-radius: 50px;
   background: var(--bg-base); color: var(--text-primary);
-  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 14px;
-  line-height: 1.2; letter-spacing: 0.42px; white-space: nowrap;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 12px;
+  line-height: 1.2; letter-spacing: 0.36px; white-space: nowrap;
   cursor: none; text-decoration: none;
   transition: border-color 200ms var(--ease-out), color 200ms var(--ease-out), transform 200ms var(--ease-out);
 }
@@ -283,13 +283,13 @@ body.no-needle { cursor: auto; }
 
 .pd-h2 {
   position: absolute; margin: 0;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 700; font-size: 24px;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 700; font-size: 22px;
   line-height: 1.2; color: var(--text-primary); white-space: nowrap;
 }
 .pd-h2sub {
   position: absolute; margin: 0;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 20px;
-  line-height: 1.5; letter-spacing: -0.4px; color: var(--text-secondary); white-space: nowrap;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 18px;
+  line-height: 1.5; letter-spacing: -0.36px; color: var(--text-secondary); white-space: nowrap;
 }
 .grow-wrap { position: absolute; pointer-events: none; }
 .grow-wrap > i {
@@ -304,24 +304,24 @@ body.no-needle { cursor: auto; }
 .pd-deco svg { display: block; width: 100%; height: 100%; }
 .pd-info-h2 {
   position: absolute; margin: 0;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 20px;
-  line-height: 1.5; letter-spacing: -0.4px; color: var(--text-primary); white-space: nowrap;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 18px;
+  line-height: 1.5; letter-spacing: -0.36px; color: var(--text-primary); white-space: nowrap;
 }
 .pd-lead {
   position: absolute; margin: 0; text-align: left;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 20px;
-  line-height: 1.5; letter-spacing: -0.4px; color: var(--text-secondary); white-space: nowrap;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 18px;
+  line-height: 1.5; letter-spacing: -0.36px; color: var(--text-secondary); white-space: nowrap;
 }
 .pd-lead.dark { color: var(--text-primary); text-align: right; }
 .pd-storytitle {
   position: absolute; margin: 0;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 700; font-size: 24px;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 700; font-size: 22px;
   line-height: 1.2; color: var(--text-primary); white-space: nowrap;
 }
 .pd-body {
   position: absolute; margin: 0; text-align: right;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 400; font-size: 16px;
-  line-height: 1.8; letter-spacing: -0.32px; color: var(--text-primary); white-space: pre;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 400; font-size: 14px;
+  line-height: 1.8; letter-spacing: -0.28px; color: var(--text-primary); white-space: pre;
 }
 .pd-photo { position: absolute; overflow: hidden; }
 .pd-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
@@ -329,44 +329,44 @@ body.no-needle { cursor: auto; }
 .pd-step { position: absolute; background: var(--bg-dark); }
 .pd-stepno {
   position: absolute; margin: 0;
-  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 20px;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 18px;
   line-height: 1.3; color: var(--text-inverse);
 }
 .pd-sec-h {
   position: absolute; margin: 0;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 20px;
-  line-height: 1.5; letter-spacing: -0.4px; color: var(--text-secondary); white-space: nowrap;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 18px;
+  line-height: 1.5; letter-spacing: -0.36px; color: var(--text-secondary); white-space: nowrap;
 }
 .pd-sec-h.dark { color: var(--text-primary); }
 .pd-sec-t {
   position: absolute; margin: 0;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 700; font-size: 24px;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 700; font-size: 22px;
   line-height: 1.2; color: var(--text-primary); white-space: nowrap;
 }
 .pd-li-n {
   position: absolute; margin: 0;
-  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 17px;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 15px;
   line-height: 1.6; color: var(--text-primary);
 }
 .pd-li {
   position: absolute; margin: 0;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 400; font-size: 16px;
-  line-height: 1.8; letter-spacing: -0.32px; color: var(--text-primary); white-space: nowrap;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 400; font-size: 14px;
+  line-height: 1.8; letter-spacing: -0.28px; color: var(--text-primary); white-space: nowrap;
 }
 .pd-note {
   position: absolute; margin: 0;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 16px;
-  line-height: 1.8; letter-spacing: -0.32px; color: var(--text-primary); white-space: nowrap;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1.8; letter-spacing: -0.28px; color: var(--text-primary); white-space: nowrap;
 }
 .pd-info-h {
   position: absolute; margin: 0;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 16px;
-  line-height: 1.8; letter-spacing: -0.32px; color: var(--text-primary); white-space: nowrap;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1.8; letter-spacing: -0.28px; color: var(--text-primary); white-space: nowrap;
 }
 .pd-info {
   position: absolute; margin: 0;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 12px;
-  line-height: 1.5; letter-spacing: -0.24px; color: var(--text-primary); white-space: pre;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 10px;
+  line-height: 1.5; letter-spacing: -0.2px; color: var(--text-primary); white-space: pre;
 }
 
 /* ---------- 푸터 ---------- */
@@ -377,12 +377,12 @@ body.no-needle { cursor: auto; }
 .foot-logo svg { display: block; width: 100%; height: 100%; }
 .foot p { margin: 0; white-space: pre-line; }
 .f-kr {
-  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 16px;
-  line-height: 1.8; letter-spacing: -0.32px;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1.8; letter-spacing: -0.28px;
 }
-.f-en  { font-family: "Outfit", sans-serif; font-weight: 500; font-size: 17px; line-height: 1.6; }
-.f-h   { font-family: "Outfit", sans-serif; font-weight: 500; font-size: 20px; line-height: 1.3; }
-.f-s   { font-family: "Outfit", sans-serif; font-weight: 500; font-size: 14px; line-height: 1.2; letter-spacing: 0.42px; }
+.f-en  { font-family: "Outfit", sans-serif; font-weight: 500; font-size: 15px; line-height: 1.6; }
+.f-h   { font-family: "Outfit", sans-serif; font-weight: 500; font-size: 18px; line-height: 1.3; }
+.f-s   { font-family: "Outfit", sans-serif; font-weight: 500; font-size: 12px; line-height: 1.2; letter-spacing: 0.36px; }
 .foot a { color: inherit; text-decoration: none; }
 .foot a:hover { opacity: 0.75; }
 .f-dot { width: 8px; height: 8px; border-radius: 50%; }
@@ -394,12 +394,12 @@ body.no-needle { cursor: auto; }
 }
 .f-mail .d { width: 8px; height: 8px; border-radius: 50%; background: var(--border-focus); flex: none; }
 .f-mail .en {
-  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 14px;
-  line-height: 1.2; letter-spacing: 0.42px; color: var(--text-muted); white-space: nowrap;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 12px;
+  line-height: 1.2; letter-spacing: 0.36px; color: var(--text-muted); white-space: nowrap;
 }
 .f-mail .kr {
-  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 12px;
-  line-height: 1.5; letter-spacing: -0.24px; color: var(--text-muted); white-space: nowrap;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 10px;
+  line-height: 1.5; letter-spacing: -0.2px; color: var(--text-muted); white-space: nowrap;
 }
 
 /* ---------- MENU (화면 하단 고정) ---------- */
@@ -417,7 +417,7 @@ body.no-needle { cursor: auto; }
 }
 .menu-bar span {
   position: absolute; right: 52.97px; top: 7px;
-  font-family: "Outfit", sans-serif; font-size: 28px; font-weight: 700; line-height: 1.2;
+  font-family: "Outfit", sans-serif; font-size: 26px; font-weight: 700; line-height: 1.2;
   color: var(--text-inverse); opacity: 0.5; white-space: nowrap;
   transition: opacity 0.24s var(--ease-out);
 }

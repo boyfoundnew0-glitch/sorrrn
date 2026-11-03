@@ -82,18 +82,18 @@
 
 | 스타일 | 폰트 | 크기 | 행간 | 자간 |
 |---|---|---|---|---|
-| 영문/Display | Outfit Bold | 56px | 1.05 | -2% |
-| 영문/H1 | Outfit Bold | 40px | 1.15 | -1% |
-| 영문/H2 | Outfit Bold | 24px | 1.2 | 0 |
-| 영문/H3 | Outfit Medium | 20px | 1.3 | 0 |
-| 영문/Body | Outfit Medium | 17px | 1.6 | 0 |
-| 영문/Label | Outfit Medium | 14px | 1.2 | 3% |
-| 국문/H1 | Noto Sans KR Bold | 40px | 1.15 | 0 |
-| 국문/H2 | Noto Sans KR Bold | 24px | 1.2 | 0 |
-| 국문/H3 | Noto Sans KR Medium | 20px | 1.5 | 0 |
-| 국문/Body | Noto Sans KR Regular | 16px | 1.8 | -2% |
-| 국문/Body 2 | Noto Sans KR Medium | 16px | 1.8 | -2% |
-| 국문/Label | Noto Sans KR Medium | 12px | 1.5 | -2% |
+| 영문/Display | Outfit Bold | 54px | 1.05 | -2% |
+| 영문/H1 | Outfit Bold | 38px | 1.15 | -1% |
+| 영문/H2 | Outfit Bold | 26px | 1.2 | 0 |
+| 영문/H3 | Outfit Medium | 18px | 1.3 | 0 |
+| 영문/Body | Outfit Medium | 15px | 1.6 | 0 |
+| 영문/Label | Outfit Medium | 12px | 1.2 | 3% |
+| 국문/H1 | Noto Sans KR Bold | 38px | 1.15 | 0 |
+| 국문/H2 | Noto Sans KR Bold | 22px | 1.2 | 0 |
+| 국문/H3 | Noto Sans KR Medium | 18px | 1.5 | 0 |
+| 국문/Body | Noto Sans KR Regular | 14px | 1.8 | -2% |
+| 국문/Body 2 | Noto Sans KR Medium | 14px | 1.8 | -2% |
+| 국문/Label | Noto Sans KR Medium | 10px | 1.5 | -2% |
 | 국문/Caption | Noto Sans KR Medium | 11px | 1.5 | -2% |
 
 - 위 값을 `--font-*` 유틸리티 클래스(또는 변수)로 만들어 쓰고, 프레임에서 읽은 텍스트 스타일 이름에 맞춰 적용한다.
