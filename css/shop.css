@@ -263,3 +263,30 @@ body {
   margin: -1px; padding: 0; overflow: hidden;
   clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
+
+
+/* ---------- popup-disable-seeyousoon (피그마 1066:3358) ----------
+   kit high 는 상세 페이지가 아직 없다. 카드에 호버/클릭하면
+   바늘 커서 꼬리쪽에 뜬다. 프레임 원본 110x29 를 1.3배로 쓴다. */
+
+.soonpop {
+  --soon-scale: 1.3;
+  position: fixed; left: 0; top: 0; z-index: 60;
+  display: flex; align-items: center; justify-content: center;
+  padding: calc(8px * var(--soon-scale)) calc(12px * var(--soon-scale));
+  border-radius: 50px;
+  background: var(--bg-dark);
+  color: var(--accent-tangerine);
+  pointer-events: none; opacity: 0;
+  transition: opacity 200ms var(--ease-out);
+  will-change: transform;
+}
+.soonpop.is-on { opacity: 1; }
+.soonpop-in {
+  display: block;
+  width: calc(85.683px * var(--soon-scale));
+  height: calc(12.879px * var(--soon-scale));
+}
+.soonpop-in svg { display: block; width: 100%; height: 100%; }
+.soonpop.mint { color: var(--accent-mint); }        /* stitch book */
+.soonpop.mid  { color: var(--accent-lavender); }    /* kit mid */

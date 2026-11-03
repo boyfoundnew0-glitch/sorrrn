@@ -461,14 +461,23 @@ body.no-needle { cursor: auto; }
 .card.is-blocked { cursor: none; }
 
 .soonpop {
+  /* 프레임 원본 110x29 를 1.3배로 키워 쓴다 (텍스트와 여백이 같은 비율) */
+  --soon-scale: 1.3;
   position: fixed; left: 0; top: 0; z-index: 60;
   display: flex; align-items: center; justify-content: center;
-  padding: 8px 12px; border-radius: 50px;
+  padding: calc(8px * var(--soon-scale)) calc(12px * var(--soon-scale));
+  border-radius: 50px;
   background: var(--bg-dark);
+  color: var(--accent-tangerine);          /* kit high */
   pointer-events: none; opacity: 0;
   transition: opacity 200ms var(--ease-out);
   will-change: transform;
 }
+.soonpop.mid { color: var(--accent-lavender); }   /* kit mid */
 .soonpop.is-on { opacity: 1; }
-.soonpop-in { display: block; width: 85.683px; height: 12.879px; }
+.soonpop-in {
+  display: block;
+  width: calc(85.683px * var(--soon-scale));
+  height: calc(12.879px * var(--soon-scale));
+}
 .soonpop-in svg { display: block; width: 100%; height: 100%; }

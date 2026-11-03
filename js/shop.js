@@ -156,8 +156,36 @@
     frame.classList.remove("is-open");
     clearTimeout(anim[id + "_card"]);
     cards[id].classList.remove("is-on", "is-selected");
+    soonOff();
     runMove(id, false, function () { blocks[id].classList.remove("is-active"); });
   }
+
+  /* ---------- see you soon! : 상세 페이지가 없는 카테고리 ----------
+     kit high 는 아직 목록 페이지가 없다. 카드에 호버/클릭하면
+     바늘 커서 꼬리(바늘귀 = 커서 오른쪽)에 붙어 따라다닌다. */
+
+  var soonpop = document.getElementById("soonpop");
+  var NEEDLE_W = 24.7, SOON_GAP = 12;
+  /* 카테고리별 텍스트 색 — 공식 팔레트만 쓴다. 지정이 없으면 Tangerine */
+  var SOON_TONE = { sb: "mint", kitm: "mid" };
+
+  function moveSoon(e) {
+    if (!soonpop) return;
+    var w = soonpop.offsetWidth, h = soonpop.offsetHeight;
+    var x = e.clientX + NEEDLE_W + SOON_GAP;
+    var y = e.clientY - h / 2;
+    if (x + w > window.innerWidth - 8) x = e.clientX - SOON_GAP - w;
+    y = Math.max(8, Math.min(window.innerHeight - h - 8, y));
+    soonpop.style.transform = "translate(" + x + "px," + y + "px)";
+  }
+  function soonOn(id, e) {
+    if (!soonpop) return;
+    soonpop.classList.remove("mint", "mid");
+    if (SOON_TONE[id]) soonpop.classList.add(SOON_TONE[id]);
+    moveSoon(e);
+    soonpop.classList.add("is-on");
+  }
+  function soonOff()  { if (soonpop) soonpop.classList.remove("is-on"); }
 
   CATES.forEach(function (id) {
     var blk = blocks[id];
@@ -173,11 +201,16 @@
     /* 카드: 호버/클릭 시 selected 상태 */
     cards[id].addEventListener("pointerenter", function () { cards[id].classList.add("is-selected"); });
     cards[id].addEventListener("pointerleave", function () { cards[id].classList.remove("is-selected"); });
+    if (!DETAIL[id]) {
+      cards[id].addEventListener("pointerenter", function (e) { soonOn(id, e); });
+      cards[id].addEventListener("pointermove", moveSoon);
+      cards[id].addEventListener("pointerleave", soonOff);
+    }
     /* selected 상태에서 카드를 누르면 카테고리 목록 페이지로 이동 */
     cards[id].addEventListener("click", function (e) {
       if (e.target.closest(".card-close")) return;
       var page = DETAIL[id];
-      if (!page) return;
+      if (!page) { soonOn(id, e); return; }   /* 상세 페이지가 없는 카테고리 */
       /* shop 문서는 셸 안의 iframe 이다. 최상위(window.top)는 아티팩트에서
          다른 출처라 건드릴 수 없으므로, 바로 위 문서(셸)를 기준으로 이동한다. */
       var w = (window.parent && window.parent !== window) ? window.parent : window;
