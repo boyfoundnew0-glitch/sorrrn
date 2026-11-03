@@ -1,0 +1,160 @@
+@charset "utf-8";
+
+/* ============================================================
+   sorrrn — frame design-about sorrrn
+   -about sorrrn-start  211:26980   1440 x 810  (스크롤 페이지 맨 처음)
+   -about sorrrn-end   1075:2372    1440 x 810  (스크롤 페이지 맨 끝)
+   이미지 띠: x 386.07 / w 938.96 / 1장 h 528.16 / 간격 0 / 32장
+   문서 높이 = 137.84 + 32 x 528.16 + (810 - 137.83) = 17711.13
+   캔버스 폭 1440 기준, 뷰포트 폭에 맞춰 scale (CLAUDE.md 레이아웃 원칙 4)
+   MENU 는 position: fixed (원칙 5)
+   ============================================================ */
+
+:root {
+  --bg-base: #FFFCF6;
+  --bg-dark: #33251A;
+
+  --text-primary: #33251A;
+  --text-secondary: #6F6258;
+  --text-inverse: #FFFCF6;
+
+  --border-strong: #B6ABA3;
+
+  --accent-mint: #A1DFB2;
+  --accent-lavender: #A285C2;
+  --accent-tangerine: #FF5424;
+
+  /* 민트 배경 위에서는 바늘 커서를 오트밀로 — 팔레트/Oatmeal(배경/Base) 과 같은 값 */
+  --icon-inverse: var(--bg-base);
+
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+* { box-sizing: border-box; }
+html { background: var(--accent-mint); }
+body {
+  margin: 0; background: var(--accent-mint); color: var(--text-inverse);
+  font-family: "Outfit", "Noto Sans KR", system-ui, sans-serif;
+  overflow-x: hidden; cursor: none;
+}
+body.no-needle { cursor: auto; }
+
+/* ---------- 1440 스테이지 ---------- */
+
+.doc { position: relative; width: 100%; overflow: hidden; }
+.stage {
+  position: absolute; left: 0; top: 0;
+  width: 1440px;
+  transform-origin: top left;
+  transform: scale(var(--fit, 1));
+}
+.stage > * { position: absolute; }
+
+/* ---------- 텍스트 (피그마 텍스트 스타일 그대로) ---------- */
+
+.t-h1 {
+  margin: 0;
+  font-family: "Outfit", sans-serif; font-weight: 700; font-size: 38px;
+  line-height: 1.15; letter-spacing: -0.38px;
+  color: var(--text-inverse); white-space: nowrap;
+}
+.t-kr {
+  margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1.8; letter-spacing: -0.28px;
+  color: var(--text-inverse); white-space: nowrap;
+}
+.t-en {
+  margin: 0;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 15px;
+  line-height: 1.6; color: var(--text-inverse); white-space: nowrap;
+}
+/* 본문 안에 섞여 들어간 영문/Label (sewing story) */
+.t-kr .lb {
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 12px;
+  line-height: 1.2; letter-spacing: 0.36px;
+}
+
+/* ---------- 이미지 띠 — 32장을 간격 0 으로 잇는다 ----------
+   flex 세로 배치라 브라우저가 각 칸을 맞붙여 깔아 겹침·틈이 생기지 않는다. */
+
+.strip {
+  left: 386.07px; top: 137.84px;
+  width: 938.96px;
+  display: flex; flex-direction: column; gap: 0;
+  background: var(--accent-mint);
+}
+.strip img {
+  display: block; width: 938.96px; height: 528.16px;
+  object-fit: cover; flex: none;
+}
+
+/* ---------- 명함 — 호버하면 뒤로 180도 돌아간다 ---------- */
+
+.card3d {
+  left: 608.07px; top: 17266.97px;
+  width: 425.6px; height: 236.4px;
+  perspective: 1200px;
+}
+.card3d-in {
+  position: relative; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s var(--ease-out);
+}
+.card3d:hover .card3d-in,
+.card3d:focus-visible .card3d-in { transform: rotateY(180deg); }
+.card3d-in > img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+}
+.card3d-in > .back { transform: rotateY(180deg); }
+
+/* ---------- MENU (화면 하단 고정) ----------
+   about 이 열린 상태이므로 남는 바는 shop · explore your stitch 두 개 */
+
+.menu {
+  position: fixed; left: 0; bottom: 0; z-index: 40;
+  width: 1440px; height: 144px;
+  transform-origin: bottom left; transform: scale(var(--fit, 1));
+  pointer-events: none;
+}
+.menu > * { pointer-events: auto; }
+.menu-bar {
+  position: absolute; left: 0; width: 1440px; height: 48px;
+  display: block; text-decoration: none;
+}
+.menu-bar span {
+  position: absolute; right: 52.97px; top: 7px;
+  font-family: "Outfit", sans-serif; font-size: 26px; font-weight: 700; line-height: 1.2;
+  color: var(--text-inverse); opacity: 0.5; white-space: nowrap;
+  transition: opacity 0.24s var(--ease-out);
+}
+.menu-bar:hover span, .menu-bar:focus-visible span { opacity: 1; }
+#menu-shop   { top: 48px; background: var(--text-primary); }
+#menu-stitch { top: 96px; background: var(--text-secondary); }
+.menu-bar:focus-visible { outline: 3px solid var(--text-inverse); outline-offset: -6px; }
+
+/* ---------- 바늘 커서 ---------- */
+
+.needle {
+  position: fixed; left: 0; top: 0;
+  width: 24.7px; height: 43.37px;
+  pointer-events: none; z-index: 50;
+  opacity: 0; transition: opacity 0.2s linear;
+  will-change: transform;
+}
+.needle.is-on { opacity: 1; }
+.needle svg { display: block; width: 100%; height: 100%; }
+/* 민트 배경 위라 기본 색(#33251A)으로는 묻힌다 — 오트밀로 칠한다 */
+.needle svg path { fill: var(--icon-inverse); }
+.needle .nd-default, .needle .nd-selected {
+  position: absolute; inset: 0; transition: opacity 0.12s linear;
+}
+.needle .nd-selected { opacity: 0; }
+.needle.is-selected .nd-default { opacity: 0; }
+.needle.is-selected .nd-selected { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .card3d-in, .menu-bar span { transition-duration: 0.01ms !important; }
+}

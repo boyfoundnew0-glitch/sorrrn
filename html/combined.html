@@ -201,7 +201,7 @@
     <iframe class="pane" id="splash-pane" title="sorrrn splash"></iframe>
     <div class="page" id="p-shop"><iframe id="shop-pane" title="sorrrn shop"></iframe></div>
     <div class="page" id="p-stitch"></div>
-    <div class="page" id="p-about"></div>
+    <div class="page" id="p-about"><iframe id="about-pane" title="sorrrn about"></iframe></div>
     <div class="intro-veil" id="intro-veil" aria-hidden="true">
       <p class="scrollit" id="intro-scrollit"><span class="tri"><svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="32" height="26.7907" viewBox="0 0 32 26.7907" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.1418 1.02663L31.6921 23.5721C32.5437 24.9859 31.5278 26.7907 29.8844 26.7907H16.379H2.11158C0.453276 26.7907 -0.562624 24.9407 0.333755 23.5269L14.5713 0.981508C15.4079 -0.342041 17.3351 -0.327 18.1568 1.02663H18.1418Z" fill="var(--accent-lavender)"/></svg></span><span><span class="ch">s</span><span class="ch">c</span><span class="ch">r</span><span class="ch">o</span><span class="ch">l</span><span class="ch">l</span><span class="ch sp"> </span><span class="ch">i</span><span class="ch">t</span><span class="ch">!</span></span><span class="tri"><svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="32" height="26.7907" viewBox="0 0 32 26.7907" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.1418 1.02663L31.6921 23.5721C32.5437 24.9859 31.5278 26.7907 29.8844 26.7907H16.379H2.11158C0.453276 26.7907 -0.562624 24.9407 0.333755 23.5269L14.5713 0.981508C15.4079 -0.342041 17.3351 -0.327 18.1568 1.02663H18.1418Z" fill="var(--accent-lavender)"/></svg></span></p>
     </div>
@@ -2109,6 +2109,297 @@ body {
   };
 })();
 <\/script></body></html>`;
+
+var ABOUT_DOC = `<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"><style>html,body{height:100%;margin:0}
+/* ============================================================
+   sorrrn — frame design-about sorrrn
+   -about sorrrn-start  211:26980   1440 x 810  (스크롤 페이지 맨 처음)
+   -about sorrrn-end   1075:2372    1440 x 810  (스크롤 페이지 맨 끝)
+   이미지 띠: x 386.07 / w 938.96 / 1장 h 528.16 / 간격 0 / 32장
+   문서 높이 = 137.84 + 32 x 528.16 + (810 - 137.83) = 17711.13
+   캔버스 폭 1440 기준, 뷰포트 폭에 맞춰 scale (CLAUDE.md 레이아웃 원칙 4)
+   MENU 는 position: fixed (원칙 5)
+   ============================================================ */
+
+:root {
+  --bg-base: #FFFCF6;
+  --bg-dark: #33251A;
+
+  --text-primary: #33251A;
+  --text-secondary: #6F6258;
+  --text-inverse: #FFFCF6;
+
+  --border-strong: #B6ABA3;
+
+  --accent-mint: #A1DFB2;
+  --accent-lavender: #A285C2;
+  --accent-tangerine: #FF5424;
+
+  /* 민트 배경 위에서는 바늘 커서를 오트밀로 — 팔레트/Oatmeal(배경/Base) 과 같은 값 */
+  --icon-inverse: var(--bg-base);
+
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+* { box-sizing: border-box; }
+html { background: var(--accent-mint); }
+body {
+  margin: 0; background: var(--accent-mint); color: var(--text-inverse);
+  font-family: "Outfit", "Noto Sans KR", system-ui, sans-serif;
+  overflow-x: hidden; cursor: none;
+}
+body.no-needle { cursor: auto; }
+
+/* ---------- 1440 스테이지 ---------- */
+
+.doc { position: relative; width: 100%; overflow: hidden; }
+.stage {
+  position: absolute; left: 0; top: 0;
+  width: 1440px;
+  transform-origin: top left;
+  transform: scale(var(--fit, 1));
+}
+.stage > * { position: absolute; }
+
+/* ---------- 텍스트 (피그마 텍스트 스타일 그대로) ---------- */
+
+.t-h1 {
+  margin: 0;
+  font-family: "Outfit", sans-serif; font-weight: 700; font-size: 38px;
+  line-height: 1.15; letter-spacing: -0.38px;
+  color: var(--text-inverse); white-space: nowrap;
+}
+.t-kr {
+  margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1.8; letter-spacing: -0.28px;
+  color: var(--text-inverse); white-space: nowrap;
+}
+.t-en {
+  margin: 0;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 15px;
+  line-height: 1.6; color: var(--text-inverse); white-space: nowrap;
+}
+/* 본문 안에 섞여 들어간 영문/Label (sewing story) */
+.t-kr .lb {
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 12px;
+  line-height: 1.2; letter-spacing: 0.36px;
+}
+
+/* ---------- 이미지 띠 — 32장을 간격 0 으로 잇는다 ----------
+   flex 세로 배치라 브라우저가 각 칸을 맞붙여 깔아 겹침·틈이 생기지 않는다. */
+
+.strip {
+  left: 386.07px; top: 137.84px;
+  width: 938.96px;
+  display: flex; flex-direction: column; gap: 0;
+  background: var(--accent-mint);
+}
+.strip img {
+  display: block; width: 938.96px; height: 528.16px;
+  object-fit: cover; flex: none;
+}
+
+/* ---------- 명함 — 호버하면 뒤로 180도 돌아간다 ---------- */
+
+.card3d {
+  left: 608.07px; top: 17266.97px;
+  width: 425.6px; height: 236.4px;
+  perspective: 1200px;
+}
+.card3d-in {
+  position: relative; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s var(--ease-out);
+}
+.card3d:hover .card3d-in,
+.card3d:focus-visible .card3d-in { transform: rotateY(180deg); }
+.card3d-in > img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+}
+.card3d-in > .back { transform: rotateY(180deg); }
+
+/* ---------- MENU (화면 하단 고정) ----------
+   about 이 열린 상태이므로 남는 바는 shop · explore your stitch 두 개 */
+
+.menu {
+  position: fixed; left: 0; bottom: 0; z-index: 40;
+  width: 1440px; height: 144px;
+  transform-origin: bottom left; transform: scale(var(--fit, 1));
+  pointer-events: none;
+}
+.menu > * { pointer-events: auto; }
+.menu-bar {
+  position: absolute; left: 0; width: 1440px; height: 48px;
+  display: block; text-decoration: none;
+}
+.menu-bar span {
+  position: absolute; right: 52.97px; top: 7px;
+  font-family: "Outfit", sans-serif; font-size: 26px; font-weight: 700; line-height: 1.2;
+  color: var(--text-inverse); opacity: 0.5; white-space: nowrap;
+  transition: opacity 0.24s var(--ease-out);
+}
+.menu-bar:hover span, .menu-bar:focus-visible span { opacity: 1; }
+#menu-shop   { top: 48px; background: var(--text-primary); }
+#menu-stitch { top: 96px; background: var(--text-secondary); }
+.menu-bar:focus-visible { outline: 3px solid var(--text-inverse); outline-offset: -6px; }
+
+/* ---------- 바늘 커서 ---------- */
+
+.needle {
+  position: fixed; left: 0; top: 0;
+  width: 24.7px; height: 43.37px;
+  pointer-events: none; z-index: 50;
+  opacity: 0; transition: opacity 0.2s linear;
+  will-change: transform;
+}
+.needle.is-on { opacity: 1; }
+.needle svg { display: block; width: 100%; height: 100%; }
+/* 민트 배경 위라 기본 색(#33251A)으로는 묻힌다 — 오트밀로 칠한다 */
+.needle svg path { fill: var(--icon-inverse); }
+.needle .nd-default, .needle .nd-selected {
+  position: absolute; inset: 0; transition: opacity 0.12s linear;
+}
+.needle .nd-selected { opacity: 0; }
+.needle.is-selected .nd-default { opacity: 0; }
+.needle.is-selected .nd-selected { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .card3d-in, .menu-bar span { transition-duration: 0.01ms !important; }
+}</style></head><body>
+<div class="doc" id="doc" data-h="17711.13">
+  <div class="stage" id="stage">
+
+    <!-- -about sorrrn-start -->
+    <h1 class="t-h1" style="left:76.04px;top:137.84px">about sorrrn</h1>
+    <p class="t-kr" style="left:76.04px;top:193.84px">가장 익숙하면서도 어쩌면 가장 낯설<br>소르른의 소잉 스토리<span class="lb">sewing story</span>를<br>소개합니다.</p>
+
+    <!-- 이미지 배치 영역 — 32장, 간격 0 -->
+    <div class="strip">
+      <img src="../assets/about/01.webp" alt="" draggable="false">
+      <img src="../assets/about/02.webp" alt="" draggable="false">
+      <img src="../assets/about/03.webp" alt="" draggable="false">
+      <img src="../assets/about/04.webp" alt="" draggable="false">
+      <img src="../assets/about/05.webp" alt="" draggable="false">
+      <img src="../assets/about/06.webp" alt="" draggable="false">
+      <img src="../assets/about/07.webp" alt="" draggable="false">
+      <img src="../assets/about/08.webp" alt="" draggable="false">
+      <img src="../assets/about/09.webp" alt="" draggable="false">
+      <img src="../assets/about/10.webp" alt="" draggable="false">
+      <img src="../assets/about/11.webp" alt="" draggable="false">
+      <img src="../assets/about/12.webp" alt="" draggable="false">
+      <img src="../assets/about/13.webp" alt="" draggable="false">
+      <img src="../assets/about/14.webp" alt="" draggable="false">
+      <img src="../assets/about/15.webp" alt="" draggable="false">
+      <img src="../assets/about/16.webp" alt="" draggable="false">
+      <img src="../assets/about/17.webp" alt="" draggable="false">
+      <img src="../assets/about/18.webp" alt="" draggable="false">
+      <img src="../assets/about/19.webp" alt="" draggable="false">
+      <img src="../assets/about/20.webp" alt="" draggable="false">
+      <img src="../assets/about/21.webp" alt="" draggable="false">
+      <img src="../assets/about/22.webp" alt="" draggable="false">
+      <img src="../assets/about/23.webp" alt="" draggable="false">
+      <img src="../assets/about/24.webp" alt="" draggable="false">
+      <img src="../assets/about/25.webp" alt="" draggable="false">
+      <img src="../assets/about/26.webp" alt="" draggable="false">
+      <img src="../assets/about/27.webp" alt="" draggable="false">
+      <img src="../assets/about/28.webp" alt="" draggable="false">
+      <img src="../assets/about/29.webp" alt="" draggable="false">
+      <img src="../assets/about/30.webp" alt="" draggable="false">
+      <img src="../assets/about/31.webp" alt="" draggable="false">
+      <img src="../assets/about/32.webp" alt="" draggable="false">
+    </div>
+
+    <!-- -about sorrrn-end -->
+    <p class="t-h1" style="left:76.04px;top:17158.97px">made by . . .</p>
+    <p class="t-kr" style="left:76.04px;top:17254.97px">평범한 사람이 만드는 평범한 삶 속<br>반짝이는 순간들</p>
+    <p class="t-kr" style="left:386.07px;top:17254.97px">김수경</p>
+    <p class="t-en" style="left:452.17px;top:17254.97px">kim sukyung</p>
+    <p class="t-en" style="left:386.07px;top:17300.10px">@soosoosus</p>
+    <p class="t-en" style="left:386.07px;top:17325.10px">soooodstu@gmail.com</p>
+
+    <div class="card3d" tabindex="0" aria-label="소르른 명함 — 호버하면 뒷면">
+      <div class="card3d-in">
+        <img class="front" src="../assets/about/card-front.webp" alt="소르른 명함 앞면" draggable="false">
+        <img class="back"  src="../assets/about/card-back.webp"  alt="소르른 명함 뒷면" draggable="false">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<nav class="menu" id="menu" aria-label="주요 메뉴">
+  <a class="menu-bar" id="menu-shop"   href="#"><span>shop</span></a>
+  <a class="menu-bar" id="menu-stitch" href="#"><span>explore your stitch</span></a>
+</nav>
+
+<div class="needle" id="needle" aria-hidden="true"><span class="nd-default"><svg width="36" height="62" viewBox="0 0 36 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M21.7953 0.351735C26.6718 2.03498 26.441 7.691 24.5764 11.5285L1.15682 61.6064C0.848577 62.2655 -0.147208 61.9205 0.018458 61.212L12.6627 7.13627C13.3756 3.12115 17.0421 -1.28886 21.7953 0.351735ZM20.5358 6.70497C20.6823 6.28389 20.4597 5.82363 20.0386 5.67703C19.6175 5.53054 19.1573 5.75319 19.0107 6.17425L17.2082 11.3531C17.0618 11.7742 17.2844 12.2345 17.7054 12.381C18.1265 12.5275 18.5868 12.3049 18.7334 11.8838L20.5358 6.70497Z" fill="#33251A"/>
+<path d="M29.7944 13.2321C29.4729 12.8582 29.1783 12.8212 28.8166 13.0873C28.7195 13.1445 25.8532 15.5563 25.8532 15.5563C25.582 15.8022 25.5384 16.2468 25.7829 16.5196C29.0376 20.0531 30.0556 22.832 30.0556 25.941C30.0556 30.3131 26.8711 33.7085 25.7695 34.9413C25.5418 35.2108 25.5585 35.6082 25.803 35.8777L28.8133 38.3299C29.0912 38.5926 29.5265 38.5993 29.791 38.3231C31.2476 36.7535 35.2793 32.0782 35.2793 25.941C35.2826 18.9145 29.9953 13.4679 29.7944 13.2321Z" fill="#33251A"/>
+<path d="M19.8556 57.5515C20.177 57.9254 20.4717 57.9624 20.8333 57.6963C20.9305 57.6391 23.7968 55.2273 23.7968 55.2273C24.068 54.9814 24.1115 54.5368 23.8671 54.264C20.6123 50.7305 19.5944 47.9516 19.5944 44.8426C19.5944 40.4704 22.7788 37.0751 23.8805 35.8423C24.1082 35.5728 24.0914 35.1754 23.847 34.9059L20.8367 32.4537C20.5588 32.191 20.1235 32.1842 19.8589 32.4604C18.4023 34.0301 14.3707 38.7054 14.3707 44.8426C14.3707 51.869 19.658 57.3123 19.8589 57.5515H19.8556Z" fill="#33251A"/>
+</svg></span><span class="nd-selected"><svg width="36" height="62" viewBox="0 0 36 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M21.7953 0.351735C26.6718 2.03498 26.441 7.691 24.5764 11.5285L1.15682 61.6064C0.848577 62.2655 -0.147208 61.9205 0.018458 61.212L12.6627 7.13627C13.3756 3.12115 17.0421 -1.28886 21.7953 0.351735ZM20.5358 6.70497C20.6823 6.28389 20.4597 5.82363 20.0386 5.67703C19.6175 5.53054 19.1573 5.75319 19.0107 6.17425L17.2082 11.3531C17.0618 11.7742 17.2844 12.2345 17.7054 12.381C18.1265 12.5275 18.5868 12.3049 18.7334 11.8838L20.5358 6.70497Z" fill="#8E8278"/>
+<path d="M29.7944 13.2321C29.4729 12.8582 29.1783 12.8212 28.8166 13.0873C28.7195 13.1445 25.8532 15.5563 25.8532 15.5563C25.582 15.8022 25.5384 16.2468 25.7829 16.5196C29.0376 20.0531 30.0556 22.832 30.0556 25.941C30.0556 30.3131 26.8711 33.7085 25.7695 34.9413C25.5418 35.2108 25.5585 35.6082 25.803 35.8777L28.8133 38.3299C29.0912 38.5926 29.5265 38.5993 29.791 38.3231C31.2476 36.7535 35.2793 32.0782 35.2793 25.941C35.2826 18.9145 29.9953 13.4679 29.7944 13.2321Z" fill="#8E8278"/>
+<path d="M19.8556 57.5515C20.177 57.9254 20.4717 57.9624 20.8333 57.6963C20.9305 57.6391 23.7968 55.2273 23.7968 55.2273C24.068 54.9814 24.1115 54.5368 23.8671 54.264C20.6123 50.7305 19.5944 47.9516 19.5944 44.8426C19.5944 40.4704 22.7788 37.0751 23.8805 35.8423C24.1082 35.5728 24.0914 35.1754 23.847 34.9059L20.8367 32.4537C20.5588 32.191 20.1235 32.1842 19.8589 32.4604C18.4023 34.0301 14.3707 38.7054 14.3707 44.8426C14.3707 51.869 19.658 57.3123 19.8589 57.5515H19.8556Z" fill="#8E8278"/>
+</svg></span></div>
+<script>/* ============================================================
+   sorrrn — about sorrrn
+   · 1440 기준 스테이지를 뷰포트 폭에 맞춰 scale (CLAUDE.md 원칙 4)
+   · MENU 는 화면 하단 고정 (원칙 5) — 같은 배율로 축소한다
+   · 바늘 커서는 splash/shop/상세 와 동일
+   ============================================================ */
+(function () {
+  "use strict";
+
+  var doc    = document.getElementById("doc");
+  var menu   = document.getElementById("menu");
+  var needle = document.getElementById("needle");
+  var H = parseFloat(doc.getAttribute("data-h")) || 17711.13;
+
+  /* ---------- 배율 ---------- */
+
+  function fit() {
+    var w = document.documentElement.clientWidth;
+    var s = w / 1440;
+    doc.style.setProperty("--fit", s);
+    if (menu) menu.style.setProperty("--fit", s);
+    doc.style.height = (H * s) + "px";
+  }
+  fit();
+  window.addEventListener("resize", fit);
+
+  /* ---------- 바늘 커서 ---------- */
+
+  if (needle) {
+    document.addEventListener("pointermove", function (e) {
+      needle.style.transform = "translate(" + e.clientX + "px," + e.clientY + "px)";
+      needle.classList.add("is-on");
+    });
+    document.addEventListener("pointerleave", function () { needle.classList.remove("is-on"); });
+    document.addEventListener("pointerdown", function () { needle.classList.add("is-selected"); });
+    document.addEventListener("pointerup", function () { needle.classList.remove("is-selected"); });
+    [].slice.call(document.querySelectorAll("a, button, .card3d")).forEach(function (el) {
+      el.addEventListener("pointerenter", function () { needle.classList.add("is-selected"); });
+      el.addEventListener("pointerleave", function () { needle.classList.remove("is-selected"); });
+    });
+
+    if (!needle.children.length) {
+      Promise.all([
+        fetch("../assets/svg/cursor-niddleicon.svg").then(function (r) { return r.ok ? r.text() : Promise.reject(); }),
+        fetch("../assets/svg/cursor-niddleicon-selected.svg").then(function (r) { return r.ok ? r.text() : Promise.reject(); })
+      ]).then(function (svgs) {
+        needle.innerHTML = '<span class="nd-default">' + svgs[0] + '</span>' +
+                           '<span class="nd-selected">' + svgs[1] + '</span>';
+      }).catch(function () {
+        document.body.classList.add("no-needle");
+        needle.remove();
+      });
+    }
+  }
+})();
+<\/script></body></html>`;
 (function () {
   "use strict";
 
@@ -2118,11 +2409,13 @@ body {
   var introLayer = document.getElementById("layer-intro");
   var splashPane = document.getElementById("splash-pane");
   var shopPane   = document.getElementById("shop-pane");
+  var aboutPane  = document.getElementById("about-pane");
   var closer     = document.getElementById("closer");
   var tip        = document.getElementById("tip");
 
   splashPane.srcdoc = SPLASH_DOC;
   shopPane.srcdoc   = SHOP_DOC;
+  aboutPane.srcdoc  = ABOUT_DOC;
 
   /* topbar: 페이지 자체가 가진 상단 띠 높이 — 손잡이와 색이 같아 하나로 읽힌다.
      열렸을 때 손잡이를 그만큼 내려 붙여 모든 섹션의 띠 높이를 48 로 맞춘다. */
