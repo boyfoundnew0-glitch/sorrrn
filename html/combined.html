@@ -2180,10 +2180,18 @@ body.no-needle { cursor: auto; }
   font-family: "Outfit", sans-serif; font-weight: 500; font-size: 15px;
   line-height: 1.6; color: var(--text-inverse); white-space: nowrap;
 }
-/* 본문 안에 섞여 들어간 영문/Label (sewing story) */
-.t-kr .lb {
-  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 12px;
-  line-height: 1.2; letter-spacing: 0.36px;
+.t-en.r { font-weight: 400; }        /* 프레임에서 Regular 로 쓴 곳 */
+/* 국문/Label — 프레임에서 행간만 170% 로 올려 쓴다 */
+.t-lb {
+  margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 10px;
+  line-height: 1.7; letter-spacing: -0.2px;
+  color: var(--text-inverse); white-space: nowrap;
+}
+/* 본문 안에 섞여 들어간 영문/Label (sewing story) — 프레임에서 11px */
+.t-lb .lb {
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 11px;
+  line-height: 1.2; letter-spacing: 0.33px;
 }
 
 /* ---------- 이미지 띠 — 32장을 간격 0 으로 잇는다 ----------
@@ -2274,7 +2282,7 @@ body.no-needle { cursor: auto; }
 
     <!-- -about sorrrn-start -->
     <h1 class="t-h1" style="left:76.04px;top:137.84px">about sorrrn</h1>
-    <p class="t-kr" style="left:76.04px;top:193.84px">가장 익숙하면서도 어쩌면 가장 낯설<br>소르른의 소잉 스토리<span class="lb">sewing story</span>를<br>소개합니다.</p>
+    <p class="t-lb" style="left:76.04px;top:197.84px">가장 익숙하면서도 어쩌면 가장 낯설 바느질.<br>소르른의 소잉 스토리<span class="lb">sewing story</span>로 바느질만이<br>품고 있는 이야기를 들어보세요.</p>
 
     <!-- 이미지 배치 영역 — 32장, 간격 0 -->
     <div class="strip">
@@ -2314,11 +2322,11 @@ body.no-needle { cursor: auto; }
 
     <!-- -about sorrrn-end -->
     <p class="t-h1" style="left:76.04px;top:17158.97px">made by . . .</p>
-    <p class="t-kr" style="left:76.04px;top:17214.97px">평범한 사람이 만드는 평범한 삶 속<br>반짝이는 순간들</p>
+    <p class="t-lb" style="left:76.04px;top:17218.97px">지극히 평범한 사람이 그려내는 지극히 평범한 삶 속<br>반짝이는 순간들</p>
     <p class="t-kr" style="left:386.07px;top:17214.97px">김수경</p>
     <p class="t-en" style="left:452.17px;top:17214.97px">kim sukyung</p>
-    <p class="t-en" style="left:386.07px;top:17260.10px">@soosoosus</p>
-    <p class="t-en" style="left:386.07px;top:17285.10px">soooodstu@gmail.com</p>
+    <p class="t-en r" style="left:386.07px;top:17255.97px">@soosoosus</p>
+    <p class="t-en r" style="left:386.07px;top:17280.97px">soooodstu@gmail.com</p>
 
     <div class="card3d" tabindex="0" aria-label="소르른 명함 — 호버하면 뒷면">
       <div class="card3d-in">

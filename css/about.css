@@ -69,10 +69,18 @@ body.no-needle { cursor: auto; }
   font-family: "Outfit", sans-serif; font-weight: 500; font-size: 15px;
   line-height: 1.6; color: var(--text-inverse); white-space: nowrap;
 }
-/* 본문 안에 섞여 들어간 영문/Label (sewing story) */
-.t-kr .lb {
-  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 12px;
-  line-height: 1.2; letter-spacing: 0.36px;
+.t-en.r { font-weight: 400; }        /* 프레임에서 Regular 로 쓴 곳 */
+/* 국문/Label — 프레임에서 행간만 170% 로 올려 쓴다 */
+.t-lb {
+  margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 10px;
+  line-height: 1.7; letter-spacing: -0.2px;
+  color: var(--text-inverse); white-space: nowrap;
+}
+/* 본문 안에 섞여 들어간 영문/Label (sewing story) — 프레임에서 11px */
+.t-lb .lb {
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 11px;
+  line-height: 1.2; letter-spacing: 0.33px;
 }
 
 /* ---------- 이미지 띠 — 32장을 간격 0 으로 잇는다 ----------
