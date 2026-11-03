@@ -223,6 +223,21 @@
     });
   });
 
+  /* nav 의 login / join us / 장바구니 — 셸 안에서는 셸을 통째로 이동시킨다 */
+  [].slice.call(document.querySelectorAll("[data-nav]")).forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      var page = a.getAttribute("href");
+      var w = (window.parent && window.parent !== window) ? window.parent : window;
+      try {
+        var base = (w.document && w.document.baseURI) || w.location.href;
+        w.location.href = new URL(page, base).href;
+      } catch (err) {
+        try { w.location.href = page; } catch (e2) { window.location.href = page; }
+      }
+    });
+  });
+
   [].slice.call(document.querySelectorAll(".card-close")).forEach(function (b) {
     b.addEventListener("click", function (e) { e.stopPropagation(); closeCard(); });
   });

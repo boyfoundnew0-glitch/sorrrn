@@ -1,0 +1,218 @@
+@charset "utf-8";
+
+/* ============================================================
+   sorrrn — -shop-etc-장바구니,구매,로그인,회원가입  (727:19359)
+   -shop-shoppingbag-default   662:2248   1440 x 1322.21
+   -account-login-default      684:735    1440 x 1417.60
+   -account-join-default       684:953    1440 x 1843.35
+   detail.css 뒤에 얹어 쓴다 — 토큰·nav·footer·MENU·바늘 커서는 detail.css 것
+   좌표·크기는 전부 피그마 측정값
+   ============================================================ */
+
+/* ---------- 텍스트 스타일 ---------- */
+
+.a-h1 {
+  margin: 0; position: absolute;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 700; font-size: 38px;
+  line-height: 1.15; color: var(--text-primary); white-space: nowrap;
+}
+.a-h3 {
+  margin: 0; position: absolute;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 18px;
+  line-height: 1.5; color: var(--text-primary); white-space: nowrap;
+}
+.a-h3e {
+  margin: 0; position: absolute;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 18px;
+  line-height: 1.3; color: var(--text-primary); white-space: nowrap;
+}
+.a-h2e {
+  margin: 0; position: absolute;
+  font-family: "Outfit", sans-serif; font-weight: 700; font-size: 26px;
+  line-height: 1.2; color: var(--text-primary); white-space: nowrap;
+}
+.a-body {
+  margin: 0; position: absolute;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 400; font-size: 14px;
+  line-height: 1.8; letter-spacing: -0.28px; color: var(--text-primary); white-space: pre;
+}
+.a-body2 {
+  margin: 0; position: absolute;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1.8; letter-spacing: -0.28px; color: var(--text-primary); white-space: nowrap;
+}
+.a-en {
+  margin: 0; position: absolute;
+  font-family: "Outfit", sans-serif; font-weight: 400; font-size: 15px;
+  line-height: 1.6; color: var(--text-primary); white-space: nowrap;
+}
+.a-lb {
+  margin: 0; position: absolute;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 10px;
+  line-height: 1.7; letter-spacing: -0.2px; color: var(--text-primary); white-space: pre;
+}
+.a-cap {
+  margin: 0; position: absolute;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 11px;
+  line-height: 1.5; letter-spacing: -0.22px; color: var(--text-muted); white-space: nowrap;
+}
+.a-elb {
+  margin: 0; position: absolute;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 11px;
+  line-height: 1.2; letter-spacing: 0.33px; color: var(--text-primary); white-space: nowrap;
+}
+.c-sec { color: var(--text-secondary); }
+.c-mut { color: var(--text-muted); }
+.c-inv { color: var(--text-inverse); }
+
+/* 오른쪽 끝을 맞추는 숫자 (금액) */
+.a-right { text-align: right; }
+
+/* ---------- 조각 ---------- */
+
+.a-dot { position: absolute; border-radius: 50%; }
+.a-dot.mint { background: var(--accent-mint); }
+.a-dot.lav  { background: var(--accent-lavender); }
+.a-dot.tan  { background: var(--accent-tangerine); }
+
+.a-stitch { position: absolute; display: block; }
+.a-stitch svg { display: block; width: 100%; height: 100%; }
+
+.a-count {
+  position: absolute; width: 32px; height: 32px; border-radius: 50px;
+  background: var(--accent-mint);
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 18px;
+  line-height: 1.3; color: var(--text-inverse);
+}
+
+/* 상품 이미지 */
+.a-thumb { position: absolute; display: block; object-fit: contain; }
+
+/* ---------- 인풋 (가이드 04) ---------- */
+
+.a-field {
+  position: absolute; height: 44px;
+  border: 1px solid var(--border-default); border-radius: 5px 50px 5px 5px;
+  background: transparent; display: block;
+}
+.a-field:focus-within { border-color: var(--border-focus); }
+.a-field .d {
+  position: absolute; left: 21px; top: 50%; transform: translateY(-50%);
+  width: 8px; height: 8px; border-radius: 50%; background: var(--input-dot);
+}
+.a-field input {
+  position: absolute; left: 39px; top: 0; right: 16px; height: 100%;
+  border: 0; background: none; padding: 0; margin: 0;
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 10px;
+  letter-spacing: -0.2px; color: var(--text-primary); cursor: none;
+}
+.a-field input::placeholder { color: var(--text-muted); }
+.a-field input:focus { outline: none; }
+
+/* ---------- 버튼 (가이드 04) ---------- */
+
+.a-solid {
+  position: absolute; border: 0; border-radius: 50px;
+  background: var(--bg-dark); color: var(--text-inverse);
+  display: block; text-decoration: none; cursor: none;
+  transition: background-color 200ms var(--ease-out), transform 200ms var(--ease-out);
+}
+.a-solid .t {
+  position: absolute; left: 24px; top: 50%; transform: translateY(-50%);
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1.8; letter-spacing: -0.28px; color: var(--text-inverse); white-space: nowrap;
+}
+.a-solid .ar {
+  position: absolute; right: 24px; top: 50%; transform: translateY(-50%);
+  width: 7.5px; height: 15px;
+}
+.a-solid .ar svg { display: block; width: 100%; height: 100%; overflow: visible; }
+/* 가이드 04: Hover 는 배경 opacity 0.85, Active 0.70 + scale 0.98 */
+.a-solid { transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out); }
+.a-solid:hover, .a-solid:focus-visible { opacity: 0.85; }
+.a-solid:active { opacity: 0.70; transform: scale(0.98); }
+
+.a-border {
+  position: absolute; border-radius: 50px;
+  border: 1.5px solid var(--border-default); background: var(--bg-base);
+  color: var(--text-primary); text-decoration: none; cursor: none;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 200ms var(--ease-out), color 200ms var(--ease-out), transform 200ms var(--ease-out);
+}
+.a-border.s14 {
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 14px;
+  line-height: 1.8; letter-spacing: -0.28px;
+}
+.a-border.s10 {
+  font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 10px;
+  line-height: 1.7; letter-spacing: -0.2px;
+}
+.a-border:hover, .a-border:focus-visible { border-color: var(--border-focus); color: var(--text-secondary); }
+.a-border:active { transform: scale(0.98); }
+
+/* 텍스트 버튼 — 호버하면 글자 아래 4px 에 mint 사각형 (가이드 04) */
+.a-tbtn {
+  position: absolute; text-decoration: none; cursor: none;
+  color: var(--text-primary);
+}
+.a-tbtn::after {
+  content: ""; position: absolute; left: 50%; bottom: -4px;
+  width: 140%; height: 1px; background: var(--accent-mint);
+  transform: translateX(-50%) scaleX(0); transform-origin: center;
+  transition: transform 200ms var(--ease-out);
+}
+.a-tbtn:hover::after, .a-tbtn:focus-visible::after { transform: translateX(-50%) scaleX(1); }
+.a-tbtn:active { opacity: 0.75; }
+
+/* ---------- 수량 조절 ---------- */
+
+.a-qty {
+  position: absolute; width: 112px; height: 40px;
+  border: 1px solid var(--border-default); border-radius: 50px;
+}
+.a-qty button {
+  position: absolute; top: 0; height: 100%; width: 36px;
+  border: 0; background: none; padding: 0; cursor: none;
+  font-family: "Outfit", sans-serif; font-weight: 400; font-size: 15px;
+  color: var(--text-primary);
+  transition: color 200ms var(--ease-out);
+}
+.a-qty .minus { left: 8px; color: var(--text-muted); }
+.a-qty .plus  { right: 8px; }
+.a-qty button:hover { color: var(--text-secondary); }
+.a-qty button:disabled { color: var(--text-muted); cursor: not-allowed; }
+.a-qty .v {
+  position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%);
+  text-align: center;
+  font-family: "Outfit", sans-serif; font-weight: 400; font-size: 15px;
+  color: var(--text-primary);
+}
+
+/* ---------- 체크박스 ---------- */
+
+.a-check { position: absolute; width: 16px; height: 16px; }
+.a-check input {
+  position: absolute; inset: 0; margin: 0; opacity: 0; cursor: none;
+}
+.a-check .bx {
+  position: absolute; inset: 0; border-radius: 3px 8px 3px 3px;
+  border: 1px solid var(--border-default);
+  transition: background-color 200ms var(--ease-out), border-color 200ms var(--ease-out);
+}
+.a-check input:checked + .bx { background: var(--accent-mint); border-color: var(--accent-mint); }
+.a-check input:focus-visible + .bx { outline: 2px solid var(--text-primary); outline-offset: 2px; }
+
+/* ---------- 장바구니 빈 상태 (피그마에 없는 상태 — 최소 표기) ---------- */
+
+.a-empty { position: absolute; left: 88px; }
+
+/* 아이템 수에 따라 통째로 내려가는 층 */
+.a-layer { position: absolute; left: 0; top: 0; width: 1440px; }
+.a-layer > * { position: absolute; }   /* .stage > * 규칙이 닿지 않는 깊이 */
+.nav-bag { display: block; cursor: none; }
+
+/* 가이드 04 Disabled — bg --bg-surface, text --text-muted, cursor not-allowed */
+.a-solid:disabled { background: var(--bg-surface); opacity: 1; transform: none; cursor: not-allowed; }
+.a-solid:disabled .t { color: var(--text-muted); }
+.a-solid:disabled .ar svg path { stroke: var(--text-muted); }
