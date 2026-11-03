@@ -382,7 +382,7 @@ body.no-needle { cursor: auto; }
 }
 .f-en  { font-family: "Outfit", sans-serif; font-weight: 500; font-size: 15px; line-height: 1.6; }
 .f-h   { font-family: "Outfit", sans-serif; font-weight: 500; font-size: 18px; line-height: 1.3; }
-.f-s   { font-family: "Outfit", sans-serif; font-weight: 500; font-size: 12px; line-height: 1.2; letter-spacing: 0.36px; }
+.f-s   { font-family: "Outfit", sans-serif; font-weight: 500; font-size: 11px; line-height: 1.2; letter-spacing: 0.33px; }
 .foot a { color: inherit; text-decoration: none; }
 .foot a:hover { opacity: 0.75; }
 .f-dot { width: 8px; height: 8px; border-radius: 50%; }
@@ -394,8 +394,8 @@ body.no-needle { cursor: auto; }
 }
 .f-mail .d { width: 8px; height: 8px; border-radius: 50%; background: var(--border-focus); flex: none; }
 .f-mail .en {
-  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 12px;
-  line-height: 1.2; letter-spacing: 0.36px; color: var(--text-muted); white-space: nowrap;
+  font-family: "Outfit", sans-serif; font-weight: 500; font-size: 11px;
+  line-height: 1.2; letter-spacing: 0.33px; color: var(--text-muted); white-space: nowrap;
 }
 .f-mail .kr {
   font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 10px;
