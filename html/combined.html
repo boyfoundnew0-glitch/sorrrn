@@ -22,9 +22,13 @@
   }
   * { box-sizing: border-box; }
   html, body { height: 100%; margin: 0; }
-  body { background: var(--bg-base); overflow: hidden; }
+  /* 프레임 비율과 화면 비율이 달라 남는 가장자리 — 열린 섹션의 배경색을 그대로 쓴다
+     (about sorrrn 은 민트 바탕이라 오트밀이 남으면 화면이 잘려 보인다) */
+  body { background: var(--shell-bg, var(--bg-base)); overflow: hidden; }
 
-  .shell { position: fixed; inset: 0; overflow: hidden; background: var(--bg-base); }
+  .shell { position: fixed; inset: 0; overflow: hidden;
+           background: var(--shell-bg, var(--bg-base));
+           transition: background-color 0.4s var(--ease-out); }
   /* 프레임 비율(1440:810)과 화면 비율이 다를 때 남는 영역.
      콘텐츠 좌표는 그대로 두고, 가장자리에 닿는 MENU 바만 이만큼 번지게 한다. */
   .shell { --bleed-x: 0px; }
@@ -45,6 +49,7 @@
   .page { position: absolute; left: 0; width: 1440px; height: 810px;
           background: var(--bg-base); overflow: hidden; will-change: transform; }
   .page iframe { width: 1440px; height: 810px; border: 0; display: block; }
+  #p-about { background: var(--accent-mint); }   /* 슬라이드 중에도 오트밀이 비치지 않게 */
   .drawer-open .page { pointer-events: auto; }
   .page:not(.is-open) { pointer-events: none; }
   .page:not(.is-active) { visibility: hidden; }
@@ -2281,6 +2286,8 @@ body.no-needle { cursor: auto; }
 .strip img {
   display: block; width: 938.96px; height: 528.16px;
   object-fit: cover; flex: none;
+  /* 아직 안 받은 칸은 민트로 — 전시장 회선에서 흰 칸이 번쩍이지 않게 */
+  background: var(--accent-mint);
 }
 
 /* ---------- 명함 — 호버하면 뒤로 180도 돌아간다 ---------- */
@@ -2361,38 +2368,38 @@ body.no-needle { cursor: auto; }
 
     <!-- 이미지 배치 영역 — 32장, 간격 0 -->
     <div class="strip">
-      <img src="../assets/about/01.webp" alt="" draggable="false">
-      <img src="../assets/about/02.webp" alt="" draggable="false">
-      <img src="../assets/about/03.webp" alt="" draggable="false">
-      <img src="../assets/about/04.webp" alt="" draggable="false">
-      <img src="../assets/about/05.webp" alt="" draggable="false">
-      <img src="../assets/about/06.webp" alt="" draggable="false">
-      <img src="../assets/about/07.webp" alt="" draggable="false">
-      <img src="../assets/about/08.webp" alt="" draggable="false">
-      <img src="../assets/about/09.webp" alt="" draggable="false">
-      <img src="../assets/about/10.webp" alt="" draggable="false">
-      <img src="../assets/about/11.webp" alt="" draggable="false">
-      <img src="../assets/about/12.webp" alt="" draggable="false">
-      <img src="../assets/about/13.webp" alt="" draggable="false">
-      <img src="../assets/about/14.webp" alt="" draggable="false">
-      <img src="../assets/about/15.webp" alt="" draggable="false">
-      <img src="../assets/about/16.webp" alt="" draggable="false">
-      <img src="../assets/about/17.webp" alt="" draggable="false">
-      <img src="../assets/about/18.webp" alt="" draggable="false">
-      <img src="../assets/about/19.webp" alt="" draggable="false">
-      <img src="../assets/about/20.webp" alt="" draggable="false">
-      <img src="../assets/about/21.webp" alt="" draggable="false">
-      <img src="../assets/about/22.webp" alt="" draggable="false">
-      <img src="../assets/about/23.webp" alt="" draggable="false">
-      <img src="../assets/about/24.webp" alt="" draggable="false">
-      <img src="../assets/about/25.webp" alt="" draggable="false">
-      <img src="../assets/about/26.webp" alt="" draggable="false">
-      <img src="../assets/about/27.webp" alt="" draggable="false">
-      <img src="../assets/about/28.webp" alt="" draggable="false">
-      <img src="../assets/about/29.webp" alt="" draggable="false">
-      <img src="../assets/about/30.webp" alt="" draggable="false">
-      <img src="../assets/about/31.webp" alt="" draggable="false">
-      <img src="../assets/about/32.webp" alt="" draggable="false">
+      <img src="../assets/about/01.webp" alt="" draggable="false" fetchpriority="high" decoding="async">
+      <img src="../assets/about/02.webp" alt="" draggable="false" decoding="async">
+      <img src="../assets/about/03.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/04.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/05.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/06.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/07.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/08.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/09.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/10.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/11.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/12.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/13.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/14.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/15.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/16.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/17.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/18.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/19.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/20.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/21.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/22.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/23.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/24.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/25.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/26.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/27.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/28.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/29.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/30.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/31.webp" alt="" draggable="false" loading="lazy" decoding="async">
+      <img src="../assets/about/32.webp" alt="" draggable="false" loading="lazy" decoding="async">
     </div>
 
     <!-- -about sorrrn-end -->
@@ -2572,7 +2579,12 @@ body.no-needle { cursor: auto; }
     relayoutHandles();
   }
 
+  /* 섹션마다 가장자리를 채울 색 — 그 페이지의 배경과 같아야 화면이 꽉 차 보인다 */
+  var SECTION_BG = { about: "var(--accent-mint)" };
+
   function refreshChrome() {
+    var bg = (opened && SECTION_BG[opened.key]) || "var(--bg-base)";
+    document.documentElement.style.setProperty("--shell-bg", bg);
     shell.classList.toggle("in-section", !!opened);
     closer.classList.toggle("is-on", !!opened);
     tip.classList.toggle("is-off", !!opened);

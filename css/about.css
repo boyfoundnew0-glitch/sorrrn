@@ -95,6 +95,8 @@ body.no-needle { cursor: auto; }
 .strip img {
   display: block; width: 938.96px; height: 528.16px;
   object-fit: cover; flex: none;
+  /* 아직 안 받은 칸은 민트로 — 전시장 회선에서 흰 칸이 번쩍이지 않게 */
+  background: var(--accent-mint);
 }
 
 /* ---------- 명함 — 호버하면 뒤로 180도 돌아간다 ---------- */
