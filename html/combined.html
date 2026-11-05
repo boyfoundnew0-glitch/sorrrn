@@ -49,7 +49,7 @@
   .page { position: absolute; left: 0; width: 1440px; height: 810px;
           background: var(--bg-base); overflow: hidden; will-change: transform; }
   .page iframe { width: 1440px; height: 810px; border: 0; display: block; }
-  #p-about { background: var(--accent-mint); }   /* 슬라이드 중에도 오트밀이 비치지 않게 */
+  #p-about { background: var(--bg-dark); }   /* 슬라이드 중에도 오트밀이 비치지 않게 */
   .drawer-open .page { pointer-events: auto; }
   .page:not(.is-open) { pointer-events: none; }
   .page:not(.is-active) { visibility: hidden; }
@@ -2280,8 +2280,8 @@ var ABOUT_DOC = `<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><lin
    sorrrn — frame design-about sorrrn
    -about sorrrn-start  211:26980   1440 x 810  (스크롤 페이지 맨 처음)
    -about sorrrn-end   1075:2372    1440 x 810  (스크롤 페이지 맨 끝)
-   이미지 띠: x 386.07 / w 938.96 / 1장 h 528.16 / 간격 0 / 32장
-   문서 높이 = 137.84 + 32 x 528.16 + (810 - 137.83) = 17711.13 + 120(하단 여백) = 17831.13
+   이미지 띠: x 367.1 / w 996.9 / 1장 h 560.7 / 간격 0 / 32장 (원본 2560x1440 webp)
+   문서 높이 = -about sorrrn-end 의 top(137.8 + 32 x 560.7 - 137.8 = 17942.4) + 810 = 18752.4
    캔버스 폭 1440 기준, 뷰포트 폭에 맞춰 scale (CLAUDE.md 레이아웃 원칙 4)
    MENU 는 position: fixed (원칙 5)
    ============================================================ */
@@ -2307,9 +2307,9 @@ var ABOUT_DOC = `<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><lin
 }
 
 * { box-sizing: border-box; }
-html { background: var(--accent-mint); }
+html { background: var(--bg-dark); }
 body {
-  margin: 0; background: var(--accent-mint); color: var(--text-primary);
+  margin: 0; background: var(--bg-dark); color: var(--text-inverse);
   font-family: "Outfit", "Noto Sans KR", system-ui, sans-serif;
   overflow-x: hidden; cursor: none;
 }
@@ -2327,24 +2327,25 @@ body.no-needle { cursor: auto; }
 .stage > * { position: absolute; }
 
 /* ---------- 텍스트 (피그마 텍스트 스타일 그대로) ----------
-   본문 텍스트는 민트 위 Brown Black → --text-primary (피그마 1075:2367 등) */
+   배경 Dark 위 — 제목·이름·연락처 Mint, 소개문 2곳은 Oatmeal(--text-inverse)
+   (피그마 1075:2367 · 1075:2368 · 1075:2383 · 1075:2396) */
 
 .t-h1 {
   margin: 0;
   font-family: "Outfit", sans-serif; font-weight: 700; font-size: 36px;
   line-height: 1.15; letter-spacing: -0.36px;
-  color: var(--text-primary); white-space: nowrap;
+  color: var(--accent-mint); white-space: nowrap;
 }
 .t-kr {
   margin: 0;
   font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 14px;
   line-height: 1.8; letter-spacing: -0.28px;
-  color: var(--text-primary); white-space: nowrap;
+  color: var(--accent-mint); white-space: nowrap;
 }
 .t-en {
   margin: 0;
   font-family: "Outfit", sans-serif; font-weight: 500; font-size: 15px;
-  line-height: 1.6; color: var(--text-primary); white-space: nowrap;
+  line-height: 1.6; color: var(--accent-mint); white-space: nowrap;
 }
 .t-en.r { font-weight: 400; }        /* 프레임에서 Regular 로 쓴 곳 */
 /* 국문/Label — 프레임에서 행간만 170% 로 올려 쓴다 */
@@ -2352,7 +2353,7 @@ body.no-needle { cursor: auto; }
   margin: 0;
   font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 10px;
   line-height: 1.7; letter-spacing: -0.2px;
-  color: var(--text-primary); white-space: nowrap;
+  color: var(--text-inverse); white-space: nowrap;
 }
 /* 본문 안에 섞여 들어간 영문/Label (sewing story) — 프레임에서 11px */
 .t-lb .lb {
@@ -2360,26 +2361,37 @@ body.no-needle { cursor: auto; }
   line-height: 1.2; letter-spacing: 0.33px;
 }
 
+/* ---------- 그래픽 (graphic1 · graphic2) ----------
+   스크롤로 그룹이 화면에 들어오면 원들이 저프레임(약 15fps)으로 천천히 제 크기가 된다.
+   상품 목록 페이지의 도형 모션과 같은 1.4s / 21 steps. 화면을 벗어나면 다시 접힌다. */
+.graphic { position: absolute; pointer-events: none; }
+.graphic > i {
+  position: absolute; display: block; border-radius: 50%;
+  transform: scale(0); transform-origin: center center;
+  transition: transform 1.4s steps(21, end);
+}
+.graphic.is-in > i { transform: scale(1); }
+
 /* ---------- 이미지 띠 — 32장을 간격 0 으로 잇는다 ----------
    flex 세로 배치라 브라우저가 각 칸을 맞붙여 깔아 겹침·틈이 생기지 않는다. */
 
 .strip {
-  left: 386.07px; top: 137.84px;
-  width: 938.96px;
+  left: 367.10px; top: 137.84px;          /* 좌우 여백 = 텍스트와 동일 기준 (우측 76) */
+  width: 996.90px;
   display: flex; flex-direction: column; gap: 0;
-  background: var(--accent-mint);
+  background: var(--bg-dark);
 }
 .strip img {
-  display: block; width: 938.96px; height: 528.16px;
+  display: block; width: 996.90px; height: 560.70px;
   object-fit: cover; flex: none;
-  /* 아직 안 받은 칸은 민트로 — 전시장 회선에서 흰 칸이 번쩍이지 않게 */
-  background: var(--accent-mint);
+  /* 아직 안 받은 칸은 배경색으로 — 전시장 회선에서 흰 칸이 번쩍이지 않게 */
+  background: var(--bg-dark);
 }
 
 /* ---------- 명함 — 호버하면 뒤로 180도 돌아간다 ---------- */
 
 .card3d {
-  left: 608.07px; top: 17226.97px;
+  left: 589.10px; top: 18248.20px;
   width: 425.6px; height: 236.4px;
   cursor: none;
 }
@@ -2441,7 +2453,7 @@ body.no-needle { cursor: auto; }
 }
 .needle.is-on { opacity: 1; }
 .needle svg { display: block; width: 100%; height: 100%; }
-/* 민트 배경 위라 기본 색(#33251A)으로는 묻힌다 — 오트밀로 칠한다 */
+/* 다크 배경 위라 기본 색(#33251A)으로는 묻힌다 — 오트밀로 칠한다 */
 .needle svg path { fill: var(--icon-inverse); }
 .needle .nd-default, .needle .nd-selected {
   position: absolute; inset: 0; transition: opacity 0.12s linear;
@@ -2451,14 +2463,21 @@ body.no-needle { cursor: auto; }
 .needle.is-selected .nd-selected { opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
-  .card3d-in, .menu-bar span { transition-duration: 0.01ms !important; }
+  .card3d-in, .menu-bar span, .graphic > i { transition-duration: 0.01ms !important; }
 }</style></head><body>
-<div class="doc" id="doc" data-h="17831.13">
+<div class="doc" id="doc" data-h="18752.40">
   <div class="stage" id="stage">
 
     <!-- -about sorrrn-start -->
     <h1 class="t-h1" style="left:76.04px;top:137.84px">about sorrrn</h1>
     <p class="t-lb" style="left:76.04px;top:197.84px">가장 익숙하면서도 어쩌면 가장 낯설 바느질.<br>소르른의 소잉 스토리<span class="lb">sewing story</span>로 바느질만이<br>품고 있는 이야기를 들어보세요.</p>
+
+    <!-- graphic1 — 스크롤로 닿으면 저프레임으로 천천히 제 크기가 된다 (피그마 1090:2463) -->
+    <div class="graphic" aria-hidden="true" style="left:41.88px;top:327.29px;width:408px;height:208px">
+      <i style="left:236.65px;top:37.09px;width:153.32px;height:153.32px;background:var(--accent-lavender)"></i>
+      <i style="left:3.45px;top:94.30px;width:30.66px;height:30.66px;background:var(--accent-tangerine)"></i>
+      <i style="left:131.75px;top:5.16px;width:46px;height:46px;background:var(--accent-mint)"></i>
+    </div>
 
     <!-- 이미지 배치 영역 — 32장, 간격 0 -->
     <div class="strip">
@@ -2497,12 +2516,19 @@ body.no-needle { cursor: auto; }
     </div>
 
     <!-- -about sorrrn-end -->
-    <p class="t-h1" style="left:76.04px;top:17158.97px">made by . . .</p>
-    <p class="t-lb" style="left:76.04px;top:17218.97px">지극히 평범한 사람이 그려내는 지극히 평범한 삶 속<br>반짝이는 순간들</p>
-    <p class="t-kr" style="left:386.07px;top:17214.97px">김수경</p>
-    <p class="t-en" style="left:452.17px;top:17214.97px">kim sukyung</p>
-    <p class="t-en r" style="left:386.07px;top:17255.97px">@soosoosus</p>
-    <p class="t-en r" style="left:386.07px;top:17280.97px">soooodstu@gmail.com</p>
+    <p class="t-h1" style="left:76.04px;top:18180.20px">made by . . .</p>
+    <p class="t-lb" style="left:76.04px;top:18240.20px">지극히 평범한 사람이 그려내는 지극히 평범한 삶 속<br>반짝이는 순간들</p>
+    <p class="t-kr" style="left:367.10px;top:18236.20px">김수경</p>
+    <p class="t-en" style="left:433.20px;top:18236.20px">kim sukyung</p>
+    <p class="t-en r" style="left:367.10px;top:18277.20px">@soosoosus</p>
+    <p class="t-en r" style="left:367.10px;top:18302.20px">soooodstu@gmail.com</p>
+
+    <!-- graphic2 (피그마 1090:2462) — 명함보다 아래 레이어 -->
+    <div class="graphic" aria-hidden="true" style="left:938.04px;top:18324.40px;width:426px;height:237px">
+      <i style="left:0px;top:83.57px;width:153.32px;height:153.32px;background:var(--accent-lavender)"></i>
+      <i style="left:395.25px;top:51.16px;width:30.66px;height:30.66px;background:var(--accent-tangerine)"></i>
+      <i style="left:235.17px;top:0px;width:46px;height:46px;background:var(--accent-mint)"></i>
+    </div>
 
     <div class="card3d" tabindex="0" aria-label="소르른 명함 — 호버하면 뒷면">
       <div class="card3d-in">
@@ -2553,6 +2579,24 @@ body.no-needle { cursor: auto; }
   }
   fit();
   window.addEventListener("resize", fit);
+
+  /* ---------- graphic1 · graphic2 ----------
+     그룹이 화면에 들어오면 .is-in — 원들이 저프레임으로 천천히 제 크기가 된다.
+     (상세 페이지 ROUND 와 같은 방식: 이벤트 + 낮은 빈도 폴링으로 어디서나 동작) */
+  var graphics = [].slice.call(document.querySelectorAll(".graphic"));
+  if (graphics.length) {
+    function syncGraphic() {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      graphics.forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        el.classList.toggle("is-in", r.bottom > 0 && r.top < vh);
+      });
+    }
+    document.addEventListener("scroll", syncGraphic, { passive: true, capture: true });
+    window.addEventListener("resize", syncGraphic);
+    setInterval(syncGraphic, 250);
+    syncGraphic();
+  }
 
   /* ---------- 명함 플립 ----------
      포인터가 올라가면 뒷면, 벗어나면 앞면. 클릭(터치)하면 뒤집기를 토글한다.
@@ -2698,7 +2742,7 @@ body.no-needle { cursor: auto; }
   }
 
   /* 섹션마다 가장자리를 채울 색 — 그 페이지의 배경과 같아야 화면이 꽉 차 보인다 */
-  var SECTION_BG = { about: "var(--accent-mint)" };
+  var SECTION_BG = { about: "var(--bg-dark)" };
 
   function refreshChrome() {
     var bg = (opened && SECTION_BG[opened.key]) || "var(--bg-base)";

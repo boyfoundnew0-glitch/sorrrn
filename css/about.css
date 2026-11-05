@@ -4,8 +4,8 @@
    sorrrn — frame design-about sorrrn
    -about sorrrn-start  211:26980   1440 x 810  (스크롤 페이지 맨 처음)
    -about sorrrn-end   1075:2372    1440 x 810  (스크롤 페이지 맨 끝)
-   이미지 띠: x 386.07 / w 938.96 / 1장 h 528.16 / 간격 0 / 32장
-   문서 높이 = 137.84 + 32 x 528.16 + (810 - 137.83) = 17711.13 + 120(하단 여백) = 17831.13
+   이미지 띠: x 367.1 / w 996.9 / 1장 h 560.7 / 간격 0 / 32장 (원본 2560x1440 webp)
+   문서 높이 = -about sorrrn-end 의 top(137.8 + 32 x 560.7 - 137.8 = 17942.4) + 810 = 18752.4
    캔버스 폭 1440 기준, 뷰포트 폭에 맞춰 scale (CLAUDE.md 레이아웃 원칙 4)
    MENU 는 position: fixed (원칙 5)
    ============================================================ */
@@ -31,9 +31,9 @@
 }
 
 * { box-sizing: border-box; }
-html { background: var(--accent-mint); }
+html { background: var(--bg-dark); }
 body {
-  margin: 0; background: var(--accent-mint); color: var(--text-primary);
+  margin: 0; background: var(--bg-dark); color: var(--text-inverse);
   font-family: "Outfit", "Noto Sans KR", system-ui, sans-serif;
   overflow-x: hidden; cursor: none;
 }
@@ -51,24 +51,25 @@ body.no-needle { cursor: auto; }
 .stage > * { position: absolute; }
 
 /* ---------- 텍스트 (피그마 텍스트 스타일 그대로) ----------
-   본문 텍스트는 민트 위 Brown Black → --text-primary (피그마 1075:2367 등) */
+   배경 Dark 위 — 제목·이름·연락처 Mint, 소개문 2곳은 Oatmeal(--text-inverse)
+   (피그마 1075:2367 · 1075:2368 · 1075:2383 · 1075:2396) */
 
 .t-h1 {
   margin: 0;
   font-family: "Outfit", sans-serif; font-weight: 700; font-size: 36px;
   line-height: 1.15; letter-spacing: -0.36px;
-  color: var(--text-primary); white-space: nowrap;
+  color: var(--accent-mint); white-space: nowrap;
 }
 .t-kr {
   margin: 0;
   font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 14px;
   line-height: 1.8; letter-spacing: -0.28px;
-  color: var(--text-primary); white-space: nowrap;
+  color: var(--accent-mint); white-space: nowrap;
 }
 .t-en {
   margin: 0;
   font-family: "Outfit", sans-serif; font-weight: 500; font-size: 15px;
-  line-height: 1.6; color: var(--text-primary); white-space: nowrap;
+  line-height: 1.6; color: var(--accent-mint); white-space: nowrap;
 }
 .t-en.r { font-weight: 400; }        /* 프레임에서 Regular 로 쓴 곳 */
 /* 국문/Label — 프레임에서 행간만 170% 로 올려 쓴다 */
@@ -76,7 +77,7 @@ body.no-needle { cursor: auto; }
   margin: 0;
   font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 10px;
   line-height: 1.7; letter-spacing: -0.2px;
-  color: var(--text-primary); white-space: nowrap;
+  color: var(--text-inverse); white-space: nowrap;
 }
 /* 본문 안에 섞여 들어간 영문/Label (sewing story) — 프레임에서 11px */
 .t-lb .lb {
@@ -84,26 +85,37 @@ body.no-needle { cursor: auto; }
   line-height: 1.2; letter-spacing: 0.33px;
 }
 
+/* ---------- 그래픽 (graphic1 · graphic2) ----------
+   스크롤로 그룹이 화면에 들어오면 원들이 저프레임(약 15fps)으로 천천히 제 크기가 된다.
+   상품 목록 페이지의 도형 모션과 같은 1.4s / 21 steps. 화면을 벗어나면 다시 접힌다. */
+.graphic { position: absolute; pointer-events: none; }
+.graphic > i {
+  position: absolute; display: block; border-radius: 50%;
+  transform: scale(0); transform-origin: center center;
+  transition: transform 1.4s steps(21, end);
+}
+.graphic.is-in > i { transform: scale(1); }
+
 /* ---------- 이미지 띠 — 32장을 간격 0 으로 잇는다 ----------
    flex 세로 배치라 브라우저가 각 칸을 맞붙여 깔아 겹침·틈이 생기지 않는다. */
 
 .strip {
-  left: 386.07px; top: 137.84px;
-  width: 938.96px;
+  left: 367.10px; top: 137.84px;          /* 좌우 여백 = 텍스트와 동일 기준 (우측 76) */
+  width: 996.90px;
   display: flex; flex-direction: column; gap: 0;
-  background: var(--accent-mint);
+  background: var(--bg-dark);
 }
 .strip img {
-  display: block; width: 938.96px; height: 528.16px;
+  display: block; width: 996.90px; height: 560.70px;
   object-fit: cover; flex: none;
-  /* 아직 안 받은 칸은 민트로 — 전시장 회선에서 흰 칸이 번쩍이지 않게 */
-  background: var(--accent-mint);
+  /* 아직 안 받은 칸은 배경색으로 — 전시장 회선에서 흰 칸이 번쩍이지 않게 */
+  background: var(--bg-dark);
 }
 
 /* ---------- 명함 — 호버하면 뒤로 180도 돌아간다 ---------- */
 
 .card3d {
-  left: 608.07px; top: 17226.97px;
+  left: 589.10px; top: 18248.20px;
   width: 425.6px; height: 236.4px;
   cursor: none;
 }
@@ -165,7 +177,7 @@ body.no-needle { cursor: auto; }
 }
 .needle.is-on { opacity: 1; }
 .needle svg { display: block; width: 100%; height: 100%; }
-/* 민트 배경 위라 기본 색(#33251A)으로는 묻힌다 — 오트밀로 칠한다 */
+/* 다크 배경 위라 기본 색(#33251A)으로는 묻힌다 — 오트밀로 칠한다 */
 .needle svg path { fill: var(--icon-inverse); }
 .needle .nd-default, .needle .nd-selected {
   position: absolute; inset: 0; transition: opacity 0.12s linear;
@@ -175,5 +187,5 @@ body.no-needle { cursor: auto; }
 .needle.is-selected .nd-selected { opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
-  .card3d-in, .menu-bar span { transition-duration: 0.01ms !important; }
+  .card3d-in, .menu-bar span, .graphic > i { transition-duration: 0.01ms !important; }
 }

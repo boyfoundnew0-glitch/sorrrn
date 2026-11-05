@@ -24,6 +24,24 @@
   fit();
   window.addEventListener("resize", fit);
 
+  /* ---------- graphic1 · graphic2 ----------
+     그룹이 화면에 들어오면 .is-in — 원들이 저프레임으로 천천히 제 크기가 된다.
+     (상세 페이지 ROUND 와 같은 방식: 이벤트 + 낮은 빈도 폴링으로 어디서나 동작) */
+  var graphics = [].slice.call(document.querySelectorAll(".graphic"));
+  if (graphics.length) {
+    function syncGraphic() {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      graphics.forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        el.classList.toggle("is-in", r.bottom > 0 && r.top < vh);
+      });
+    }
+    document.addEventListener("scroll", syncGraphic, { passive: true, capture: true });
+    window.addEventListener("resize", syncGraphic);
+    setInterval(syncGraphic, 250);
+    syncGraphic();
+  }
+
   /* ---------- 명함 플립 ----------
      포인터가 올라가면 뒷면, 벗어나면 앞면. 클릭(터치)하면 뒤집기를 토글한다.
      스크롤로 명함이 커서 아래에 들어온 경우도 pointermove 로 잡는다. */
