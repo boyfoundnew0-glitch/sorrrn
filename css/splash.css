@@ -171,6 +171,19 @@ body {
   display: block;
 }
 .rr path { fill: var(--text-primary); }
+/* 기둥 밑변 캡 — 컨테이너가 아래를 잘라도 라운드 모서리가 남도록
+   본체에서 기둥(세 글자 모두 좌측 x 0~31) 맨 아래 10px 을 비우고,
+   같은 글자의 맨 아래 10px(라운드 모서리)을 컨테이너 바닥에 붙인다.
+   기둥은 수직이라 이음매가 보이지 않는다. */
+.rr-body {
+  position: absolute; inset: 0; display: block; overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 32px 100%, 32px calc(100% - 10px), 0 calc(100% - 10px));
+}
+.rr-cap {
+  position: absolute; left: 0; bottom: 0; width: 32px; height: 11px;  /* 본체와 1px 겹쳐 이음매 제거 */
+  overflow: hidden; display: block;
+}
+.rr .rr-cap svg { top: auto; bottom: 0; }
 
 /* ---------- logo s o n ---------- */
 

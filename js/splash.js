@@ -136,6 +136,19 @@
 
   var RR = ["r1", "r2", "r3"].map(function (k) {
     var el = document.getElementById(k), cs = getComputedStyle(el);
+    /* 밑변 라운드 캡 — 글자 svg 를 복제해 바닥에 붙인다 */
+    var src = el.querySelector("svg");
+    if (src && !el.querySelector(".rr-cap")) {
+      var cap = document.createElement("span"), cl = src.cloneNode(true);
+      cap.className = "rr-cap";
+      [].slice.call(cl.querySelectorAll("[id]")).forEach(function (n) { n.removeAttribute("id"); });
+      cap.appendChild(cl);
+      var body = document.createElement("span");
+      body.className = "rr-body";
+      el.insertBefore(body, src);
+      body.appendChild(src);
+      el.appendChild(cap);
+    }
     return {
       el: el,
       tallTop: parseFloat(cs.getPropertyValue("--tall-top")),

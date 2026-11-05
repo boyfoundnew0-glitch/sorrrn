@@ -13,7 +13,8 @@
 
 .a-h1 {
   margin: 0; position: absolute;
-  font-family: "Noto Sans KR", sans-serif; font-weight: 700; font-size: 38px;
+  /* 국문/H1 — Noto Sans KR Bold 36 / 1.15 / 0 */
+  font-family: "Noto Sans KR", sans-serif; font-weight: 700; font-size: 36px;
   line-height: 1.15; color: var(--text-primary); white-space: nowrap;
 }
 .a-h3 {

@@ -415,6 +415,19 @@ body {
   display: block;
 }
 .rr path { fill: var(--text-primary); }
+/* 기둥 밑변 캡 — 컨테이너가 아래를 잘라도 라운드 모서리가 남도록
+   본체에서 기둥(세 글자 모두 좌측 x 0~31) 맨 아래 10px 을 비우고,
+   같은 글자의 맨 아래 10px(라운드 모서리)을 컨테이너 바닥에 붙인다.
+   기둥은 수직이라 이음매가 보이지 않는다. */
+.rr-body {
+  position: absolute; inset: 0; display: block; overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 32px 100%, 32px calc(100% - 10px), 0 calc(100% - 10px));
+}
+.rr-cap {
+  position: absolute; left: 0; bottom: 0; width: 32px; height: 11px;  /* 본체와 1px 겹쳐 이음매 제거 */
+  overflow: hidden; display: block;
+}
+.rr .rr-cap svg { top: auto; bottom: 0; }
 
 /* ---------- logo s o n ---------- */
 
@@ -844,6 +857,19 @@ body {
 
   var RR = ["r1", "r2", "r3"].map(function (k) {
     var el = document.getElementById(k), cs = getComputedStyle(el);
+    /* 밑변 라운드 캡 — 글자 svg 를 복제해 바닥에 붙인다 */
+    var src = el.querySelector("svg");
+    if (src && !el.querySelector(".rr-cap")) {
+      var cap = document.createElement("span"), cl = src.cloneNode(true);
+      cap.className = "rr-cap";
+      [].slice.call(cl.querySelectorAll("[id]")).forEach(function (n) { n.removeAttribute("id"); });
+      cap.appendChild(cl);
+      var body = document.createElement("span");
+      body.className = "rr-body";
+      el.insertBefore(body, src);
+      body.appendChild(src);
+      el.appendChild(cap);
+    }
     return {
       el: el,
       tallTop: parseFloat(cs.getPropertyValue("--tall-top")),
@@ -2283,7 +2309,7 @@ var ABOUT_DOC = `<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><lin
 * { box-sizing: border-box; }
 html { background: var(--accent-mint); }
 body {
-  margin: 0; background: var(--accent-mint); color: var(--text-inverse);
+  margin: 0; background: var(--accent-mint); color: var(--text-primary);
   font-family: "Outfit", "Noto Sans KR", system-ui, sans-serif;
   overflow-x: hidden; cursor: none;
 }
@@ -2300,24 +2326,25 @@ body.no-needle { cursor: auto; }
 }
 .stage > * { position: absolute; }
 
-/* ---------- 텍스트 (피그마 텍스트 스타일 그대로) ---------- */
+/* ---------- 텍스트 (피그마 텍스트 스타일 그대로) ----------
+   본문 텍스트는 민트 위 Brown Black → --text-primary (피그마 1075:2367 등) */
 
 .t-h1 {
   margin: 0;
-  font-family: "Outfit", sans-serif; font-weight: 700; font-size: 38px;
-  line-height: 1.15; letter-spacing: -0.38px;
-  color: var(--text-inverse); white-space: nowrap;
+  font-family: "Outfit", sans-serif; font-weight: 700; font-size: 36px;
+  line-height: 1.15; letter-spacing: -0.36px;
+  color: var(--text-primary); white-space: nowrap;
 }
 .t-kr {
   margin: 0;
   font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 14px;
   line-height: 1.8; letter-spacing: -0.28px;
-  color: var(--text-inverse); white-space: nowrap;
+  color: var(--text-primary); white-space: nowrap;
 }
 .t-en {
   margin: 0;
   font-family: "Outfit", sans-serif; font-weight: 500; font-size: 15px;
-  line-height: 1.6; color: var(--text-inverse); white-space: nowrap;
+  line-height: 1.6; color: var(--text-primary); white-space: nowrap;
 }
 .t-en.r { font-weight: 400; }        /* 프레임에서 Regular 로 쓴 곳 */
 /* 국문/Label — 프레임에서 행간만 170% 로 올려 쓴다 */
@@ -2325,7 +2352,7 @@ body.no-needle { cursor: auto; }
   margin: 0;
   font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 10px;
   line-height: 1.7; letter-spacing: -0.2px;
-  color: var(--text-inverse); white-space: nowrap;
+  color: var(--text-primary); white-space: nowrap;
 }
 /* 본문 안에 섞여 들어간 영문/Label (sewing story) — 프레임에서 11px */
 .t-lb .lb {
@@ -2354,21 +2381,29 @@ body.no-needle { cursor: auto; }
 .card3d {
   left: 608.07px; top: 17226.97px;
   width: 425.6px; height: 236.4px;
-  perspective: 1200px;
+  cursor: none;
 }
+/* perspective 를 transform 안에 넣어 부모(셸 iframe·scale 스테이지)와 무관하게 3D 로 그린다 */
 .card3d-in {
   position: relative; width: 100%; height: 100%;
-  transform-style: preserve-3d;
+  transform-style: preserve-3d; -webkit-transform-style: preserve-3d;
+  transform: perspective(1200px) rotateY(0deg);
   transition: transform 0.8s var(--ease-out);
+  will-change: transform;
 }
+/* :hover 만으로는 셸 iframe 안에서 스크롤로 명함이 커서 아래로 들어올 때 반응하지 않는다.
+   JS 가 포인터 진입/이탈·클릭에 .is-flip 을 붙인다 */
 .card3d:hover .card3d-in,
-.card3d:focus-visible .card3d-in { transform: rotateY(180deg); }
+.card3d.is-flip .card3d-in,
+.card3d:focus-visible .card3d-in { transform: perspective(1200px) rotateY(180deg); }
 .card3d-in > img {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   backface-visibility: hidden; -webkit-backface-visibility: hidden;
 }
-.card3d-in > .back { transform: rotateY(180deg); }
+/* Safari 는 3D transform 이 없는 면에 backface-visibility 를 적용하지 않는다 — 앞면에도 명시 */
+.card3d-in > .front { transform: rotateY(0deg) translateZ(0.5px); }
+.card3d-in > .back  { transform: rotateY(180deg) translateZ(0.5px); }
 
 /* ---------- MENU (화면 하단 고정) ----------
    about 이 열린 상태이므로 남는 바는 shop · explore your stitch 두 개 */
@@ -2518,6 +2553,30 @@ body.no-needle { cursor: auto; }
   }
   fit();
   window.addEventListener("resize", fit);
+
+  /* ---------- 명함 플립 ----------
+     포인터가 올라가면 뒷면, 벗어나면 앞면. 클릭(터치)하면 뒤집기를 토글한다.
+     스크롤로 명함이 커서 아래에 들어온 경우도 pointermove 로 잡는다. */
+  var card = document.querySelector(".card3d");
+  if (card) {
+    var inCard = false;
+    function hitCard(x, y) {
+      var r = card.getBoundingClientRect();
+      return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+    }
+    function setFlip(on) { card.classList.toggle("is-flip", on); }
+    card.addEventListener("pointerenter", function (e) { if (e.pointerType !== "touch") { inCard = true; setFlip(true); } });
+    card.addEventListener("pointerleave", function (e) { if (e.pointerType !== "touch") { inCard = false; setFlip(false); } });
+    card.addEventListener("click", function () { if (!inCard) setFlip(!card.classList.contains("is-flip")); });
+    var lastX = -1, lastY = -1;
+    document.addEventListener("pointermove", function (e) { lastX = e.clientX; lastY = e.clientY; }, { passive: true });
+    /* 문서·body 어느 쪽이 스크롤하든 잡히도록 capture 로 듣는다 */
+    document.addEventListener("scroll", function () {
+      if (lastX < 0) return;
+      var hit = hitCard(lastX, lastY);
+      if (hit !== inCard) { inCard = hit; setFlip(hit); }
+    }, { passive: true, capture: true });
+  }
 
   /* ---------- 바늘 커서 ---------- */
 

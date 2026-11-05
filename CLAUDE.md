@@ -83,12 +83,12 @@
 | 스타일 | 폰트 | 크기 | 행간 | 자간 |
 |---|---|---|---|---|
 | 영문/Display | Outfit Bold | 54px | 1.05 | -2% |
-| 영문/H1 | Outfit Bold | 38px | 1.15 | -1% |
+| 영문/H1 | Outfit Bold | 36px | 1.15 | -1% |
 | 영문/H2 | Outfit Bold | 26px | 1.2 | 0 |
 | 영문/H3 | Outfit Medium | 18px | 1.3 | 0 |
 | 영문/Body | Outfit Medium | 15px | 1.6 | 0 |
 | 영문/Label | Outfit Medium | 12px | 1.2 | 3% |
-| 국문/H1 | Noto Sans KR Bold | 38px | 1.15 | 0 |
+| 국문/H1 | Noto Sans KR Bold | 36px | 1.15 | 0 |
 | 국문/H2 | Noto Sans KR Bold | 22px | 1.2 | 0 |
 | 국문/H3 | Noto Sans KR Medium | 18px | 1.5 | 0 |
 | 국문/Body | Noto Sans KR Regular | 14px | 1.8 | -2% |

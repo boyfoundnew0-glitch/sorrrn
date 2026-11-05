@@ -24,6 +24,30 @@
   fit();
   window.addEventListener("resize", fit);
 
+  /* ---------- 명함 플립 ----------
+     포인터가 올라가면 뒷면, 벗어나면 앞면. 클릭(터치)하면 뒤집기를 토글한다.
+     스크롤로 명함이 커서 아래에 들어온 경우도 pointermove 로 잡는다. */
+  var card = document.querySelector(".card3d");
+  if (card) {
+    var inCard = false;
+    function hitCard(x, y) {
+      var r = card.getBoundingClientRect();
+      return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+    }
+    function setFlip(on) { card.classList.toggle("is-flip", on); }
+    card.addEventListener("pointerenter", function (e) { if (e.pointerType !== "touch") { inCard = true; setFlip(true); } });
+    card.addEventListener("pointerleave", function (e) { if (e.pointerType !== "touch") { inCard = false; setFlip(false); } });
+    card.addEventListener("click", function () { if (!inCard) setFlip(!card.classList.contains("is-flip")); });
+    var lastX = -1, lastY = -1;
+    document.addEventListener("pointermove", function (e) { lastX = e.clientX; lastY = e.clientY; }, { passive: true });
+    /* 문서·body 어느 쪽이 스크롤하든 잡히도록 capture 로 듣는다 */
+    document.addEventListener("scroll", function () {
+      if (lastX < 0) return;
+      var hit = hitCard(lastX, lastY);
+      if (hit !== inCard) { inCard = hit; setFlip(hit); }
+    }, { passive: true, capture: true });
+  }
+
   /* ---------- 바늘 커서 ---------- */
 
   if (needle) {
