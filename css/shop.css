@@ -124,6 +124,14 @@ body {
   transition: opacity 0.4s var(--ease-out);
   will-change: left, top;
 }
+/* 블럭 반경(두 사각형을 감싸는 사각 영역) 전체를 클릭 영역으로 — 사각형 뒤에 깔린다 */
+.blk-hit {
+  position: absolute; display: block; background: transparent;
+  pointer-events: auto; cursor: none;
+}
+/* 카드가 열리면 그 블럭의 사각형·영역은 클릭을 카드에 넘긴다
+   (카드 그림 안에 같은 사각형이 그려져 있어 위에서 클릭을 가로채던 문제) */
+.blk.is-active .blk-sq, .blk.is-active .blk-hit { pointer-events: none; }
 /* 카드가 열릴 때 갈라져 나오는 작은 사각형 */
 .sq-s { width: 18.809px; height: 18.809px; opacity: 0; transition: opacity 0.24s var(--ease-out); }
 .blk.is-moving .sq-s, .blk.is-active .sq-s { opacity: 1; }
@@ -193,9 +201,10 @@ body {
 /* ---------- 텍스트 ---------- */
 
 .explore {
-  right: 586.97px;                       /* 우측 끝 853.03 → 1440 - 853.03 */
-  top: 86.24px; margin: 0;
-  text-align: right;
+  /* 가운데 정렬 — 피그마 x 597.89 · w 246 → 중심 720.89 / y 200.55 - stage 112.51 */
+  left: 720.89px; top: 88.04px; margin: 0;
+  transform: translateX(-50%);
+  text-align: center;
   font-family: "Outfit", sans-serif; font-weight: 700;
   font-size: 26px; line-height: 1.2; color: var(--text-primary);
   white-space: nowrap;
@@ -204,8 +213,10 @@ body {
 .is-scrolled .explore { opacity: 1; transition-delay: 0.5s; }
 
 .lead {
-  right: 611.47px; top: 124.04px; margin: 0;  /* 우측 끝 828.53 */
-  text-align: right;
+  /* 가운데 정렬 — 피그마 x 639.39 · w 180 → 중심 729.39 / y 237.55 */
+  left: 729.39px; top: 125.04px; margin: 0;
+  transform: translateX(-50%);
+  text-align: center;
   font-family: "Noto Sans KR", sans-serif; font-weight: 500;
   font-size: 10px; line-height: 1.5; letter-spacing: -0.2px;
   color: var(--text-secondary); white-space: nowrap;

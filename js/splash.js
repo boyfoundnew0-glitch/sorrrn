@@ -146,7 +146,7 @@
     };
   });
   function setRR(r, p) {           /* p = 0 SHORT, 1 TALL */
-    r.el.style.top    = (r.shortTop + (r.tallTop - r.shortTop) * p) + "px";
+    /* 밑변은 CSS bottom 으로 고정 — 높이만 바꾼다 */
     r.el.style.height = (r.shortH  + (r.tallH  - r.shortH ) * p) + "px";
   }
   function setAllRR(p) { RR.forEach(function (r) { setRR(r, p); r.tall = p > 0.5; }); }

@@ -154,12 +154,16 @@ body {
 #rrr { opacity: 0; transition: opacity 0.42s var(--step-mid); }
 .is-rrr #rrr { opacity: 1; }
 
+/* 세 rrr 의 밑변(y 423.81)을 bottom 으로 고정하고 height 만 바꾼다.
+   top·height 를 함께 보간하면 두 값이 따로 반올림돼 밑변이 1px 씩 들썩인다. */
+#rrr { --rr-base: 423.81px; }
 .rr {
   position: absolute;
   left: var(--x); width: var(--w);
-  top: var(--tall-top); height: var(--tall-h);
+  top: auto; bottom: calc(var(--frame-h) - var(--rr-base));
+  height: var(--tall-h);
   overflow: hidden;
-  will-change: top, height;
+  will-change: height;
 }
 .rr svg {
   position: absolute; left: 0; top: 0;

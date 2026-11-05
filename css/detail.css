@@ -37,6 +37,7 @@
   --spring: cubic-bezier(0.34, 1.42, 0.48, 1);
   /* -splash 에 쓴 아날로그·저프레임 모션 (약 15fps) */
   --step-grow: steps(11, end);   /* 0.72s */
+  --step-plate: steps(21, end);  /* 1.4s */
 }
 
 * { box-sizing: border-box; }
@@ -149,7 +150,8 @@ body.no-needle { cursor: auto; }
 .card .plate {
   position: absolute; display: block;
   transform: rotate(var(--rot, 0deg)) scale(0); transform-origin: center center;
-  transition: transform 0.72s var(--step-grow);
+  /* 사진 뒤에서 천천히, 저프레임(약 15fps)으로 자라난다 — 1.4s / 21 steps */
+  transition: transform 1.4s var(--step-plate);
 }
 .card .plate.circle { border-radius: 50%; background: var(--accent-lavender); }
 .card .plate.tri { color: var(--accent-tangerine); }

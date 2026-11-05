@@ -187,9 +187,23 @@
   }
   function soonOff()  { if (soonpop) soonpop.classList.remove("is-on"); }
 
+  /* 블럭 반경 클릭 영역 — 처음 위치의 사각형들을 감싸는 사각형 */
+  CATES.forEach(function (id) {
+    var blk = blocks[id], x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    [].slice.call(blk.querySelectorAll(".blk-sq")).forEach(function (sq) {
+      var l = parseFloat(sq.style.left), t = parseFloat(sq.style.top);
+      x0 = Math.min(x0, l); y0 = Math.min(y0, t);
+      x1 = Math.max(x1, l + sq.offsetWidth); y1 = Math.max(y1, t + sq.offsetHeight);
+    });
+    var hit = document.createElement("span");
+    hit.className = "blk-hit";
+    hit.style.cssText = "left:" + x0 + "px;top:" + y0 + "px;width:" + (x1 - x0) + "px;height:" + (y1 - y0) + "px";
+    blk.insertBefore(hit, blk.firstChild);
+  });
+
   CATES.forEach(function (id) {
     var blk = blocks[id];
-    [].slice.call(blk.querySelectorAll(".blk-sq")).forEach(function (sq) {
+    [].slice.call(blk.querySelectorAll(".blk-sq, .blk-hit")).forEach(function (sq) {
       sq.addEventListener("pointerenter", function () { setHover(id, true); });
       sq.addEventListener("pointerleave", function () { setHover(id, false); });
       sq.addEventListener("click", function () { openCard(id); });
@@ -278,7 +292,7 @@
   document.addEventListener("pointerleave", function () { if (needle) needle.classList.remove("is-on"); });
   document.addEventListener("pointerdown", selOn);
   document.addEventListener("pointerup", selOff);
-  [].slice.call(document.querySelectorAll("a, button, .blk-sq")).forEach(function (el) {
+  [].slice.call(document.querySelectorAll("a, button, .blk-sq, .blk-hit")).forEach(function (el) {
     el.addEventListener("pointerenter", selOn);
     el.addEventListener("pointerleave", selOff);
   });
