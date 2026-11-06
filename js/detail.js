@@ -122,6 +122,34 @@
     });
   }
 
+  /* ---------- how to sewing 슬라이드 (책갈피 상세) ----------
+     ▶ 다음, ◀ 이전. 끝에서 누르면 처음/마지막으로 돌아간다.
+     누른 아이콘은 잠깐 selected 상태(--icon-selected)가 된다. */
+  var htView = document.querySelector(".ht-view");
+  if (htView) {
+    var htTrack = htView.querySelector(".ht-track");
+    var htSlides = [].slice.call(htView.querySelectorAll(".ht-slide"));
+    var htW = parseFloat(htView.style.width) || 267.1, htIdx = 0;
+    function htGo(i) {
+      htIdx = (i + htSlides.length) % htSlides.length;
+      htTrack.style.transform = "translateX(" + (-htIdx * htW) + "px)";
+      htSlides.forEach(function (s, k) {
+        if (k === htIdx) s.removeAttribute("aria-hidden"); else s.setAttribute("aria-hidden", "true");
+      });
+    }
+    [["prev", -1], ["next", 1]].forEach(function (p) {
+      var b = document.querySelector(".ht-nav." + p[0]);
+      if (!b) return;
+      var t = null;
+      b.addEventListener("click", function () {
+        htGo(htIdx + p[1]);
+        b.classList.add("is-sel");
+        clearTimeout(t);
+        t = setTimeout(function () { b.classList.remove("is-sel"); }, 450);
+      });
+    });
+  }
+
   /* ---------- 바늘 커서 ---------- */
 
   if (needle) {
