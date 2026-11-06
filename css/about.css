@@ -5,7 +5,7 @@
    -about sorrrn-start  211:26980   1440 x 810  (스크롤 페이지 맨 처음)
    -about sorrrn-end   1075:2372    1440 x 810  (스크롤 페이지 맨 끝)
    이미지 띠: x 367.1 / w 996.9 / 1장 h 560.7 / 간격 0 / 32장 (원본 2560x1440 webp)
-   문서 높이 = -about sorrrn-end 의 top(137.8 + 32 x 560.7 - 137.8 = 17942.4) + 810 = 18752.4
+   문서 높이 = special thanks 블럭 하단 + made by 블럭~페이지 끝 여백(267.8) = 19071.0
    캔버스 폭 1440 기준, 뷰포트 폭에 맞춰 scale (CLAUDE.md 레이아웃 원칙 4)
    MENU 는 position: fixed (원칙 5)
    ============================================================ */
@@ -72,6 +72,16 @@ body.no-needle { cursor: auto; }
   line-height: 1.6; color: var(--accent-mint); white-space: nowrap;
 }
 .t-en.r { font-weight: 400; }        /* 프레임에서 Regular 로 쓴 곳 */
+/* special thanks to — 영문 24 Bold (피그마 프레임 값), 이름은 브랜드 3색 + Oatmeal */
+.t-h2s {
+  margin: 0;
+  font-family: "Outfit", sans-serif; font-weight: 700; font-size: 24px;
+  line-height: 1.2; color: var(--text-inverse); white-space: nowrap;
+}
+.t-en.mint { color: var(--accent-mint); }
+.t-en.lav  { color: var(--accent-lavender); }
+.t-en.tan  { color: var(--accent-tangerine); }
+.t-en.inv  { color: var(--text-inverse); }
 /* 국문/Label — 프레임에서 행간만 170% 로 올려 쓴다 */
 .t-lb {
   margin: 0;
