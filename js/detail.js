@@ -7,6 +7,11 @@
 (function () {
   "use strict";
 
+  /* 항상 최신 페이지를 띄우는 서비스 워커 (../sw.js — 사이트 전체 범위) */
+  if ("serviceWorker" in navigator) {
+    try { navigator.serviceWorker.register("../sw.js").catch(function () {}); } catch (err) {}
+  }
+
   var doc   = document.getElementById("doc");
   var stage = document.getElementById("stage");
   var menu  = document.getElementById("menu");

@@ -8,6 +8,9 @@
 </head>
 <body>
 <a href="html/combined.html">sorrrn</a>
-<script>location.replace("html/combined.html?t=" + Date.now());</script>
+<script>
+if ("serviceWorker" in navigator) { try { navigator.serviceWorker.register("sw.js").catch(function () {}); } catch (e) {} }
+location.replace("html/combined.html?t=" + Date.now());
+</script>
 </body>
 </html>
