@@ -392,9 +392,17 @@ body.no-needle { cursor: auto; }
 .ht-nav {
   position: absolute; width: 28.3px; height: 28.3px; padding: 0; border: 0;
   background: transparent; cursor: none; color: var(--accent-mint);
+  z-index: 20;                       /* 다른 레이어에 가려 클릭이 막히지 않게 최상단 */
+  -webkit-appearance: none; appearance: none;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
   transition: color 0.2s var(--ease-out), transform 0.2s var(--ease-out);
 }
-.ht-nav svg { display: block; width: 100%; height: 100%; overflow: visible; }
+/* 삼각형이 작아 누르기 어렵다 — 보이지 않는 클릭 영역을 사방 10px 넓힌다 */
+.ht-nav::before {
+  content: ""; position: absolute; left: -10px; top: -10px; right: -10px; bottom: -10px;
+}
+.ht-nav svg { pointer-events: none; }   /* 클릭 대상은 항상 버튼 자신 */
+.ht-nav svg { position: relative; display: block; width: 100%; height: 100%; overflow: visible; }
 .ht-nav.is-sel { color: var(--icon-selected); }
 .ht-nav:active { transform: scale(0.98); }
 .ht-nav:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 3px; }

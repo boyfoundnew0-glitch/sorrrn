@@ -141,11 +141,17 @@
       var b = document.querySelector(".ht-nav." + p[0]);
       if (!b) return;
       var t = null;
-      b.addEventListener("click", function () {
-        htGo(htIdx + p[1]);
+      function flash() {
         b.classList.add("is-sel");
         clearTimeout(t);
         t = setTimeout(function () { b.classList.remove("is-sel"); }, 450);
+      }
+      /* 누르는 순간 selected 로 바뀌고, 클릭이 확정되면 넘어간다 */
+      b.addEventListener("pointerdown", flash);
+      b.addEventListener("click", function (e) {
+        e.preventDefault();
+        flash();
+        htGo(htIdx + p[1]);
       });
     });
   }
