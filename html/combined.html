@@ -2524,60 +2524,75 @@ body.no-needle { cursor: auto; }
     syncGraphic();
   }
 
-  /* ---------- special thanks to — 이름 호버 팝업 ----------
-     see you soon! 팝업처럼 바늘 커서 꼬리(커서 오른쪽)에 붙어 따라다닌다. */
+  /* ---------- 호버 판정 (special thanks 팝업 · 명함 플립) ----------
+     Safari 에서는 메인 화면(셸) 안 iframe 의 요소에 pointerenter/leave 가 오지 않아
+     팝업도 플립도 반응하지 않았다. 진입 이벤트에 기대지 않고, 마우스가 움직이거나
+     스크롤될 때마다 커서 좌표가 어느 요소의 영역 안에 있는지 직접 계산한다. */
   var thankpop = document.getElementById("thankpop");
   var THANKS = {
     mom: "a crafter of pumpkin pincushions",
     dad: "a strong pillar for me",
     sis: "my own bamboo forest"
   };
-  if (thankpop) {
-    var moveThank = function (e) {
-      var fitNow = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--fit")) || 1;
-      var w = thankpop.offsetWidth, h = thankpop.offsetHeight;
-      var x = e.clientX + (24.7 + 12) * fitNow;
-      var y = e.clientY - h / 2;
-      if (x + w > window.innerWidth - 8) x = e.clientX - 12 * fitNow - w;
-      y = Math.max(8, Math.min(window.innerHeight - h - 8, y));
-      thankpop.style.transform = "translate(" + x + "px," + y + "px)";
-    };
-    [].slice.call(document.querySelectorAll("[data-pop]")).forEach(function (el) {
-      var key = el.getAttribute("data-pop");
-      el.addEventListener("pointerenter", function (e) {
-        thankpop.textContent = THANKS[key] || "";
-        thankpop.className = "thankpop " + key;
-        moveThank(e);
-        thankpop.classList.add("is-on");
-      });
-      el.addEventListener("pointermove", moveThank);
-      el.addEventListener("pointerleave", function () { thankpop.classList.remove("is-on"); });
-    });
-  }
-
-  /* ---------- 명함 플립 ----------
-     포인터가 올라가면 뒷면, 벗어나면 앞면. 클릭(터치)하면 뒤집기를 토글한다.
-     스크롤로 명함이 커서 아래에 들어온 경우도 pointermove 로 잡는다. */
+  var pops = [].slice.call(document.querySelectorAll("[data-pop]"));
   var card = document.querySelector(".card3d");
-  if (card) {
-    var inCard = false;
-    function hitCard(x, y) {
-      var r = card.getBoundingClientRect();
-      return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
-    }
-    function setFlip(on) { card.classList.toggle("is-flip", on); }
-    card.addEventListener("pointerenter", function (e) { if (e.pointerType !== "touch") { inCard = true; setFlip(true); } });
-    card.addEventListener("pointerleave", function (e) { if (e.pointerType !== "touch") { inCard = false; setFlip(false); } });
-    card.addEventListener("click", function () { if (!inCard) setFlip(!card.classList.contains("is-flip")); });
-    var lastX = -1, lastY = -1;
-    document.addEventListener("pointermove", function (e) { lastX = e.clientX; lastY = e.clientY; }, { passive: true });
-    /* 문서·body 어느 쪽이 스크롤하든 잡히도록 capture 로 듣는다 */
-    document.addEventListener("scroll", function () {
-      if (lastX < 0) return;
-      var hit = hitCard(lastX, lastY);
-      if (hit !== inCard) { inCard = hit; setFlip(hit); }
-    }, { passive: true, capture: true });
+  var curPop = null, inCard = false;
+  var lastX = -1, lastY = -1;
+
+  function inside(el, x, y, pad) {
+    var r = el.getBoundingClientRect();
+    return x >= r.left - pad && x <= r.right + pad && y >= r.top - pad && y <= r.bottom + pad;
   }
+  function placeThank(x, y) {
+    var fitNow = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--fit")) || 1;
+    var w = thankpop.offsetWidth, h = thankpop.offsetHeight;
+    var px = x + (24.7 + 12) * fitNow;
+    var py = y - h / 2;
+    if (px + w > window.innerWidth - 8) px = x - 12 * fitNow - w;
+    py = Math.max(8, Math.min(window.innerHeight - h - 8, py));
+    thankpop.style.transform = "translate(" + px + "px," + py + "px)";
+  }
+  function setFlip(on) { if (card) card.classList.toggle("is-flip", on); }
+
+  function track(x, y) {
+    lastX = x; lastY = y;
+    /* special thanks 이름 */
+    if (thankpop) {
+      var hit = null;
+      for (var i = 0; i < pops.length; i++) if (inside(pops[i], x, y, 4)) { hit = pops[i]; break; }
+      if (hit !== curPop) {
+        curPop = hit;
+        if (hit) {
+          var key = hit.getAttribute("data-pop");
+          thankpop.textContent = THANKS[key] || "";
+          thankpop.className = "thankpop " + key + " is-on";
+        } else {
+          thankpop.classList.remove("is-on");
+        }
+        if (needle) needle.classList.toggle("is-selected", !!hit);
+      }
+      if (hit) placeThank(x, y);
+    }
+    /* 명함 */
+    if (card) {
+      var over = inside(card, x, y, 0);
+      if (over !== inCard) { inCard = over; setFlip(over); }
+    }
+  }
+  function onMove(e) { track(e.clientX, e.clientY); }
+  document.addEventListener("mousemove", onMove, { passive: true });
+  document.addEventListener("pointermove", onMove, { passive: true });
+  /* 문서·body 어느 쪽이 스크롤하든 잡히도록 capture 로 듣는다 */
+  document.addEventListener("scroll", function () { if (lastX >= 0) track(lastX, lastY); }, { passive: true, capture: true });
+  /* 커서가 창(iframe) 밖으로 나가면 모두 닫는다 */
+  document.addEventListener("mouseleave", function () {
+    curPop = null; if (thankpop) thankpop.classList.remove("is-on");
+    if (inCard) { inCard = false; setFlip(false); }
+  });
+  /* 터치: 호버가 없는 환경에서는 눌러서 뒤집는다 (마우스로 올라가 있으면 이미 뒷면) */
+  if (card) card.addEventListener("click", function () {
+    if (!inCard) setFlip(!card.classList.contains("is-flip"));
+  });
 
   /* ---------- 바늘 커서 ---------- */
 
