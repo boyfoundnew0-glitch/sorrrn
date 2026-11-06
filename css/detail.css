@@ -34,7 +34,6 @@
   --input-dot: var(--text-muted);
   /* 스티치 도식의 격자 — 팔레트/Wood Gray. --icon-selected 와 같은 값이지만 의미상 별도 */
   --stitch-grid: var(--icon-selected);
-  --stitch-fabric: var(--icon-selected);   /* 감침질 도식의 원단 — 팔레트/Wood Gray */
 
   --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
   --spring: cubic-bezier(0.34, 1.42, 0.48, 1);
