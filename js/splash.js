@@ -69,6 +69,8 @@
   function fit() {
     var s = Math.min(window.innerWidth / 1440, window.innerHeight / 810);
     frame.style.setProperty("--fit", s);
+    /* 바늘 커서 등 frame 밖의 고정 요소도 같은 배율을 쓴다 */
+    document.documentElement.style.setProperty("--fit", s);
     return s;
   }
   var scale = fit();

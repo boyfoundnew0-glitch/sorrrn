@@ -112,34 +112,38 @@ body.no-needle { cursor: auto; }
   background: var(--bg-dark);
 }
 
-/* ---------- 명함 — 호버하면 뒤로 180도 돌아간다 ---------- */
+/* ---------- 명함 — 호버하면 뒷면으로 뒤집힌다 ---------- */
 
 .card3d {
   left: 589.10px; top: 18248.20px;
   width: 425.6px; height: 236.4px;
   cursor: none;
 }
-/* perspective 를 transform 안에 넣어 부모(셸 iframe·scale 스테이지)와 무관하게 3D 로 그린다 */
-.card3d-in {
-  position: relative; width: 100%; height: 100%;
-  transform-style: preserve-3d; -webkit-transform-style: preserve-3d;
-  transform: perspective(1200px) rotateY(0deg);
-  transition: transform 0.8s var(--ease-out);
-  will-change: transform;
-}
-/* :hover 만으로는 셸 iframe 안에서 스크롤로 명함이 커서 아래로 들어올 때 반응하지 않는다.
-   JS 가 포인터 진입/이탈·클릭에 .is-flip 을 붙인다 */
-.card3d:hover .card3d-in,
-.card3d.is-flip .card3d-in,
-.card3d:focus-visible .card3d-in { transform: perspective(1200px) rotateY(180deg); }
+/* 플립 — 3D(rotateY + backface-visibility)는 전시 iMac 의 Safari 에서 셸 iframe 안일 때
+   뒤집히지 않았다. 3D 없이 가로 폭(scaleX)만 접었다 펴는 2D 플립으로 어디서나 같게 보인다.
+   앞면이 0.4s 동안 접히고(ease-in) → 뒷면이 0.4s 동안 펴진다(ease-out). 총 0.8s */
+.card3d-in { position: relative; width: 100%; height: 100%; }
 .card3d-in > img {
-  position: absolute; inset: 0;
+  position: absolute; left: 0; top: 0;
   width: 100%; height: 100%;
-  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  transform-origin: 50% 50%;
 }
-/* Safari 는 3D transform 이 없는 면에 backface-visibility 를 적용하지 않는다 — 앞면에도 명시 */
-.card3d-in > .front { transform: rotateY(0deg) translateZ(0.5px); }
-.card3d-in > .back  { transform: rotateY(180deg) translateZ(0.5px); }
+.card3d-in > .front {
+  transform: scaleX(1);
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.4s;
+}
+.card3d-in > .back {
+  transform: scaleX(0);
+  transition: transform 0.4s cubic-bezier(0.55, 0, 0.78, 0.39) 0s;
+}
+.card3d:hover .front, .card3d.is-flip .front, .card3d:focus-visible .front {
+  transform: scaleX(0);
+  transition: transform 0.4s cubic-bezier(0.55, 0, 0.78, 0.39) 0s;
+}
+.card3d:hover .back, .card3d.is-flip .back, .card3d:focus-visible .back {
+  transform: scaleX(1);
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.4s;
+}
 
 /* ---------- MENU (화면 하단 고정) ----------
    about 이 열린 상태이므로 남는 바는 shop · explore your stitch 두 개 */
@@ -170,7 +174,7 @@ body.no-needle { cursor: auto; }
 
 .needle {
   position: fixed; left: 0; top: 0;
-  width: 24.7px; height: 43.37px;
+  width: calc(24.7px * var(--fit, 1)); height: calc(43.37px * var(--fit, 1));   /* 1440 기준 크기 x 화면 배율 */
   pointer-events: none; z-index: 50;
   opacity: 0; transition: opacity 0.2s linear;
   will-change: transform;
@@ -187,5 +191,5 @@ body.no-needle { cursor: auto; }
 .needle.is-selected .nd-selected { opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
-  .card3d-in, .menu-bar span, .graphic > i { transition-duration: 0.01ms !important; }
+  .card3d-in > img, .menu-bar span, .graphic > i { transition-duration: 0.01ms !important; transition-delay: 0s !important; }
 }

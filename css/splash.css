@@ -264,7 +264,7 @@ body {
 
 .needle {
   position: fixed; left: 0; top: 0;
-  width: 24.7px; height: 43.37px;
+  width: calc(24.7px * var(--fit, 1)); height: calc(43.37px * var(--fit, 1));   /* 1440 기준 크기 x 화면 배율 */
   pointer-events: none; z-index: 50;
   opacity: 0; transition: opacity 0.2s linear;
   will-change: transform;

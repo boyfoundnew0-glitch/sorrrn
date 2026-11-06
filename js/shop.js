@@ -46,6 +46,8 @@
   function fit() {
     var s = Math.min(window.innerWidth / 1440, window.innerHeight / 810);
     frame.style.setProperty("--fit", s);
+    /* 바늘 커서 등 frame 밖의 고정 요소도 같은 배율을 쓴다 */
+    document.documentElement.style.setProperty("--fit", s);
     return s;
   }
   var scale = fit();
@@ -172,9 +174,9 @@
   function moveSoon(e) {
     if (!soonpop) return;
     var w = soonpop.offsetWidth, h = soonpop.offsetHeight;
-    var x = e.clientX + NEEDLE_W + SOON_GAP;
+    var x = e.clientX + (NEEDLE_W + SOON_GAP) * scale;
     var y = e.clientY - h / 2;
-    if (x + w > window.innerWidth - 8) x = e.clientX - SOON_GAP - w;
+    if (x + w > window.innerWidth - 8) x = e.clientX - SOON_GAP * scale - w;
     y = Math.max(8, Math.min(window.innerHeight - h - 8, y));
     soonpop.style.transform = "translate(" + x + "px," + y + "px)";
   }

@@ -18,6 +18,7 @@
     var w = document.documentElement.clientWidth;
     var s = w / 1440;
     doc.style.setProperty("--fit", s);
+    document.documentElement.style.setProperty("--fit", s);   /* 바늘 커서 */
     if (menu) menu.style.setProperty("--fit", s);
     doc.style.height = (H * s) + "px";
   }
