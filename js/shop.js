@@ -23,6 +23,9 @@
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var CATES = ["sb", "tools", "kitm", "kith", "kitb"];
+  /* GitHub Pages 는 HTML 을 10분 캐시한다. 페이지로 이동할 때 고유 쿼리를 붙여
+     브라우저(특히 Safari)가 예전 페이지를 다시 보여주지 않게 한다 */
+  function fresh(u) { return u + (u.indexOf("?") >= 0 ? "&" : "?") + "t=" + Date.now(); }
   /* 카테고리별 상세 목록 페이지 — 아직 만들어지지 않은 카테고리는 비워둔다 */
   var DETAIL = { kitb: "kitbasic.html", kitm: "kitmid.html" };
 
@@ -232,7 +235,7 @@
       var w = (window.parent && window.parent !== window) ? window.parent : window;
       try {
         var base = (w.document && w.document.baseURI) || w.location.href;
-        w.location.href = new URL(page, base).href;
+        w.location.href = fresh(new URL(page, base).href);
       } catch (err) {
         try { w.location.href = page; } catch (e2) { window.location.href = page; }
       }
@@ -247,7 +250,7 @@
       var w = (window.parent && window.parent !== window) ? window.parent : window;
       try {
         var base = (w.document && w.document.baseURI) || w.location.href;
-        w.location.href = new URL(page, base).href;
+        w.location.href = fresh(new URL(page, base).href);
       } catch (err) {
         try { w.location.href = page; } catch (e2) { window.location.href = page; }
       }

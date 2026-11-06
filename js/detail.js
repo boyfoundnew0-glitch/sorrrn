@@ -156,6 +156,22 @@
     });
   }
 
+  /* ---------- 항상 최신 페이지로 이동 ----------
+     GitHub Pages 는 HTML 을 10분 캐시하고 Safari 는 그보다 오래 들고 있기도 해서,
+     업데이트 직후에도 예전 상세페이지가 보였다. 사이트 안의 .html 링크는
+     누를 때마다 고유 쿼리를 붙여 이동한다 (다른 핸들러가 막은 클릭은 건드리지 않는다). */
+  document.addEventListener("click", function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target.closest ? e.target.closest("a[href]") : null;
+    if (!a || a.target === "_blank") return;
+    var href = a.getAttribute("href");
+    if (!/^[^:#?]+\.html(\?[^#]*)?(#.*)?$/.test(href)) return;   /* 같은 사이트의 .html 만 */
+    e.preventDefault();
+    var hash = href.indexOf("#") >= 0 ? href.slice(href.indexOf("#")) : "";
+    var base = hash ? href.slice(0, href.indexOf("#")) : href;
+    window.location.href = base + (base.indexOf("?") >= 0 ? "&" : "?") + "t=" + Date.now() + hash;
+  });
+
   /* ---------- 바늘 커서 ---------- */
 
   if (needle) {
