@@ -93,12 +93,13 @@ body {
   display: flex; gap: 32px; align-items: center;
 }
 .nav-ico { display: block; }
-.nav-ico svg { display: block; width: 100%; height: 100%; }
+/* Safari 는 1.333배 같은 소수 배율에서 SVG 뷰포트를 정수 픽셀로 잘라 아래 끝이 깎인다 — 넘침 허용 */
+.nav-ico svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .nav-logo {
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   width: 179.078px; height: 31.823px;
 }
-.nav-logo svg { display: block; width: 100%; height: 100%; }
+.nav-logo svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .nav a:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 3px; }
 
 /* ---------- 콘텐츠 영역 ---------- */

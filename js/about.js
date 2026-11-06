@@ -14,12 +14,17 @@
 
   /* ---------- 배율 ---------- */
 
+  /* 셸 안에서는 iframe 이 화면 폭 전체(스크롤바가 화면 오른쪽 끝에 붙도록)이고 높이는 810 x 배율.
+     폭과 높이 중 작은 쪽 배율로 1440 스테이지를 맞추고, 남는 좌우 폭(bleed)만큼 가운데로 민다. */
   function fit() {
     var w = document.documentElement.clientWidth;
-    var s = w / 1440;
+    var h = window.innerHeight || document.documentElement.clientHeight;
+    var s = Math.min(w / 1440, h / 810);
+    var bleed = Math.max(0, (w / s - 1440) / 2);          /* 프레임 좌표 기준 */
     doc.style.setProperty("--fit", s);
     document.documentElement.style.setProperty("--fit", s);   /* 바늘 커서 */
-    if (menu) menu.style.setProperty("--fit", s);
+    document.getElementById("stage").style.left = (bleed * s) + "px";
+    if (menu) { menu.style.setProperty("--fit", s); menu.style.setProperty("--bleed", bleed + "px"); }
     doc.style.height = (H * s) + "px";
   }
   fit();

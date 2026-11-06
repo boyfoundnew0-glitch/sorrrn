@@ -233,6 +233,9 @@ body {
   font-size: 54px; font-weight: 700; line-height: 1.05;
   letter-spacing: -1.08px; color: var(--text-secondary);
   opacity: 0;
+  /* 애니메이션 중 글자마다 레이어가 생기는데, Safari 는 소수 배율에서 레이어 경계를
+     정수 픽셀로 잘라 글자 아래가 깎인다. 위아래 여백을 주고 같은 만큼 마진으로 되돌린다 */
+  padding: 0.14em 0; margin: -0.14em 0;
 }
 .scrollit .sp { width: 0.26em; }
 .scrollit .tri, .scrollit .ch {
