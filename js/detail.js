@@ -132,7 +132,7 @@
     var htW = parseFloat(htView.style.width) || 267.1, htIdx = 0;
     function htGo(i) {
       htIdx = (i + htSlides.length) % htSlides.length;
-      htTrack.style.transform = "translateX(" + (-htIdx * htW) + "px)";
+      htTrack.style.left = (-htIdx * htW) + "px";
       htSlides.forEach(function (s, k) {
         if (k === htIdx) s.removeAttribute("aria-hidden"); else s.setAttribute("aria-hidden", "true");
       });

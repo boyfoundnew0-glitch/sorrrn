@@ -377,9 +377,9 @@ body.no-needle { cursor: auto; }
 .ht-view { position: absolute; overflow: hidden; }   /* 폭·높이는 인라인 (피그마 값) */
 .ht-track {
   position: absolute; left: 0; top: 0; display: flex; height: 100%;
-  transform: translateX(0);
-  transition: transform 0.6s var(--ease-out);
-  will-change: transform;
+  /* transform + will-change 는 Safari 에서 잘린(overflow hidden) 영역 안의 레이어가
+     다시 그려지지 않아 넘어가지 않는 것처럼 보였다 — left 로 움직인다 */
+  transition: left 0.6s var(--ease-out);
 }
 .ht-slide { position: relative; flex: none; height: 100%; }
 .ht-sub {

@@ -1,5 +1,5 @@
 <svg viewBox="0 0 267.1 227.5" preserveAspectRatio="none" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#ht-clip-straight-pc)">
+<g clip-path="url(#ht-clip-backstitch)">
 <path d="M11.13 0V227.5M33.39 0V227.5M55.65 0V227.5M77.91 0V227.5M100.17 0V227.5M122.43 0V227.5M144.69 0V227.5M166.95 0V227.5M189.21 0V227.5M211.47 0V227.5M233.73 0V227.5M255.99 0V227.5M0 11.13H267.1M0 33.39H267.1M0 55.65H267.1M0 77.91H267.1M0 100.17H267.1M0 122.43H267.1M0 144.69H267.1M0 166.95H267.1M0 189.21H267.1M0 211.47H267.1" stroke="var(--stitch-grid)" stroke-width="0.4"/>
 <path d="M128.279 114.57L82.9863 114.57" stroke="var(--accent-mint)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M76.877 114.57L31.584 114.57" stroke="var(--accent-mint)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
@@ -11,7 +11,7 @@
 <path d="M189.16 157.205L188.573 200.169M190.773 195.669L188.573 200.169L186.373 195.669" stroke="var(--icon-default)" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 <defs>
-<clipPath id="ht-clip-straight-pc">
+<clipPath id="ht-clip-backstitch">
 <rect width="267.1" height="227.5" fill="white"/>
 </clipPath>
 </defs>
