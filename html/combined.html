@@ -2235,6 +2235,26 @@ body.no-needle { cursor: auto; }
 .t-en.lav  { color: var(--accent-lavender); }
 .t-en.tan  { color: var(--accent-tangerine); }
 .t-en.inv  { color: var(--text-inverse); }
+.t-en[data-pop] { cursor: none; }
+
+/* ---------- popup-thanks-* ----------
+   피그마: 캡슐(radius 50) · 패딩 8 / 12 · Outfit Medium · 흰 글자.
+   바늘 커서처럼 화면 고정 요소라 화면 배율(--fit)을 직접 곱한다. */
+.thankpop {
+  position: fixed; left: 0; top: 0; z-index: 70;
+  padding: calc(8px * var(--fit, 1)) calc(12px * var(--fit, 1));
+  border-radius: 50px;
+  font-family: "Outfit", sans-serif; font-weight: 500;
+  font-size: calc(15px * var(--fit, 1)); line-height: 1; white-space: nowrap;
+  color: var(--text-inverse);
+  pointer-events: none; opacity: 0;
+  transition: opacity 200ms var(--ease-out);
+  will-change: transform;
+}
+.thankpop.is-on { opacity: 1; }
+.thankpop.mom { background: var(--accent-mint); }
+.thankpop.dad { background: var(--accent-lavender); }
+.thankpop.sis { background: var(--accent-tangerine); }
 /* 국문/Label — 프레임에서 행간만 170% 로 올려 쓴다 */
 .t-lb {
   margin: 0;
@@ -2430,9 +2450,9 @@ body.no-needle { cursor: auto; }
 
     <!-- special thanks to — made by 블럭 아래 (피그마 1125:2833, 간격 +80) -->
     <p class="t-h2s" style="left:76.04px;top:18668.20px">special thanks to . . .</p>
-    <p class="t-en mint" style="left:367.10px;top:18672.20px">my mom</p>
-    <p class="t-en lav" style="left:367.10px;top:18705.20px">my dad</p>
-    <p class="t-en tan" style="left:367.10px;top:18738.20px">my older sis</p>
+    <p class="t-en mint" data-pop="mom" style="left:367.10px;top:18672.20px">my mom</p>
+    <p class="t-en lav" data-pop="dad" style="left:367.10px;top:18705.20px">my dad</p>
+    <p class="t-en tan" data-pop="sis" style="left:367.10px;top:18738.20px">my older sis</p>
     <p class="t-en inv" style="left:367.10px;top:18779.20px">and me!</p>
 
   </div>
@@ -2452,6 +2472,8 @@ body.no-needle { cursor: auto; }
 <path d="M29.7944 13.2321C29.4729 12.8582 29.1783 12.8212 28.8166 13.0873C28.7195 13.1445 25.8532 15.5563 25.8532 15.5563C25.582 15.8022 25.5384 16.2468 25.7829 16.5196C29.0376 20.0531 30.0556 22.832 30.0556 25.941C30.0556 30.3131 26.8711 33.7085 25.7695 34.9413C25.5418 35.2108 25.5585 35.6082 25.803 35.8777L28.8133 38.3299C29.0912 38.5926 29.5265 38.5993 29.791 38.3231C31.2476 36.7535 35.2793 32.0782 35.2793 25.941C35.2826 18.9145 29.9953 13.4679 29.7944 13.2321Z" fill="#8E8278"/>
 <path d="M19.8556 57.5515C20.177 57.9254 20.4717 57.9624 20.8333 57.6963C20.9305 57.6391 23.7968 55.2273 23.7968 55.2273C24.068 54.9814 24.1115 54.5368 23.8671 54.264C20.6123 50.7305 19.5944 47.9516 19.5944 44.8426C19.5944 40.4704 22.7788 37.0751 23.8805 35.8423C24.1082 35.5728 24.0914 35.1754 23.847 34.9059L20.8367 32.4537C20.5588 32.191 20.1235 32.1842 19.8589 32.4604C18.4023 34.0301 14.3707 38.7054 14.3707 44.8426C14.3707 51.869 19.658 57.3123 19.8589 57.5515H19.8556Z" fill="#8E8278"/>
 </svg></span></div>
+<!-- popup-thanks-mom / dad / sis (피그마 1125:2865 · 2886 · 2889) — 이름에 호버하면 커서 옆에 -->
+<div class="thankpop" id="thankpop" aria-hidden="true"></div>
 <script>/* ============================================================
    sorrrn — about sorrrn
    · 1440 기준 스테이지를 뷰포트 폭에 맞춰 scale (CLAUDE.md 원칙 4)
@@ -2502,6 +2524,37 @@ body.no-needle { cursor: auto; }
     syncGraphic();
   }
 
+  /* ---------- special thanks to — 이름 호버 팝업 ----------
+     see you soon! 팝업처럼 바늘 커서 꼬리(커서 오른쪽)에 붙어 따라다닌다. */
+  var thankpop = document.getElementById("thankpop");
+  var THANKS = {
+    mom: "a crafter of pumpkin pincushions",
+    dad: "a strong pillar for me",
+    sis: "my own bamboo forest"
+  };
+  if (thankpop) {
+    var moveThank = function (e) {
+      var fitNow = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--fit")) || 1;
+      var w = thankpop.offsetWidth, h = thankpop.offsetHeight;
+      var x = e.clientX + (24.7 + 12) * fitNow;
+      var y = e.clientY - h / 2;
+      if (x + w > window.innerWidth - 8) x = e.clientX - 12 * fitNow - w;
+      y = Math.max(8, Math.min(window.innerHeight - h - 8, y));
+      thankpop.style.transform = "translate(" + x + "px," + y + "px)";
+    };
+    [].slice.call(document.querySelectorAll("[data-pop]")).forEach(function (el) {
+      var key = el.getAttribute("data-pop");
+      el.addEventListener("pointerenter", function (e) {
+        thankpop.textContent = THANKS[key] || "";
+        thankpop.className = "thankpop " + key;
+        moveThank(e);
+        thankpop.classList.add("is-on");
+      });
+      el.addEventListener("pointermove", moveThank);
+      el.addEventListener("pointerleave", function () { thankpop.classList.remove("is-on"); });
+    });
+  }
+
   /* ---------- 명함 플립 ----------
      포인터가 올라가면 뒷면, 벗어나면 앞면. 클릭(터치)하면 뒤집기를 토글한다.
      스크롤로 명함이 커서 아래에 들어온 경우도 pointermove 로 잡는다. */
@@ -2536,7 +2589,7 @@ body.no-needle { cursor: auto; }
     document.addEventListener("pointerleave", function () { needle.classList.remove("is-on"); });
     document.addEventListener("pointerdown", function () { needle.classList.add("is-selected"); });
     document.addEventListener("pointerup", function () { needle.classList.remove("is-selected"); });
-    [].slice.call(document.querySelectorAll("a, button, .card3d")).forEach(function (el) {
+    [].slice.call(document.querySelectorAll("a, button, .card3d, [data-pop]")).forEach(function (el) {
       el.addEventListener("pointerenter", function () { needle.classList.add("is-selected"); });
       el.addEventListener("pointerleave", function () { needle.classList.remove("is-selected"); });
     });
@@ -2855,10 +2908,23 @@ body.no-needle { cursor: auto; }
   function wantsShop() {
     return location.hash === "#shop" || /[?&]go=shop(&|$)/.test(location.search);
   }
+  /* 상품 목록·상세의 하단 'about sorrrn' 바에서 오면 about 을 연 상태로 */
+  function openAbout() {
+    var d = DRAWERS[2];
+    place(d, 1);
+    opened = d;
+    refreshChrome();
+    endIntro();
+  }
+  function wantsAbout() {
+    return location.hash === "#about" || /[?&]go=about(&|$)/.test(location.search);
+  }
   if (wantsShop()) openShopScroll();
+  else if (wantsAbout()) openAbout();
   /* 뒤로가기 캐시에서 복원될 때도 같은 상태로 되돌린다 */
   window.addEventListener("pageshow", function (e) {
     if (e.persisted && wantsShop() && (!opened || opened.key !== "shop")) openShopScroll();
+    else if (e.persisted && wantsAbout() && (!opened || opened.key !== "about")) openAbout();
   });
 
   function backToSplash() { if (opened) snap(opened, 0); }

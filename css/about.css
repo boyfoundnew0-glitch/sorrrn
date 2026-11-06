@@ -82,6 +82,26 @@ body.no-needle { cursor: auto; }
 .t-en.lav  { color: var(--accent-lavender); }
 .t-en.tan  { color: var(--accent-tangerine); }
 .t-en.inv  { color: var(--text-inverse); }
+.t-en[data-pop] { cursor: none; }
+
+/* ---------- popup-thanks-* ----------
+   피그마: 캡슐(radius 50) · 패딩 8 / 12 · Outfit Medium · 흰 글자.
+   바늘 커서처럼 화면 고정 요소라 화면 배율(--fit)을 직접 곱한다. */
+.thankpop {
+  position: fixed; left: 0; top: 0; z-index: 70;
+  padding: calc(8px * var(--fit, 1)) calc(12px * var(--fit, 1));
+  border-radius: 50px;
+  font-family: "Outfit", sans-serif; font-weight: 500;
+  font-size: calc(15px * var(--fit, 1)); line-height: 1; white-space: nowrap;
+  color: var(--text-inverse);
+  pointer-events: none; opacity: 0;
+  transition: opacity 200ms var(--ease-out);
+  will-change: transform;
+}
+.thankpop.is-on { opacity: 1; }
+.thankpop.mom { background: var(--accent-mint); }
+.thankpop.dad { background: var(--accent-lavender); }
+.thankpop.sis { background: var(--accent-tangerine); }
 /* 국문/Label — 프레임에서 행간만 170% 로 올려 쓴다 */
 .t-lb {
   margin: 0;

@@ -48,6 +48,37 @@
     syncGraphic();
   }
 
+  /* ---------- special thanks to — 이름 호버 팝업 ----------
+     see you soon! 팝업처럼 바늘 커서 꼬리(커서 오른쪽)에 붙어 따라다닌다. */
+  var thankpop = document.getElementById("thankpop");
+  var THANKS = {
+    mom: "a crafter of pumpkin pincushions",
+    dad: "a strong pillar for me",
+    sis: "my own bamboo forest"
+  };
+  if (thankpop) {
+    var moveThank = function (e) {
+      var fitNow = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--fit")) || 1;
+      var w = thankpop.offsetWidth, h = thankpop.offsetHeight;
+      var x = e.clientX + (24.7 + 12) * fitNow;
+      var y = e.clientY - h / 2;
+      if (x + w > window.innerWidth - 8) x = e.clientX - 12 * fitNow - w;
+      y = Math.max(8, Math.min(window.innerHeight - h - 8, y));
+      thankpop.style.transform = "translate(" + x + "px," + y + "px)";
+    };
+    [].slice.call(document.querySelectorAll("[data-pop]")).forEach(function (el) {
+      var key = el.getAttribute("data-pop");
+      el.addEventListener("pointerenter", function (e) {
+        thankpop.textContent = THANKS[key] || "";
+        thankpop.className = "thankpop " + key;
+        moveThank(e);
+        thankpop.classList.add("is-on");
+      });
+      el.addEventListener("pointermove", moveThank);
+      el.addEventListener("pointerleave", function () { thankpop.classList.remove("is-on"); });
+    });
+  }
+
   /* ---------- 명함 플립 ----------
      포인터가 올라가면 뒷면, 벗어나면 앞면. 클릭(터치)하면 뒤집기를 토글한다.
      스크롤로 명함이 커서 아래에 들어온 경우도 pointermove 로 잡는다. */
@@ -82,7 +113,7 @@
     document.addEventListener("pointerleave", function () { needle.classList.remove("is-on"); });
     document.addEventListener("pointerdown", function () { needle.classList.add("is-selected"); });
     document.addEventListener("pointerup", function () { needle.classList.remove("is-selected"); });
-    [].slice.call(document.querySelectorAll("a, button, .card3d")).forEach(function (el) {
+    [].slice.call(document.querySelectorAll("a, button, .card3d, [data-pop]")).forEach(function (el) {
       el.addEventListener("pointerenter", function () { needle.classList.add("is-selected"); });
       el.addEventListener("pointerleave", function () { needle.classList.remove("is-selected"); });
     });
