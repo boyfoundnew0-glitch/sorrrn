@@ -121,7 +121,8 @@ body.no-needle { cursor: auto; }
 .graphic { position: absolute; pointer-events: none; }
 .graphic > i {
   position: absolute; display: block; border-radius: 50%;
-  transform: scale(0); transform-origin: center center;
+  /* 크기 0(scale(0)) 은 역행렬이 없는 상태라 WebKit(Safari)에서 전환·렌더링이 멈추는 경우가 있다 — 0.001 로 시작 */
+  transform: scale(0.001); transform-origin: center center;
   transition: transform 1.4s steps(21, end);
 }
 .graphic.is-in > i { transform: scale(1); }
@@ -136,10 +137,13 @@ body.no-needle { cursor: auto; }
   background: var(--bg-dark);
 }
 .strip img {
-  display: block; width: 996.90px; height: 560.70px;
+  /* 1.333 같은 소수 배율에서 경계가 픽셀 사이에 걸려 1px 어두운 줄(배경)이 비쳤다.
+     높이를 1px 늘리고 아래 여백을 -1px 로 두어 다음 이미지와 겹치게 한다 (간격은 560.7 그대로) */
+  display: block; width: 996.90px; height: 561.70px; margin-bottom: -1px;
   object-fit: cover; flex: none;
-  /* 아직 안 받은 칸은 배경색으로 — 전시장 회선에서 흰 칸이 번쩍이지 않게 */
-  background: var(--bg-dark);
+  /* 이미지 자체에는 배경을 두지 않는다 — 소수 픽셀 경계에서 이 배경이 어두운 줄로 비쳤다.
+     아직 안 받은 칸은 바깥 .strip 의 배경색이 보인다 */
+  background: transparent;
 }
 
 /* ---------- 명함 — 호버하면 뒷면으로 뒤집힌다 ---------- */
@@ -163,11 +167,11 @@ body.no-needle { cursor: auto; }
   transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.4s;
 }
 .card3d-in > .back {
-  transform: scaleX(0);
+  transform: scaleX(0.001);
   transition: transform 0.4s cubic-bezier(0.55, 0, 0.78, 0.39) 0s;
 }
 .card3d:hover .front, .card3d.is-flip .front, .card3d:focus-visible .front {
-  transform: scaleX(0);
+  transform: scaleX(0.001);
   transition: transform 0.4s cubic-bezier(0.55, 0, 0.78, 0.39) 0s;
 }
 .card3d:hover .back, .card3d.is-flip .back, .card3d:focus-visible .back {

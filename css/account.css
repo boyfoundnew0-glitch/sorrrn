@@ -160,7 +160,7 @@
 .a-tbtn::after {
   content: ""; position: absolute; left: 50%; bottom: -4px;
   width: 140%; height: 1px; background: var(--accent-mint);
-  transform: translateX(-50%) scaleX(0); transform-origin: center;
+  transform: translateX(-50%) scaleX(0.001); transform-origin: center;
   transition: transform 200ms var(--ease-out);
 }
 .a-tbtn:hover::after, .a-tbtn:focus-visible::after { transform: translateX(-50%) scaleX(1); }

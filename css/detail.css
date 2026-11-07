@@ -152,7 +152,8 @@ body.no-needle { cursor: auto; }
 }
 .card .plate {
   position: absolute; display: block;
-  transform: rotate(var(--rot, 0deg)) scale(0); transform-origin: center center;
+  /* 크기 0(scale(0)) 은 역행렬이 없는 상태라 WebKit(Safari)에서 전환·렌더링이 멈추는 경우가 있다 — 0.001 로 시작 */
+  transform: rotate(var(--rot, 0deg)) scale(0.001); transform-origin: center center;
   /* 사진 뒤에서 천천히, 저프레임(약 15fps)으로 자라난다 — 1.4s / 21 steps */
   transition: transform 1.4s var(--step-plate);
 }
