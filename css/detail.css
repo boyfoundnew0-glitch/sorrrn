@@ -155,7 +155,10 @@ body.no-needle { cursor: auto; }
   /* 크기 0(scale(0)) 은 역행렬이 없는 상태라 WebKit(Safari)에서 전환·렌더링이 멈추는 경우가 있다 — 0.001 로 시작 */
   transform: rotate(var(--rot, 0deg)) scale(0.001); transform-origin: center center;
   /* 사진 뒤에서 천천히, 저프레임(약 15fps)으로 자라난다 — 1.4s / 21 steps */
-  transition: transform 1.4s var(--step-plate);
+  transition: transform 1.4s var(--step-plate), opacity 0s linear 1.4s;
+  /* 0.001 배율도 0.2~0.4px 짜리 점·선으로 남아 보인다 — 접혀 있는 동안에는 투명하게 숨긴다
+     (나타날 때는 즉시 보이고, 사라질 때는 줄어드는 전환이 끝난 뒤 숨긴다) */
+  opacity: 0;
 }
 .card .plate.circle { border-radius: 50%; background: var(--accent-lavender); }
 .card .plate.tri { color: var(--accent-tangerine); }
@@ -198,7 +201,10 @@ body.no-needle { cursor: auto; }
 .foot-bg { position: absolute; left: 0; width: 1440px; background: var(--bg-dark); }
 .card .gsep { position: absolute; width: 2.45px; height: 2.45px; border-radius: 50%; background: var(--text-primary); }
 
-.card:hover .plate, .card:focus-visible .plate { transform: rotate(var(--rot, 0deg)) scale(1); }
+.card:hover .plate, .card:focus-visible .plate {
+  transform: rotate(var(--rot, 0deg)) scale(1); opacity: 1;
+  transition: transform 1.4s var(--step-plate), opacity 0s;
+}
 .card:hover p, .card:focus-visible p { color: var(--text-secondary); }
 .card:hover .deco, .card:focus-visible .deco { color: var(--text-muted); }
 .card:hover .gsep, .card:focus-visible .gsep { background: var(--text-muted); }

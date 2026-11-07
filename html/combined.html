@@ -2276,9 +2276,12 @@ body.no-needle { cursor: auto; }
   position: absolute; display: block; border-radius: 50%;
   /* 크기 0(scale(0)) 은 역행렬이 없는 상태라 WebKit(Safari)에서 전환·렌더링이 멈추는 경우가 있다 — 0.001 로 시작 */
   transform: scale(0.001); transform-origin: center center;
-  transition: transform 1.4s steps(21, end);
+  /* 0.001 배율도 0.2~0.4px 짜리 점·선으로 남아 보인다 — 접혀 있는 동안에는 투명하게 숨긴다
+     (나타날 때는 즉시 보이고, 사라질 때는 줄어드는 전환이 끝난 뒤 숨긴다) */
+  opacity: 0;
+  transition: transform 1.4s steps(21, end), opacity 0s linear 1.4s;
 }
-.graphic.is-in > i { transform: scale(1); }
+.graphic.is-in > i { transform: scale(1); opacity: 1; transition: transform 1.4s steps(21, end), opacity 0s; }
 
 /* ---------- 이미지 띠 — 32장을 간격 0 으로 잇는다 ----------
    flex 세로 배치라 브라우저가 각 칸을 맞붙여 깔아 겹침·틈이 생기지 않는다. */
@@ -2316,20 +2319,21 @@ body.no-needle { cursor: auto; }
   transform-origin: 50% 50%;
 }
 .card3d-in > .front {
-  transform: scaleX(1);
-  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.4s;
+  transform: scaleX(1); opacity: 1;
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.4s, opacity 0s linear 0.4s;
 }
+/* 접힌 면은 0.001 배율의 얇은 세로선으로 남아 보였다 — 접혀 있는 동안 투명하게 숨긴다 */
 .card3d-in > .back {
-  transform: scaleX(0.001);
-  transition: transform 0.4s cubic-bezier(0.55, 0, 0.78, 0.39) 0s;
+  transform: scaleX(0.001); opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.55, 0, 0.78, 0.39) 0s, opacity 0s linear 0.4s;
 }
 .card3d:hover .front, .card3d.is-flip .front, .card3d:focus-visible .front {
-  transform: scaleX(0.001);
-  transition: transform 0.4s cubic-bezier(0.55, 0, 0.78, 0.39) 0s;
+  transform: scaleX(0.001); opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.55, 0, 0.78, 0.39) 0s, opacity 0s linear 0.4s;
 }
 .card3d:hover .back, .card3d.is-flip .back, .card3d:focus-visible .back {
-  transform: scaleX(1);
-  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.4s;
+  transform: scaleX(1); opacity: 1;
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.4s, opacity 0s linear 0.4s;
 }
 
 /* ---------- MENU (화면 하단 고정) ----------

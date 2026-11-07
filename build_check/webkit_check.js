@@ -41,6 +41,7 @@ const bust = () => '?x=' + Date.now();
   await sleep(800);
   await page.evaluate(() => document.querySelector('a.card').scrollIntoView({ block: 'center' }));
   await sleep(500);
+  ok('목록 도형: 호버 전 흔적 없음', await page.evaluate(() => getComputedStyle(document.querySelector('a.card .plate')).opacity === '0'));
   const cb = await page.locator('a.card').first().boundingBox();
   await page.mouse.move(cb.x + cb.width / 2, cb.y + cb.height / 2);
   await sleep(200);
@@ -94,11 +95,14 @@ const bust = () => '?x=' + Date.now();
     await new Promise(r => setTimeout(r, 900)); const r = c.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
   });
   await page.mouse.move(abBox.x + 40, abBox.y + 40);
+  await sleep(900);
+  ok('명함: 호버 전 뒷면 흔적(세로선) 없음', await af.evaluate(() => getComputedStyle(document.querySelector('.card3d .back')).opacity === '0'));
   await page.mouse.move(abBox.x + cc.x, abBox.y + cc.y, { steps: 10 });
   await sleep(1100);
   const flip = await af.evaluate(() => [new DOMMatrix(getComputedStyle(document.querySelector('.card3d .front')).transform).a,
                                        new DOMMatrix(getComputedStyle(document.querySelector('.card3d .back')).transform).a]);
   ok('about 명함 플립', flip[0] < 0.05 && flip[1] > 0.95, 'front=' + flip[0].toFixed(3) + ' back=' + flip[1].toFixed(3));
+  ok('명함: 뒤집힌 뒤 앞면 흔적(세로선) 없음', await af.evaluate(() => getComputedStyle(document.querySelector('.card3d .front')).opacity === '0'));
 
   const nm = await af.evaluate(async () => {
     const el = document.querySelector('[data-pop="mom"]'); el.scrollIntoView({ block: 'center' });
