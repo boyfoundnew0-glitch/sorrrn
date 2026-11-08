@@ -73,8 +73,9 @@ body.no-needle { cursor: auto; }
 .nav { left: 0; top: 28px; width: 1440px; height: 85px; background: var(--bg-base); }
 .nav-left {
   position: absolute; left: 48px; top: 50%; transform: translateY(-50%);
-  display: flex; gap: 36px; align-items: center;
+  display: flex; align-items: center;
 }
+.nav-left > * + * { margin-left: 36px; }   /* flex gap 대신 (Safari 14.1 미만 대응) */
 .nav-left a { position: relative;
   font-family: "Outfit", sans-serif; font-weight: 500; font-size: 11px;
   line-height: 1.2; letter-spacing: 0.33px; color: var(--text-primary);
@@ -82,8 +83,9 @@ body.no-needle { cursor: auto; }
 }
 .nav-right {
   position: absolute; right: 48px; top: 50%; transform: translateY(-50%);
-  display: flex; gap: 32px; align-items: center;
+  display: flex; align-items: center;
 }
+.nav-right > * + * { margin-left: 32px; }   /* flex gap 대신 (Safari 14.1 미만 대응) */
 .nav-ico { display: block; }
 /* Safari 는 1.333배 같은 소수 배율에서 SVG 뷰포트를 정수 픽셀로 잘라 아래 끝이 깎인다 — 넘침 허용 */
 .nav-ico svg { display: block; width: 100%; height: 100%; overflow: visible; }
@@ -125,7 +127,7 @@ body.no-needle { cursor: auto; }
   text-decoration: none; white-space: nowrap; cursor: none;
 }
 /* 클릭 영역만 넓힌다 — 배치에는 영향이 없다 */
-.textbtn::before { content: ""; position: absolute; inset: -12px -16px; }
+.textbtn::before { content: ""; position: absolute; top: -12px; right: -16px; bottom: -12px; left: -16px; }
 .textbtn .ico { position: absolute; display: block; width: 20px; height: 30px; color: var(--accent-mint); }
 .textbtn.mid .ico { color: var(--accent-lavender); }
 .textbtn .ico svg { display: block; width: 100%; height: 100%; }
@@ -136,8 +138,10 @@ body.no-needle { cursor: auto; }
   width: 140%; height: 1px; background: var(--accent-mint);
   opacity: 0; transition: opacity 200ms var(--ease-out);
 }
-.textbtn:hover, .textbtn:focus-visible { color: var(--text-secondary); }
-.textbtn:hover .lb::after, .textbtn:focus-visible .lb::after { opacity: 1; }
+.textbtn:hover { color: var(--text-secondary); }
+.textbtn:focus-visible { color: var(--text-secondary); }
+.textbtn:hover .lb::after { opacity: 1; }
+.textbtn:focus-visible .lb::after { opacity: 1; }
 .textbtn:active { opacity: 0.75; }
 
 /* ---------- 상품 카드 (카테고리 목록) ---------- */
@@ -190,7 +194,7 @@ body.no-needle { cursor: auto; }
 .card .gdot.mid   { background: var(--accent-lavender); }
 .card .gdot.high  { background: var(--accent-tangerine); }
 .card .shot { overflow: visible; }
-.card .shot .crop { position: absolute; inset: 0; display: block; overflow: hidden; }
+.card .shot .crop { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: block; overflow: hidden; }
 .card .shot .crop img { position: absolute; left: 0; top: 0; }
 .pol-deco { position: absolute; display: block; pointer-events: none; }
 .tri-deco { position: absolute; display: block; pointer-events: none; transform-origin: center center; }
@@ -201,13 +205,20 @@ body.no-needle { cursor: auto; }
 .foot-bg { position: absolute; left: 0; width: 1440px; background: var(--bg-dark); }
 .card .gsep { position: absolute; width: 2.45px; height: 2.45px; border-radius: 50%; background: var(--text-primary); }
 
-.card:hover .plate, .card:focus-visible .plate {
+.card:hover .plate {
   transform: rotate(var(--rot, 0deg)) scale(1); opacity: 1;
   transition: transform 1.4s var(--step-plate), opacity 0s;
 }
-.card:hover p, .card:focus-visible p { color: var(--text-secondary); }
-.card:hover .deco, .card:focus-visible .deco { color: var(--text-muted); }
-.card:hover .gsep, .card:focus-visible .gsep { background: var(--text-muted); }
+.card:focus-visible .plate {
+  transform: rotate(var(--rot, 0deg)) scale(1); opacity: 1;
+  transition: transform 1.4s var(--step-plate), opacity 0s;
+}
+.card:hover p { color: var(--text-secondary); }
+.card:focus-visible p { color: var(--text-secondary); }
+.card:hover .deco { color: var(--text-muted); }
+.card:focus-visible .deco { color: var(--text-muted); }
+.card:hover .gsep { background: var(--text-muted); }
+.card:focus-visible .gsep { background: var(--text-muted); }
 
 /* ---------- 상품 상세 ---------- */
 
@@ -305,7 +316,7 @@ body.no-needle { cursor: auto; }
 }
 .grow-wrap { position: absolute; pointer-events: none; }
 .grow-wrap > i {
-  position: absolute; inset: 0; display: block; border-radius: 50%;
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: block; border-radius: 50%;
   transform: scale(0.12); transform-origin: center center;
   transition: transform 0.72s var(--step-grow);
 }
@@ -442,11 +453,12 @@ body.no-needle { cursor: auto; }
 .foot a:hover { opacity: 0.75; }
 .f-dot { width: 8px; height: 8px; border-radius: 50%; }
 .f-mail {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center;
   height: 44px; padding: 13px 152px 14px 20px;
   background: var(--bg-white); border: 1px solid var(--border-default);
   border-radius: 5px 50px 5px 5px; overflow: hidden;
 }
+.f-mail > * + * { margin-left: 10px; }   /* flex gap 대신 (Safari 14.1 미만 대응) */
 .f-mail .d { width: 8px; height: 8px; border-radius: 50%; background: var(--border-focus); flex: none; }
 .f-mail .en {
   font-family: "Outfit", sans-serif; font-weight: 500; font-size: 11px;
@@ -476,7 +488,8 @@ body.no-needle { cursor: auto; }
   color: var(--text-inverse); opacity: 0.5; white-space: nowrap;
   transition: opacity 0.24s var(--ease-out);
 }
-.menu-bar:hover span, .menu-bar:focus-visible span { opacity: 1; }
+.menu-bar:hover span { opacity: 1; }
+.menu-bar:focus-visible span { opacity: 1; }
 #menu-stitch { top: 48px; background: var(--text-secondary); }
 #menu-about  { top: 96px; background: var(--border-strong); }
 .menu-bar:focus-visible { outline: 3px solid var(--text-inverse); outline-offset: -6px; }
@@ -493,7 +506,7 @@ body.no-needle { cursor: auto; }
 }
 .needle.is-on { opacity: 1; }
 .needle svg { display: block; width: 100%; height: 100%; }
-.needle .nd-default, .needle .nd-selected { position: absolute; inset: 0; transition: opacity 0.12s linear; }
+.needle .nd-default, .needle .nd-selected { position: absolute; top: 0; right: 0; bottom: 0; left: 0; transition: opacity 0.12s linear; }
 .needle .nd-selected { opacity: 0; }
 .needle.is-selected .nd-default { opacity: 0; }
 .needle.is-selected .nd-selected { opacity: 1; }

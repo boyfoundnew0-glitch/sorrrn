@@ -26,7 +26,7 @@
      (about sorrrn 은 민트 바탕이라 오트밀이 남으면 화면이 잘려 보인다) */
   body { background: var(--shell-bg, var(--bg-base)); overflow: hidden; }
 
-  .shell { position: fixed; inset: 0; overflow: hidden;
+  .shell { position: fixed; top: 0; right: 0; bottom: 0; left: 0; overflow: hidden;
            background: var(--shell-bg, var(--bg-base));
            transition: background-color 0.4s var(--ease-out); }
   /* 프레임 비율(1440:810)과 화면 비율이 다를 때 남는 영역.
@@ -75,11 +75,8 @@
   .shell.in-section .handle span { opacity: 0.5; }
   /* 위로 끌어올린 섹션의 명칭은 감춘다 — 호버해야 다시 나타난다 */
   .shell.in-section .handle.is-raised span { opacity: 0; }
-  .shell.in-section .handle.is-raised:hover span,
-  .shell.in-section .handle.is-raised:focus-visible span,
-  .shell.in-section .handle.is-raised.is-dragging span,
-  .shell.in-section .handle.is-raised.is-hot span,
-  .handle:hover span, .handle:focus-visible span, .handle.is-dragging span { opacity: 1; }
+  .shell.in-section .handle.is-raised:hover span, .shell.in-section .handle.is-raised.is-dragging span, .shell.in-section .handle.is-raised.is-hot span, .handle:hover span, .handle.is-dragging span { opacity: 1; }
+  .shell.in-section .handle.is-raised:focus-visible span, .handle:focus-visible span { opacity: 1; }
 
   /* 손잡이 그립은 섹션에 호버했을 때만 나타난다 */
   .handle::after {
@@ -89,7 +86,10 @@
     opacity: 0; transform: translateY(3px);
     transition: opacity 0.2s var(--spring), transform 0.28s var(--spring);
   }
-  .handle:hover::after, .handle:focus-visible::after, .handle.is-dragging::after {
+  .handle:hover::after, .handle.is-dragging::after {
+    opacity: 0.72; transform: translateY(0);
+  }
+  .handle:focus-visible::after {
     opacity: 0.72; transform: translateY(0);
   }
   .handle:focus-visible { outline: 3px solid var(--text-inverse); outline-offset: -6px; }
@@ -144,10 +144,10 @@
   .scrollit {
     position: absolute; left: 719.83px; top: 347.63px;
     transform: translate(-50%, -50%);
-    display: flex; align-items: center; justify-content: center;
-    gap: 24px; padding: 28px 36px;
+    display: flex; align-items: center; justify-content: center; padding: 28px 36px;
     white-space: nowrap; pointer-events: none; margin: 0;
   }
+.scrollit > * + * { margin-left: 24px; }   /* flex gap 대신 (Safari 14.1 미만 대응) */
   .scrollit .tri { display: block; width: 32px; height: 26.791px; flex: none; opacity: 0; }
   .scrollit .tri svg { display: block; width: 100%; height: 100%; }
   .scrollit .tri path { fill: var(--accent-lavender); }
@@ -325,7 +325,7 @@ body {
 }
 .frame > * { position: absolute; }
 
-.layer { inset: 0; width: var(--frame-w); height: var(--frame-h); pointer-events: none; }
+.layer { top: 0; right: 0; bottom: 0; left: 0; width: var(--frame-w); height: var(--frame-h); pointer-events: none; }
 .layer > * { position: absolute; }
 
 #restback { z-index: 1; }
@@ -335,6 +335,7 @@ body {
 .logo     { z-index: 5; }
 #rrr      { z-index: 5; }
 .scrollit { z-index: 6; }
+.scrollit > * + * { margin-left: 24px; }   /* flex gap 대신 (Safari 14.1 미만 대응) */
 .menu     { z-index: 7; }
 
 /* ---------- 트랙 드로잉 ---------- */
@@ -421,7 +422,7 @@ body {
    같은 글자의 맨 아래 10px(라운드 모서리)을 컨테이너 바닥에 붙인다.
    기둥은 수직이라 이음매가 보이지 않는다. */
 .rr-body {
-  position: absolute; inset: 0; display: block; overflow: hidden;
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: block; overflow: hidden;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 32px 100%, 32px calc(100% - 10px), 0 calc(100% - 10px));
 }
 .rr-cap {
@@ -466,8 +467,7 @@ body {
 .scrollit {
   left: 720px; top: 347.5px;
   transform: translate(-50%, -50%);
-  display: flex; align-items: center; justify-content: center;
-  gap: 24px; padding: 28px 36px;
+  display: flex; align-items: center; justify-content: center; padding: 28px 36px;
   white-space: nowrap; pointer-events: none; margin: 0;
 }
 .scrollit .tri { display: block; width: 32px; height: 26.791px; flex: none; opacity: 0; }
@@ -520,7 +520,7 @@ body {
 .needle.is-on { opacity: 1; }
 .needle svg { display: block; width: 100%; height: 100%; }
 .needle .nd-default, .needle .nd-selected {
-  position: absolute; inset: 0; transition: opacity 0.12s linear;
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0; transition: opacity 0.12s linear;
 }
 .needle .nd-selected { opacity: 0; }
 .needle.is-selected .nd-default { opacity: 0; }
@@ -1284,8 +1284,9 @@ body {
 }
 .nav-left {
   position: absolute; left: 48px; top: 50%; transform: translateY(-50%);
-  display: flex; gap: 36px; align-items: center;
+  display: flex; align-items: center;
 }
+.nav-left > * + * { margin-left: 36px; }   /* flex gap 대신 (Safari 14.1 미만 대응) */
 .nav-left a {
   font-family: "Outfit", sans-serif; font-weight: 500; font-size: 11px;
   line-height: 1; letter-spacing: 0.33px; color: var(--text-primary);
@@ -1293,8 +1294,9 @@ body {
 }
 .nav-right {
   position: absolute; right: 48px; top: 50%; transform: translateY(-50%);
-  display: flex; gap: 32px; align-items: center;
+  display: flex; align-items: center;
 }
+.nav-right > * + * { margin-left: 32px; }   /* flex gap 대신 (Safari 14.1 미만 대응) */
 .nav-ico { display: block; }
 /* Safari 는 1.333배 같은 소수 배율에서 SVG 뷰포트를 정수 픽셀로 잘라 아래 끝이 깎인다 — 넘침 허용 */
 .nav-ico svg { display: block; width: 100%; height: 100%; overflow: visible; }
@@ -1317,7 +1319,7 @@ body {
 
 /* 카테고리 블럭 — 호버 시 위치·크기·색상 변화 없음 */
 .blk {
-  position: absolute; inset: 0; width: var(--frame-w); height: var(--stage-h);
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: var(--frame-w); height: var(--stage-h);
   pointer-events: none;                 /* 레이어 자체는 클릭을 가로채지 않는다 */
   transform-origin: center center;
   transition: opacity 0.36s var(--ease-out);
@@ -1370,7 +1372,7 @@ body {
 }
 .card.is-on { opacity: 1; pointer-events: auto; }
 .card-art {
-  position: absolute; inset: 0; width: 100%; height: 100%;
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%;
   display: block; overflow: visible;
 }
 .card-selected { opacity: 0; transition: opacity 0.2s var(--ease-out); }
@@ -1458,7 +1460,7 @@ body {
 .needle.is-on { opacity: 1; }
 .needle svg { display: block; width: 100%; height: 100%; }
 .needle .nd-default, .needle .nd-selected {
-  position: absolute; inset: 0; transition: opacity 0.12s linear;
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0; transition: opacity 0.12s linear;
 }
 .needle .nd-selected { opacity: 0; }
 .needle.is-selected .nd-default { opacity: 0; }
@@ -2289,7 +2291,7 @@ body.no-needle { cursor: auto; }
 .strip {
   left: 367.10px; top: 137.84px;          /* 좌우 여백 = 텍스트와 동일 기준 (우측 76) */
   width: 996.90px;
-  display: flex; flex-direction: column; gap: 0;
+  display: flex; flex-direction: column;
   background: var(--bg-dark);
 }
 .strip img {
@@ -2327,11 +2329,19 @@ body.no-needle { cursor: auto; }
   transform: scaleX(0.001); opacity: 0;
   transition: transform 0.4s cubic-bezier(0.55, 0, 0.78, 0.39) 0s, opacity 0s linear 0.4s;
 }
-.card3d:hover .front, .card3d.is-flip .front, .card3d:focus-visible .front {
+.card3d:hover .front, .card3d.is-flip .front {
   transform: scaleX(0.001); opacity: 0;
   transition: transform 0.4s cubic-bezier(0.55, 0, 0.78, 0.39) 0s, opacity 0s linear 0.4s;
 }
-.card3d:hover .back, .card3d.is-flip .back, .card3d:focus-visible .back {
+.card3d:focus-visible .front {
+  transform: scaleX(0.001); opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.55, 0, 0.78, 0.39) 0s, opacity 0s linear 0.4s;
+}
+.card3d:hover .back, .card3d.is-flip .back {
+  transform: scaleX(1); opacity: 1;
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.4s, opacity 0s linear 0.4s;
+}
+.card3d:focus-visible .back {
   transform: scaleX(1); opacity: 1;
   transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.4s, opacity 0s linear 0.4s;
 }
@@ -2356,7 +2366,8 @@ body.no-needle { cursor: auto; }
   color: var(--text-inverse); opacity: 0.5; white-space: nowrap;
   transition: opacity 0.24s var(--ease-out);
 }
-.menu-bar:hover span, .menu-bar:focus-visible span { opacity: 1; }
+.menu-bar:hover span { opacity: 1; }
+.menu-bar:focus-visible span { opacity: 1; }
 #menu-shop   { top: 48px; background: var(--text-primary); }
 #menu-stitch { top: 96px; background: var(--text-secondary); }
 .menu-bar:focus-visible { outline: 3px solid var(--text-inverse); outline-offset: -6px; }
@@ -2375,7 +2386,7 @@ body.no-needle { cursor: auto; }
 /* 다크 배경 위라 기본 색(#33251A)으로는 묻힌다 — 오트밀로 칠한다 */
 .needle svg path { fill: var(--icon-inverse); }
 .needle .nd-default, .needle .nd-selected {
-  position: absolute; inset: 0; transition: opacity 0.12s linear;
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0; transition: opacity 0.12s linear;
 }
 .needle .nd-selected { opacity: 0; }
 .needle.is-selected .nd-default { opacity: 0; }

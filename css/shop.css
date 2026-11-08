@@ -81,8 +81,9 @@ body {
 }
 .nav-left {
   position: absolute; left: 48px; top: 50%; transform: translateY(-50%);
-  display: flex; gap: 36px; align-items: center;
+  display: flex; align-items: center;
 }
+.nav-left > * + * { margin-left: 36px; }   /* flex gap 대신 (Safari 14.1 미만 대응) */
 .nav-left a {
   font-family: "Outfit", sans-serif; font-weight: 500; font-size: 11px;
   line-height: 1; letter-spacing: 0.33px; color: var(--text-primary);
@@ -90,8 +91,9 @@ body {
 }
 .nav-right {
   position: absolute; right: 48px; top: 50%; transform: translateY(-50%);
-  display: flex; gap: 32px; align-items: center;
+  display: flex; align-items: center;
 }
+.nav-right > * + * { margin-left: 32px; }   /* flex gap 대신 (Safari 14.1 미만 대응) */
 .nav-ico { display: block; }
 /* Safari 는 1.333배 같은 소수 배율에서 SVG 뷰포트를 정수 픽셀로 잘라 아래 끝이 깎인다 — 넘침 허용 */
 .nav-ico svg { display: block; width: 100%; height: 100%; overflow: visible; }
@@ -114,7 +116,7 @@ body {
 
 /* 카테고리 블럭 — 호버 시 위치·크기·색상 변화 없음 */
 .blk {
-  position: absolute; inset: 0; width: var(--frame-w); height: var(--stage-h);
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: var(--frame-w); height: var(--stage-h);
   pointer-events: none;                 /* 레이어 자체는 클릭을 가로채지 않는다 */
   transform-origin: center center;
   transition: opacity 0.36s var(--ease-out);
@@ -167,7 +169,7 @@ body {
 }
 .card.is-on { opacity: 1; pointer-events: auto; }
 .card-art {
-  position: absolute; inset: 0; width: 100%; height: 100%;
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%;
   display: block; overflow: visible;
 }
 .card-selected { opacity: 0; transition: opacity 0.2s var(--ease-out); }
@@ -255,7 +257,7 @@ body {
 .needle.is-on { opacity: 1; }
 .needle svg { display: block; width: 100%; height: 100%; }
 .needle .nd-default, .needle .nd-selected {
-  position: absolute; inset: 0; transition: opacity 0.12s linear;
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0; transition: opacity 0.12s linear;
 }
 .needle .nd-selected { opacity: 0; }
 .needle.is-selected .nd-default { opacity: 0; }

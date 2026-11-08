@@ -131,7 +131,8 @@
 .a-solid .ar svg { display: block; width: 100%; height: 100%; overflow: visible; }
 /* 가이드 04: Hover 는 배경 opacity 0.85, Active 0.70 + scale 0.98 */
 .a-solid { transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out); }
-.a-solid:hover, .a-solid:focus-visible { opacity: 0.85; }
+.a-solid:hover { opacity: 0.85; }
+.a-solid:focus-visible { opacity: 0.85; }
 .a-solid:active { opacity: 0.70; transform: scale(0.98); }
 
 .a-border {
@@ -149,7 +150,8 @@
   font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 10px;
   line-height: 1.7; letter-spacing: -0.2px;
 }
-.a-border:hover, .a-border:focus-visible { border-color: var(--border-focus); color: var(--text-secondary); }
+.a-border:hover { border-color: var(--border-focus); color: var(--text-secondary); }
+.a-border:focus-visible { border-color: var(--border-focus); color: var(--text-secondary); }
 .a-border:active { transform: scale(0.98); }
 
 /* 텍스트 버튼 — 호버하면 글자 아래 4px 에 mint 사각형 (가이드 04) */
@@ -164,7 +166,8 @@
   opacity: 0;   /* 0.001 배율의 흔적이 점으로 남지 않게 */
   transition: transform 200ms var(--ease-out), opacity 0s linear 200ms;
 }
-.a-tbtn:hover::after, .a-tbtn:focus-visible::after { transform: translateX(-50%) scaleX(1); opacity: 1; transition: transform 200ms var(--ease-out), opacity 0s; }
+.a-tbtn:hover::after { transform: translateX(-50%) scaleX(1); opacity: 1; transition: transform 200ms var(--ease-out), opacity 0s; }
+.a-tbtn:focus-visible::after { transform: translateX(-50%) scaleX(1); opacity: 1; transition: transform 200ms var(--ease-out), opacity 0s; }
 .a-tbtn:active { opacity: 0.75; }
 
 /* ---------- 수량 조절 ---------- */
@@ -195,10 +198,10 @@
 
 .a-check { position: absolute; width: 16px; height: 16px; }
 .a-check input {
-  position: absolute; inset: 0; margin: 0; opacity: 0; cursor: none;
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0; margin: 0; opacity: 0; cursor: none;
 }
 .a-check .bx {
-  position: absolute; inset: 0; border-radius: 3px 8px 3px 3px;
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0; border-radius: 3px 8px 3px 3px;
   border: 1px solid var(--border-default);
   transition: background-color 200ms var(--ease-out), border-color 200ms var(--ease-out);
 }

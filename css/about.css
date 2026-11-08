@@ -136,7 +136,7 @@ body.no-needle { cursor: auto; }
 .strip {
   left: 367.10px; top: 137.84px;          /* 좌우 여백 = 텍스트와 동일 기준 (우측 76) */
   width: 996.90px;
-  display: flex; flex-direction: column; gap: 0;
+  display: flex; flex-direction: column;
   background: var(--bg-dark);
 }
 .strip img {
@@ -174,11 +174,19 @@ body.no-needle { cursor: auto; }
   transform: scaleX(0.001); opacity: 0;
   transition: transform 0.4s cubic-bezier(0.55, 0, 0.78, 0.39) 0s, opacity 0s linear 0.4s;
 }
-.card3d:hover .front, .card3d.is-flip .front, .card3d:focus-visible .front {
+.card3d:hover .front, .card3d.is-flip .front {
   transform: scaleX(0.001); opacity: 0;
   transition: transform 0.4s cubic-bezier(0.55, 0, 0.78, 0.39) 0s, opacity 0s linear 0.4s;
 }
-.card3d:hover .back, .card3d.is-flip .back, .card3d:focus-visible .back {
+.card3d:focus-visible .front {
+  transform: scaleX(0.001); opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.55, 0, 0.78, 0.39) 0s, opacity 0s linear 0.4s;
+}
+.card3d:hover .back, .card3d.is-flip .back {
+  transform: scaleX(1); opacity: 1;
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.4s, opacity 0s linear 0.4s;
+}
+.card3d:focus-visible .back {
   transform: scaleX(1); opacity: 1;
   transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.4s, opacity 0s linear 0.4s;
 }
@@ -203,7 +211,8 @@ body.no-needle { cursor: auto; }
   color: var(--text-inverse); opacity: 0.5; white-space: nowrap;
   transition: opacity 0.24s var(--ease-out);
 }
-.menu-bar:hover span, .menu-bar:focus-visible span { opacity: 1; }
+.menu-bar:hover span { opacity: 1; }
+.menu-bar:focus-visible span { opacity: 1; }
 #menu-shop   { top: 48px; background: var(--text-primary); }
 #menu-stitch { top: 96px; background: var(--text-secondary); }
 .menu-bar:focus-visible { outline: 3px solid var(--text-inverse); outline-offset: -6px; }
@@ -222,7 +231,7 @@ body.no-needle { cursor: auto; }
 /* 다크 배경 위라 기본 색(#33251A)으로는 묻힌다 — 오트밀로 칠한다 */
 .needle svg path { fill: var(--icon-inverse); }
 .needle .nd-default, .needle .nd-selected {
-  position: absolute; inset: 0; transition: opacity 0.12s linear;
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0; transition: opacity 0.12s linear;
 }
 .needle .nd-selected { opacity: 0; }
 .needle.is-selected .nd-default { opacity: 0; }

@@ -80,7 +80,7 @@ body {
 }
 .frame > * { position: absolute; }
 
-.layer { inset: 0; width: var(--frame-w); height: var(--frame-h); pointer-events: none; }
+.layer { top: 0; right: 0; bottom: 0; left: 0; width: var(--frame-w); height: var(--frame-h); pointer-events: none; }
 .layer > * { position: absolute; }
 
 #restback { z-index: 1; }
@@ -90,6 +90,7 @@ body {
 .logo     { z-index: 5; }
 #rrr      { z-index: 5; }
 .scrollit { z-index: 6; }
+.scrollit > * + * { margin-left: 24px; }   /* flex gap 대신 (Safari 14.1 미만 대응) */
 .menu     { z-index: 7; }
 
 /* ---------- 트랙 드로잉 ---------- */
@@ -176,7 +177,7 @@ body {
    같은 글자의 맨 아래 10px(라운드 모서리)을 컨테이너 바닥에 붙인다.
    기둥은 수직이라 이음매가 보이지 않는다. */
 .rr-body {
-  position: absolute; inset: 0; display: block; overflow: hidden;
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: block; overflow: hidden;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 32px 100%, 32px calc(100% - 10px), 0 calc(100% - 10px));
 }
 .rr-cap {
@@ -221,8 +222,7 @@ body {
 .scrollit {
   left: 720px; top: 347.5px;
   transform: translate(-50%, -50%);
-  display: flex; align-items: center; justify-content: center;
-  gap: 24px; padding: 28px 36px;
+  display: flex; align-items: center; justify-content: center; padding: 28px 36px;
   white-space: nowrap; pointer-events: none; margin: 0;
 }
 .scrollit .tri { display: block; width: 32px; height: 26.791px; flex: none; opacity: 0; }
@@ -275,7 +275,7 @@ body {
 .needle.is-on { opacity: 1; }
 .needle svg { display: block; width: 100%; height: 100%; }
 .needle .nd-default, .needle .nd-selected {
-  position: absolute; inset: 0; transition: opacity 0.12s linear;
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0; transition: opacity 0.12s linear;
 }
 .needle .nd-selected { opacity: 0; }
 .needle.is-selected .nd-default { opacity: 0; }
